@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distributed &amp; Cloud Computing — Study Portal | BCE7024</title>
+<meta name="description" content="Study portal for Distributed &amp; Cloud Computing BCE7024 — Purbanchal University. Chapter notes built from the class lecture notes and the syllabus, quizzes, and past questions with model answers.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" id="themeColor" content="#fbfaf8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231b1a17'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='13' font-weight='600' fill='%23fbfaf8' text-anchor='middle'%3EDCC%3C/text%3E%3C/svg%3E">
+<style>
+/* ==========================================================================
+   THE APP FRAME. Markup structure and the chrome around the content only.
+
+   Everything that styles *content* - prose, callouts, tables, figures, quiz
+   rows, past-question cards, the analysis blocks, the exam - lives in
+   assets/css/foundation.css, which is loaded after this block.
+
+   That split used to be blurry: this <style> block also carried the quiz, the
+   past-question list and the exam, so the same component was described in two
+   files and foundation.css had to win on load order alone (see the note in
+   README.md). If a rule here touches a piece of chapter content, it is in the
+   wrong file.
+   ========================================================================== */
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+
+body{
+  font-family:var(--font-sans);
+  font-size:var(--fs-body);
+  line-height:var(--lh-body);
+  background:var(--bg);
+  color:var(--t2);
+}
+/* The paper grain. A single tiling SVG of low-opacity noise, fixed behind
+   everything, so large warm surfaces are not perfectly flat vectors. Opacity
+   is a token (--grain), set to 0 in print and turned right down in dark. */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  opacity:var(--grain);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+h1,h2,h3,h4,h5{line-height:var(--lh-tight);font-weight:600;color:var(--t1)}
+a{color:var(--pri-l);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:2px}
+::selection{background:var(--pri);color:#fff}
+
+/* Keyboard focus only, and never on a mouse click. */
+:focus-visible{outline:none;box-shadow:var(--focus-ring);border-radius:var(--radius-sm)}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:12px;top:-60px;z-index:400;background:var(--bg-card);color:var(--t1);border:1px solid var(--brd);border-radius:var(--radius-sm);padding:10px 16px;font-size:var(--fs-ui);font-weight:600;transition:top var(--dur-ui) var(--ease-out)}
+.skip-link:focus{top:12px;text-decoration:none}
+
+/* An icon is part of the sentence it sits in, so it takes the text colour and
+   the text baseline. Sizing is in em: an icon in a 13px label is 13px tall. */
+.i{width:1.15em;height:1.15em;flex:0 0 auto;display:inline-block;vertical-align:-0.18em;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---- frame ------------------------------------------------------------- */
+.app{display:flex;height:100dvh;overflow:hidden;position:relative;z-index:1}
+
+/* ---- sidebar ----------------------------------------------------------- */
+.sidebar{
+  width:var(--sidebar-w);flex:0 0 auto;
+  background:var(--bg-side);border-right:1px solid var(--brd);
+  display:flex;flex-direction:column;z-index:100;
+  /* The rail collapses by animating its own width, not by translating itself out.
+     A transform would be composited, but it would also slide the sidebar over the
+     content instead of reflowing it - the reading column has to reclaim that
+     space, and only a length change makes that happen. Fires once per toggle. */
+  transition:width var(--dur-panel) var(--ease-in-out),transform var(--dur-panel) var(--ease-in-out);
+}
+.s-head{padding:18px 18px 16px;border-bottom:1px solid var(--brd-l)}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.brand:hover{text-decoration:none}
+.monogram{
+  width:38px;height:38px;flex:0 0 auto;border-radius:var(--radius-sm);
+  background:var(--t1);color:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:17px;font-weight:600;letter-spacing:-0.01em;
+  padding-bottom:2px; /* optical: the serif sits high in its box */
+}
+.brand-t{min-width:0}
+.brand-t strong{display:block;font-family:var(--font-serif);font-size:15.5px;font-weight:600;color:var(--t1);letter-spacing:-0.005em;line-height:1.25}
+.brand-t span{display:block;font-size:var(--fs-micro);color:var(--t3);letter-spacing:.04em;text-transform:uppercase;font-weight:500;margin-top:2px}
+
+.s-progress{padding:14px 18px;border-bottom:1px solid var(--brd-l)}
+.sp-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
+.sp-label{font-size:var(--fs-micro);font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:var(--tracking-caps)}
+.sp-val{font-family:var(--font-mono);font-size:var(--fs-sm);font-weight:600;color:var(--t1);font-variant-numeric:tabular-nums}
+.sp-bar{height:5px;background:var(--bg-input);border-radius:3px;overflow:hidden}
+.sp-bar i{display:block;height:100%;background:var(--pri);border-radius:3px;transition:width var(--dur-panel) var(--ease-out)} /* see .bar-fill for why meters move width, not scaleX */
+/* A readout, not a scoreboard: five plain facts, no pills, no flame. */
+.sp-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px;margin-top:12px}
+.sp-stat{min-width:0}
+.sp-stat b{display:block;font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--t1);font-variant-numeric:tabular-nums;line-height:1.3}
+.sp-stat span{display:block;font-size:11px;color:var(--t3);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.ch-nav{flex:1;overflow-y:auto;padding:10px 10px 16px;scrollbar-width:thin;scrollbar-color:var(--brd) transparent}
+.ch-nav::-webkit-scrollbar{width:6px}
+.ch-nav::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px}
+.nav-h{font-size:var(--fs-micro);font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:var(--tracking-caps);padding:6px 8px 8px}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:8px 10px;margin-bottom:1px;
+  border-radius:var(--radius-sm);cursor:pointer;color:var(--t2);
+  transition:background var(--dur-ui) var(--ease-out),color var(--dur-ui) var(--ease-out);
+  position:relative;
+}
+.nav-item:hover{background:var(--bg-side-h);text-decoration:none}
+.nav-item.active{background:var(--bg-side-a);color:var(--t1)}
+/* The accent rule that marks where you are - a margin mark, not a glow. */
+.nav-item.active::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:2px;background:var(--pri);border-radius:0 2px 2px 0}
+.nav-num{
+  width:26px;height:26px;flex:0 0 auto;border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:12px;font-weight:600;
+  background:var(--bg-input);color:var(--t3);
+  transition:background var(--dur-ui) var(--ease-out),color var(--dur-ui) var(--ease-out);
+}
+.nav-item.active .nav-num{background:var(--pri);color:#fff}
+.nav-item.done .nav-num{background:var(--sec-bg);color:var(--sec-l);box-shadow:inset 0 0 0 1px var(--sec-bd)}
+.nav-label{flex:1;min-width:0;font-size:var(--fs-sm);font-weight:500;line-height:1.35;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nav-item.active .nav-label{color:var(--t1);font-weight:600}
+.nav-meta{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex:0 0 auto}
+.nav-marks{font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--t3);font-variant-numeric:tabular-nums}
+.nav-quiz{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--sec-l);font-variant-numeric:tabular-nums}
+.s-foot{padding:14px 18px;border-top:1px solid var(--brd-l)}
+.s-foot p{font-size:var(--fs-micro);color:var(--t3);line-height:1.5}
+
+/* ---- collapsed sidebar (desktop) --------------------------------------- */
+.app.rail .sidebar{width:var(--sidebar-rail)}
+.app.rail .brand-t,.app.rail .sp-top,.app.rail .sp-bar,.app.rail .sp-stats,
+.app.rail .s-foot,.app.rail .nav-h{display:none}
+.app.rail .s-head{padding:16px 0;display:flex;justify-content:center}
+.app.rail .s-progress{padding:10px 0;display:flex;justify-content:center}
+.app.rail .ch-nav{padding:8px 0}
+.app.rail .nav-item{justify-content:center;padding:6px 0;margin-bottom:3px;gap:0}
+.app.rail .nav-item.active::before{top:14px;bottom:14px}
+.app.rail .nav-label,.app.rail .nav-meta{display:none}
+.app.rail .ch-nav{padding:8px 8px 16px}
+
+/* ---- main -------------------------------------------------------------- */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{
+  height:var(--header-h);flex:0 0 auto;
+  background:color-mix(in srgb, var(--bg-side) 78%, transparent);
+  backdrop-filter:saturate(150%) blur(12px);
+  border-bottom:1px solid var(--brd);
+  display:flex;align-items:center;gap:12px;padding:0 var(--content-pad);
+  position:relative;z-index:60;
+}
+.topbar-l{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+/* Every control in this bar is at least --tap tall/wide. The menu button and the
+   theme toggle are the two things a phone user reaches for constantly, and at
+   34px they were the smallest targets in the app. The icon itself is still
+   sized by .i (1.15em), so the glyph does not grow with the box. */
+.icon-btn{
+  width:var(--tap);height:var(--tap);flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;border:1px solid transparent;border-radius:var(--radius-sm);
+  color:var(--t3);font-size:15px;cursor:pointer;font-family:inherit;
+  transition:background var(--dur-ui) var(--ease-out),color var(--dur-ui) var(--ease-out),transform var(--dur-press) var(--ease-out);
+}
+.icon-btn:hover{background:var(--bg-side-h);color:var(--t1)}
+.icon-btn:active{transform:scale(.94)}
+.crumb{display:flex;align-items:center;gap:9px;min-width:0}
+.crumb-n{font-family:var(--font-mono);font-size:var(--fs-micro);font-weight:600;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.ch-ti{font-family:var(--font-serif);font-size:19px;font-weight:600;color:var(--t1);letter-spacing:-0.012em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-badge{
+  flex:0 0 auto;font-family:var(--font-mono);font-size:11px;font-weight:600;
+  color:var(--t3);background:var(--bg-input);border-radius:3px;padding:3px 7px;
+  letter-spacing:.02em;white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+
+/* search */
+.search-wrap{position:relative;flex:0 1 320px;min-width:150px}
+.search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:14px;pointer-events:none;display:flex}
+.search-in{
+  width:100%;padding:8px 34px 8px 34px;font-family:inherit;font-size:var(--fs-sm);
+  color:var(--t1);background:var(--bg-input);border:1px solid transparent;
+  border-radius:var(--radius-sm);outline:none;
+  transition:background var(--dur-ui) var(--ease-out),border-color var(--dur-ui) var(--ease-out),box-shadow var(--dur-ui) var(--ease-out);
+}
+.search-in::placeholder{color:var(--t3)}
+.search-in:focus{background:var(--bg-card);border-color:var(--pri-bd);box-shadow:0 0 0 3px var(--pri-bg)}
+.search-in::-webkit-search-cancel-button{-webkit-appearance:none}
+.search-kbd{
+  position:absolute;right:9px;top:50%;transform:translateY(-50%);pointer-events:none;
+  font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--t3);
+  border:1px solid var(--brd);border-radius:3px;padding:1px 5px;background:var(--bg-card);
+}
+.search-in:focus ~ .search-kbd{opacity:0}
+.search-res{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:300;display:none;
+  background:var(--bg-card);border:1px solid var(--brd);border-radius:var(--radius);
+  box-shadow:var(--sh-md);max-height:min(64vh,520px);overflow:auto;
+  transform-origin:top center;
+}
+.search-res.show{display:block;animation:popIn var(--dur-ui) var(--ease-out)}
+@keyframes popIn{from{opacity:0;transform:scale(.985) translateY(-4px)}to{opacity:1;transform:none}}
+.sr-item{padding:10px 14px;cursor:pointer;font-size:var(--fs-sm);line-height:1.5;border-bottom:1px solid var(--brd-l)}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover,.sr-item.sel{background:var(--bg-side-h)}
+.sr-tag{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:var(--tracking-caps);color:var(--t3);margin-right:8px}
+.sr-meta{font-size:var(--fs-micro);color:var(--t3);margin-top:3px}
+.sr-empty{padding:16px;font-size:var(--fs-sm);color:var(--t3)}
+.mark-flash{animation:flash 2s var(--ease-out)}
+@keyframes flash{0%,45%{box-shadow:0 0 0 3px var(--acc-bd)}100%{box-shadow:none}}
+
+/* ---- tabs -------------------------------------------------------------- */
+.tabs{
+  display:flex;gap:2px;flex:0 0 auto;overflow-x:auto;scrollbar-width:none;
+  padding:0 calc(var(--content-pad) - 10px);
+  background:var(--bg-side);border-bottom:1px solid var(--brd);
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab-btn{
+  flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;
+  min-height:var(--tap);
+  padding:11px 12px;border:none;background:transparent;font-family:inherit;
+  font-size:var(--fs-sm);font-weight:500;color:var(--t3);cursor:pointer;
+  position:relative;white-space:nowrap;
+  transition:color var(--dur-ui) var(--ease-out);
+}
+.tab-btn:hover{color:var(--t1)}
+.tab-btn.active{color:var(--t1);font-weight:600}
+/* The underline is a scaled pseudo-element rather than a width animation, so
+   switching tabs does not relayout the strip. */
+.tab-btn::after{
+  content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:2px;
+  background:var(--pri);border-radius:2px 2px 0 0;
+  transform:scaleX(0);transform-origin:center;
+  transition:transform var(--dur-ui) var(--ease-out);
+}
+.tab-btn.active::after{transform:scaleX(1)}
+.tab-badge{
+  font-family:var(--font-mono);font-size:11px;font-weight:600;line-height:1;
+  padding:3px 5px;border-radius:3px;font-variant-numeric:tabular-nums;
+  color:var(--t3);background:var(--bg-input);
+}
+.tab-badge.accent{color:var(--acc-l);background:var(--acc-bg)}
+.tab-badge.done{color:var(--sec-l);background:var(--sec-bg)}
+
+/* ---- content ----------------------------------------------------------- */
+.content-area{flex:1;overflow-y:auto;padding:var(--content-pad);background:var(--bg);scrollbar-width:thin;scrollbar-color:var(--brd) transparent}
+.content-area::-webkit-scrollbar{width:10px;height:10px}
+.content-area::-webkit-scrollbar-thumb{background:var(--brd);border-radius:5px;border:3px solid var(--bg)}
+.content-area::-webkit-scrollbar-thumb:hover{background:var(--t3)}
+.tab-panel{display:none}
+.tab-panel.active{display:block;animation:fadeUp var(--dur-panel) var(--ease-out)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* ---- floating nav ------------------------------------------------------ */
+.fab-wrap{position:fixed;right:22px;bottom:22px;display:flex;flex-direction:column;gap:8px;z-index:80}
+.fab{
+  width:var(--tap);height:var(--tap);border-radius:50%;cursor:pointer;
+  background:var(--bg-card);border:1px solid var(--brd);color:var(--t2);
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+  box-shadow:var(--sh);font-family:inherit;
+  opacity:0;transform:translateY(6px) scale(.96);pointer-events:none;
+  transition:opacity var(--dur-ui) var(--ease-out),transform var(--dur-ui) var(--ease-out),background var(--dur-ui) var(--ease-out),color var(--dur-ui) var(--ease-out);
+}
+.fab.show{opacity:1;transform:none;pointer-events:auto}
+.fab:hover{background:var(--bg-side-h);color:var(--t1)}
+.fab:active{transform:scale(.94)}
+
+/* ---- toast ------------------------------------------------------------- */
+/* Transitions rather than keyframes: a toast can be re-triggered mid-flight
+   ("+2 XP" twice in a row) and a transition retargets from where it is, where
+   a keyframe would restart from the top. */
+.toast{
+  position:fixed;left:50%;bottom:24px;z-index:9998;
+  display:flex;align-items:center;gap:9px;
+  background:var(--t1);color:var(--bg);
+  border-radius:var(--radius);padding:11px 18px;font-size:var(--fs-sm);font-weight:500;
+  box-shadow:var(--sh-md);
+  transform:translate(-50%,14px) scale(.97);opacity:0;
+  transition:transform var(--dur-panel) var(--ease-out),opacity var(--dur-panel) var(--ease-out);
+}
+.toast.in{transform:translate(-50%,0) scale(1);opacity:1}
+.toast.hide{opacity:0;transform:translate(-50%,8px) scale(.98)}
+
+/* ---- overlay ----------------------------------------------------------- */
+.overlay{display:none;position:fixed;inset:0;background:rgba(27,26,23,.34);z-index:99;backdrop-filter:blur(2px)}
+.overlay.show{display:block;animation:fadeIn var(--dur-ui) var(--ease-out)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* On a narrow window the sidebar is a drawer rather than a shrunken column:
+   at 900px a 272px fixed column leaves too little room for the notes. */
+@media(max-width:1024px){
+  /* --header-h is NOT set here. This block loads before tokens.css, which also
+     declares it in :root, so a media-scoped override written here loses to that
+     plain declaration at every width - it was dead code, and the denser phone
+     header it promised never happened. The override now lives in
+     assets/css/foundation.css, the stylesheet that loads last. */
+  .sidebar{position:fixed;left:0;top:0;height:100dvh;box-shadow:var(--sh-md);transform:translateX(-102%);width:min(var(--sidebar-w),86vw)}
+  .sidebar.open{transform:none}
+  .app.rail .sidebar{width:min(var(--sidebar-w),86vw)}
+  /* These are the EXPANDED sidebar's own values, written out.
+
+     `display:revert` looks like "undo the rail rule", and it was what stood here.
+     It is not: revert rolls a property back to the USER-AGENT origin, not to the
+     earlier author rules, so a div came back as `block`. `display:flex` on
+     .sp-top and `display:grid` on .sp-stats were therefore lost, and a reader who
+     had collapsed the sidebar on a wide window (the choice is remembered) got a
+     drawer whose Progress row stacked its label above its value and whose four
+     stats ran as one long list instead of two columns. */
+  .app.rail .brand-t{display:block}
+  .app.rail .sp-top{display:flex}
+  .app.rail .sp-bar{display:block}
+  .app.rail .sp-stats{display:grid}
+  .app.rail .s-foot{display:block}
+  .app.rail .nav-h{display:block}
+  .app.rail .s-head{padding:18px 18px 16px;display:block}
+  .app.rail .s-progress{padding:14px 18px;display:block}
+  .app.rail .nav-item{justify-content:flex-start;padding:8px 10px;gap:10px}
+  /* The rail's own inset is sized for a 26px number in a 6px-padded row; the
+     drawer is back to 8px-padded rows, so the accent mark has to go back to the
+     expanded inset or it renders as a stub half the height of its item. */
+  .app.rail .nav-item.active::before{top:6px;bottom:6px}
+  .app.rail .ch-nav{padding:10px 10px 16px}
+  .app.rail .nav-label{display:-webkit-box}
+  .app.rail .nav-meta{display:flex}
+  .search-wrap{flex:0 1 200px}
+  .ch-ti{font-size:17px}
+}
+@media(max-width:640px){
+  .crumb-n,.ch-badge{display:none}
+  .search-wrap{display:none}
+  .fab-wrap{right:14px;bottom:14px}
+}
+/* Reduced motion. Note the transition duration is 0s, NOT the 0.01ms that is
+   copied around the web.
+
+   0.01ms does not mean "no transition" - it means "a transition that finishes
+   almost at once". A transition still starts, so for the instant between the
+   change and its first frame the property reports its PREVIOUS value. Combined
+   with the `*` selector - whose initial transition-property is `all` - that puts
+   a transition on every animatable property of every element at once. The
+   visible result on a machine with reduced motion enabled is that the theme
+   toggle does nothing: data-theme flips, getComputedStyle still reports the old
+   colours, and it stays that way. (Reproduced on this build; the cause was
+   isolated by bisecting the stylesheet.) A duration of 0s starts no transition
+   at all, which is what this block is actually trying to say. */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:0s!important;scroll-behavior:auto!important}
+}
+</style>
+<!-- Design layer, loaded AFTER the frame styles above so it wins wherever the
+     two disagree (equal specificity, later wins).
+     Fonts are bundled locally (Newsreader + Inter + JetBrains Mono, latin /
+     latin-ext / greek subsets) so the portal works offline from file:// -->
+<!-- The design layer is shared with the Simulation portal and lives at the
+     project root, one level up. Loading it from there rather than keeping a
+     second copy is the whole point: the accessibility, responsive and print
+     work done on these sheets applies to both courses at once. -->
+<link rel="stylesheet" href="site.css">
+
+
+<script>
+/* The theme is decided HERE, before the first style resolution, and not in
+   app.js.
+
+   Two reasons, and the second one is a bug fix rather than a preference:
+
+   1. No flash. app.js loads last - after eight chapter files and five modules -
+      so a reader whose stored choice is the dark theme used to get a full paint
+      of the light theme first and then watch it flip.
+
+   2. The flip is not just ugly, it is unreliable. Changing data-theme on <html>
+      *after* a stylesheet has already been resolved for an element does not
+      reliably invalidate declarations that consume a custom property directly.
+      The symptom is precise and was reproduced here: with data-theme flipped
+      from light to dark after load, a fresh element styled from var(--bg) came
+      out dark, an inherited value (a bare <p>) came out dark, and a
+      stylesheet declaration of `color: var(--t1)` kept the light value while
+      getComputedStyle reported the element's own --t1 as the dark one. Setting
+      the attribute before the first resolution sidesteps the whole class.
+
+   app.js still owns setTheme() for the toggle; it reads the same value back,
+   so the boot-time call is a no-op rather than a second flip. */
+(function(){
+  try{
+    var t=localStorage.getItem('dcc-theme');
+    if(t!=='light'&&t!=='dark')t='light';
+    document.documentElement.setAttribute('data-theme',t);
+    var m=document.getElementById('themeColor');
+    if(m)m.setAttribute('content',t==='dark'?'#191712':'#fbfaf8');
+  }catch(e){}
+})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#contentArea">Skip to the chapter content</a>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="s-head">
+      <a class="brand" href="#/ch/1">
+        <span class="monogram" aria-hidden="true">DCC</span>
+        <span class="brand-t">
+          <strong>Distributed &amp; Cloud Computing</strong>
+          <span>BCE7024 · Sem VII</span>
+        </span>
+      </a>
+    </div>
+
+    <div class="s-progress">
+      <div class="sp-top">
+        <span class="sp-label">Progress</span>
+        <span class="sp-val" id="xpVal">0 XP</span>
+      </div>
+      <div class="sp-bar" role="progressbar" aria-label="Chapter completion" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0" id="xpBar"><i id="xpFill" style="width:0%"></i></div>
+      <dl class="sp-stats">
+        <div class="sp-stat"><dt><b id="statChap">0/9</b><span>chapters read</span></dt></div>
+        <div class="sp-stat"><dt><b id="statQuiz">0</b><span>quizzes taken</span></dt></div>
+        <div class="sp-stat"><dt><b id="statPct">0%</b><span>quiz accuracy</span></dt></div>
+        <div class="sp-stat"><dt><b id="streakBadge">0</b><span>day streak</span></dt></div>
+      </dl>
+    </div>
+
+    <nav class="ch-nav" id="chNav" aria-label="Chapters"></nav>
+    <div class="s-foot"><p>Purbanchal University<br>B.E. Computer Engineering</p></div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-l">
+        <button class="icon-btn" id="menuBtn" aria-label="Collapse or expand the chapter menu" aria-expanded="true" title="Collapse / expand the chapter menu">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M9.5 4.5v15"/></svg>
+        </button>
+        <div class="crumb">
+          <span class="crumb-n" id="chNo">Ch 1</span>
+          <span class="ch-ti" id="chTi">Introduction to Distributed Systems</span>
+          <span class="ch-badge" id="chBd">6 marks</span>
+        </div>
+      </div>
+
+      <div class="search-wrap">
+        <span class="search-ico" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><circle cx="10.75" cy="10.75" r="6.25"/><path d="M15.4 15.4 20 20"/></svg></span>
+        <input class="search-in" id="searchIn" type="search" placeholder="Search notes, quizzes and past questions" aria-label="Search notes, quizzes and past questions" role="combobox" aria-expanded="false" aria-controls="searchRes" aria-autocomplete="list" autocomplete="off">
+        <kbd class="search-kbd" aria-hidden="true">/</kbd>
+        <div class="search-res" id="searchRes" role="listbox" aria-label="Search results"></div>
+        <div class="sr-only" id="searchLive" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="topbar-r" style="display:flex;align-items:center;gap:6px">
+        <button class="icon-btn" id="themeBtn" title="Switch between the paper and lamp themes" aria-label="Switch between the paper and lamp themes" aria-pressed="false"></button>
+      </div>
+    </header>
+
+    <div class="tabs" role="tablist" aria-label="Study views">
+      <button class="tab-btn active" id="tab-learn" role="tab" data-tab="learn" aria-controls="panel-learn" aria-selected="true">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.6S9.7 4.6 6.2 4.6H4v13.1h2.2c3.5 0 5.8 2 5.8 2s2.3-2 5.8-2H20V4.6h-2.2C14.3 4.6 12 6.6 12 6.6Z"/><path d="M12 6.6v13.1"/></svg>
+        Learn<span class="tab-badge done" data-badge="learn" hidden></span>
+      </button>
+      <button class="tab-btn" id="tab-quiz" role="tab" data-tab="quiz" aria-controls="panel-quiz" aria-selected="false">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.2 5.6 7.8 8.6 4.8"/><path d="M4 12.4 5.6 14 8.6 11"/><path d="M4 18.6 5.6 20 8.6 17"/><path d="M11.8 6.4H20"/><path d="M11.8 12.4H20"/><path d="M11.8 18.6H20"/></svg>
+        Quiz<span class="tab-badge accent" data-badge="quiz" hidden></span>
+      </button>
+      <button class="tab-btn" id="tab-past" role="tab" data-tab="past" aria-controls="panel-past" aria-selected="false">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.6 3.5H7.5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V8.4Z"/><path d="M13.6 3.5v4.9h4.9"/><path d="M9 13.2h6"/><path d="M9 16.6h4"/></svg>
+        Past Questions<span class="tab-badge accent" data-badge="past" hidden></span>
+      </button>
+      <button class="tab-btn" id="tab-analysis" role="tab" data-tab="analysis" aria-controls="panel-analysis" aria-selected="false">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"/><path d="M7.2 20v-5.4"/><path d="M12 20V9.6"/><path d="M16.8 20V6"/></svg>
+        Analysis
+      </button>
+    </div>
+
+    <main class="content-area" id="contentArea" tabindex="-1" aria-label="Chapter content">
+      <div class="tab-panel active" id="panel-learn" role="tabpanel" aria-labelledby="tab-learn"><p style="color:var(--t3)">Loading…</p></div>
+      <div class="tab-panel" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz"></div>
+      <div class="tab-panel" id="panel-past" role="tabpanel" aria-labelledby="tab-past"></div>
+      <div class="tab-panel" id="panel-analysis" role="tabpanel" aria-labelledby="tab-analysis"></div>
+    </main>
+
+    <div class="fab-wrap">
+      <button class="fab" id="fabNext" title="Next chapter" aria-label="Go to the next chapter"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
+      <button class="fab" id="fabTop" title="Back to top" aria-label="Back to top"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- One click from any cited number to the handwriting it came from. The page
+       images are web-sized copies built by tools/build_note_pages.py; a dialog
+       is used rather than a new tab so the reader keeps their place. -->
+  <dialog class="page-viewer" id="pageViewer" aria-label="Note page from the class notes">
+    <div class="pv-bar">
+      <span class="pv-title" id="pvTitle">Note page</span>
+      <a class="pv-open" id="pvOpen" href="#" target="_blank" rel="noopener">Open in a new tab</a>
+      <button class="pv-close" id="pvClose" type="button" aria-label="Close the page">&#10005;</button>
+    </div>
+    <!-- `hidden` until openPage() has a source to put in it: an <img> with no
+         src is a broken-image box waiting for the one moment the dialog is
+         briefly visible before its content is assigned. -->
+    <div class="pv-body"><img id="pvImg" alt="" decoding="async" hidden></div>
+  </dialog>
+
+  <!-- The whole picture, for exhibits that do not fit in the column. A figure is
+       drawn at its designed width (640-950px) and a phone column is about 278,
+       so a phone reader sees 39-55% of a diagram at a time and has to scroll
+       sideways 2.6 screens to read one. Tapping such an exhibit clones it in
+       here at that designed size, scaled to fit the screen, and the reader pans
+       and pinches from a whole-picture starting point. Built by app.js. -->
+  <dialog class="exhibit-viewer" id="exhibitViewer" aria-labelledby="xvTitle">
+    <div class="xv-bar">
+      <span class="xv-title" id="xvTitle">Exhibit</span>
+      <div class="xv-zoom" role="group" aria-label="Zoom">
+        <button class="xv-btn" id="xvOut" type="button" aria-label="Zoom out">&minus;</button>
+        <span class="xv-pct" id="xvPct" aria-hidden="true">100%</span>
+        <button class="xv-btn" id="xvIn" type="button" aria-label="Zoom in">+</button>
+        <button class="xv-btn xv-fit" id="xvFit" type="button" aria-label="Fit the whole exhibit to the screen">Fit</button>
+      </div>
+      <button class="xv-close" id="xvClose" type="button" aria-label="Close the full screen view">&#10005;</button>
+    </div>
+    <!-- Empty until openExhibit() clones into it; the transform is the pan and
+         zoom, applied to this layer rather than to the drawing. -->
+    <div class="xv-stage" id="xvStage"><div class="xv-pan" id="xvPan"></div></div>
+    <p class="xv-hint">Drag to pan &middot; pinch to zoom</p>
+  </dialog>
+</div>
+<!-- course.js first: engine.js and app.js read window.COURSE as they load, so
+     the course has to exist before them. -->
+<script defer src="site.js"></script>
+
+
+
+
+
+
+
+
+
+<!-- No modules/exam.js: this course has no mock exam yet, and a module that is
+     not loaded is a module that cannot half-work. app.js feature-detects it. -->
+
+</body>
+</html>
