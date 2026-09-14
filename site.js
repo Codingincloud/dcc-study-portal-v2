@@ -9046,30 +9046,182 @@ const ICONS={
   sparkle:'<path d="M12 3.4l1.9 5.7 5.7 1.9-5.7 1.9L12 18.6l-1.9-5.7L4.4 11l5.7-1.9Z"/>',
   info:'<circle cx="12" cy="12" r="8.25"/><path d="M12 11.2v5.4"/><circle cx="12" cy="7.9" r=".95" fill="currentColor" stroke="none"/>',
   layers:'<path d="M12 3.6 3.6 8 12 12.4 20.4 8Z"/><path d="M3.6 12.6 12 17l8.4-4.4"/><path d="M3.6 16.8 12 21.2l8.4-4.4"/>',
-  expand:'<path d="M4.6 9.4V4.6h4.8"/><path d="M14.6 4.6h4.8v4.8"/><path d="M19.4 14.6v4.8h-4.8"/><path d="M9.4 19.4H4.6v-4.8"/>'
+  expand:'<path d="M4.6 9.4V4.6h4.8"/><path d="M14.6 4.6h4.8v4.8"/><path d="M19.4 14.6v4.8h-4.8"/><path d="M9.4 19.4H4.6v-4.8"/>',
+  /* The width pair. A narrow column and a wide one, drawn as the same rounded
+     rectangle at two widths: the control is about how much of the window the
+     text takes, so the glyph is about how much of the square the rectangle
+     takes. */
+  column:'<rect x="8.7" y="4" width="6.6" height="16" rx="1.4"/>',
+  wide:'<rect x="3.2" y="4" width="17.6" height="16" rx="1.4"/>'
 };
 function icon(name,cls){
   const d=ICONS[name];
   if(!d)return '';
   return '<svg class="i'+(cls?' '+cls:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+d+'</svg>';
 }
-/* Theme. Paper is the default: the site is read far more often in daylight
-   than in the dark, and the old default of a blue-black dashboard made every
-   session start in the wrong room. The toggle still remembers a choice. */
-const html=document.documentElement,tBtn=document.getElementById('themeBtn');
-function setTheme(t){
-  html.setAttribute('data-theme',t);
-  const dark=t==='dark';
-  tBtn.innerHTML=icon(dark?'sun':'moon');
-  tBtn.setAttribute('aria-pressed',dark?'true':'false');
-  // The browser's own chrome - the mobile address bar, the PWA title bar -
-  // follows the theme the reader chose, not the one the OS guessed.
-  const meta=document.getElementById('themeColor');
-  if(meta)meta.setAttribute('content',dark?'#191712':'#fbfaf8');
-  localStorage.setItem(NS+'-theme',t);
+/* ---------------- Reading modes, and the two widths ----------------
+   Paper is the default: the site is read far more often in daylight than in the
+   dark, and the old default of a blue-black dashboard made every session start
+   in the wrong room. Whatever the reader picks is remembered.
+
+   Eight modes is why the top-bar control is a palette that opens a picker
+   rather than the old sun/moon switch - with eight modes a two-state button has
+   nothing to toggle. THEMES here is the source of truth for that picker, and it
+   has to stay in step with two places that cannot read it:
+     * assets/css/tokens.css, which declares one [data-theme="..."] block per id
+       (a block that is missing means every token in it is UNDEFINED, not
+       inherited from the base theme);
+     * the boot script in each entry page, which has to set the mode before the
+       first paint and so cannot wait for this file to load.
+   tools/check_themes.py fails when the three lists drift apart.
+
+   `strip` is the five swatches the mode was designed from - the picker shows
+   them, so each tile reads like the palette it came from. `meta` is the browser
+   chrome colour (a phone's address bar) and must match that mode's --bg. */
+const THEMES=[
+  {id:'light',      name:'Paper',              kind:'light', meta:'#fbfaf8', strip:['#fbfaf8','#f4f2ed','#eef3f9','#2c4a6e','#1b1a17']},
+  {id:'dark',       name:'Lamp',               kind:'dark',  meta:'#191712', strip:['#191712','#232019','#37526f','#3f6e9e','#f4f1ea']},
+  {id:'romantic',   name:'Romantic Blend',     kind:'light', meta:'#fcf2f5', strip:['#f5cdd0','#f4b3c7','#e69cba','#eb6e9b','#826e8b']},
+  {id:'peacock',    name:'Peacock Feather',    kind:'light', meta:'#f4f9ee', strip:['#e1edd4','#cae5bc','#70d6c5','#4e9ce8','#4d52b4']},
+  {id:'sunsetpeach',name:'Sunset View · Peach',kind:'light', meta:'#fdf6ea', strip:['#f5e4c4','#f5d6a2','#f5b297','#c78997','#8a99b1']},
+  {id:'purpleblend',name:'Purple Blend',       kind:'dark',  meta:'#1a0a25', strip:['#2b103c','#3d2a5d','#572866','#8f529b','#ac91c0']},
+  {id:'sunsetwine', name:'Sunset View · Wine', kind:'dark',  meta:'#230a11', strip:['#812d35','#934372','#b9689f','#c388a9','#536ca5']},
+  {id:'eveningmix', name:'Evening Mix',        kind:'dark',  meta:'#0e0d15', strip:['#0e0d15','#182346','#3d5387','#7c83ad','#bfa9ba']}
+];
+/* The other axis. Comfort is the phone and the small laptop; Full is a laptop
+   run at full screen, where the centred column's margins were the complaint. */
+const WIDTHS=[
+  {id:'comfort', name:'Comfort', ico:'column', hint:'narrow centred column, short lines'},
+  {id:'full',    name:'Full',    ico:'wide',   hint:'wide column, uses the whole screen'}
+];
+const html=document.documentElement,tBtn=document.getElementById('themeBtn'),wBtn=document.getElementById('widthBtn');
+const mode=id=>THEMES.find(t=>t.id===id)||THEMES[0];
+const widthOf=id=>WIDTHS.find(w=>w.id===id)||WIDTHS[0];
+function swatchRow(strip,cls){
+  return '<span class="'+(cls||'tp-strip')+'" aria-hidden="true">'+
+    strip.map(c=>'<i style="background:'+c+'"></i>').join('')+'</span>';
 }
-tBtn.onclick=()=>setTheme(html.getAttribute('data-theme')==='dark'?'light':'dark');
-setTheme(localStorage.getItem(NS+'-theme')||'light');
+/* The button's own glyph is a strip of the current mode's five colours, so the
+   swatch in the top bar already says which room you are in. */
+function paintThemeBtn(){
+  const t=mode(html.getAttribute('data-theme'));
+  tBtn.innerHTML=swatchRow(t.strip,'btn-strip');
+  const label='Reading mode: '+t.name+' ('+t.kind+')';
+  tBtn.title=label+' - choose another';
+  tBtn.setAttribute('aria-label',label+', choose another');
+}
+function setTheme(id,save){
+  const t=mode(id);
+  html.setAttribute('data-theme',t.id);
+  // The browser's own chrome - the mobile address bar, the PWA title bar -
+  // follows the mode the reader chose, not the one the OS guessed.
+  const meta=document.getElementById('themeColor');
+  if(meta)meta.setAttribute('content',t.meta);
+  paintThemeBtn();
+  syncPicker();
+  if(save!==false)localStorage.setItem(NS+'-theme',t.id);
+}
+function paintWidthBtn(){
+  const w=widthOf(html.getAttribute('data-width')),other=w.id==='full'?'Comfort':'Full';
+  wBtn.innerHTML=icon(w.ico);
+  wBtn.setAttribute('aria-pressed',w.id==='full'?'true':'false');
+  const label='Layout: '+w.name+' - '+w.hint+'. Switch to '+other+'.';
+  wBtn.title=label;wBtn.setAttribute('aria-label',label);
+}
+function setWidth(id,save){
+  const w=widthOf(id);
+  html.setAttribute('data-width',w.id);
+  paintWidthBtn();
+  if(save!==false)localStorage.setItem(NS+'-width',w.id);
+}
+/* The picker.
+
+   A radiogroup rather than a menu: the modes are one choice out of eight, and
+   that is exactly what a screen reader should announce. Choosing a mode does NOT
+   close the panel - the point of eight palettes is comparing them, so the page
+   behind repaints and the panel stays until you pick something else, press Esc,
+   or click away. */
+let pop=null;
+function tiles(){return pop?Array.prototype.slice.call(pop.querySelectorAll('.tp-item')):[];}
+function buildPicker(){
+  const el=document.createElement('div');
+  el.className='theme-pop';
+  el.id='themePop';
+  el.setAttribute('role','dialog');
+  el.setAttribute('aria-label','Reading mode');
+  el.hidden=true;
+  el.innerHTML=
+    '<p class="tp-head"><b>Reading mode</b><span>'+THEMES.length+' modes · remembered on this device</span></p>'+
+    '<div class="tp-grid" role="radiogroup" aria-label="Reading mode">'+
+      THEMES.map(t=>
+        '<button type="button" class="tp-item" role="radio" aria-checked="false" data-mode="'+t.id+'" tabindex="-1">'+
+          swatchRow(t.strip)+
+          '<span class="tp-txt"><b>'+t.name+'</b><span>'+(t.kind==='dark'?'Dark':'Light')+'</span></span>'+
+          '<svg class="i tp-tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.6 9.6 17 19 7"/></svg>'+
+        '</button>').join('')+
+    '</div>';
+  el.addEventListener('click',e=>{
+    const b=e.target.closest('.tp-item');
+    if(b)setTheme(b.dataset.mode);
+  });
+  el.addEventListener('keydown',e=>{
+    const list=tiles(),i=list.indexOf(document.activeElement);
+    if(e.key==='Escape'){e.preventDefault();closePicker();return;}
+    let n=null;
+    if(e.key==='ArrowDown'||e.key==='ArrowRight')n=i+1;
+    else if(e.key==='ArrowUp'||e.key==='ArrowLeft')n=i-1;
+    else if(e.key==='Home')n=0;
+    else if(e.key==='End')n=list.length-1;
+    if(n===null)return;
+    e.preventDefault();
+    n=(n+list.length)%list.length;
+    list.forEach(b=>b.tabIndex=-1);
+    list[n].tabIndex=0;
+    list[n].focus();
+  });
+  return el;
+}
+function syncPicker(){
+  if(!pop)return;
+  const cur=html.getAttribute('data-theme');
+  tiles().forEach(b=>{
+    const on=b.dataset.mode===cur;
+    b.setAttribute('aria-checked',on?'true':'false');
+    b.tabIndex=on?0:-1;
+  });
+}
+function openPicker(){
+  if(!pop){
+    pop=buildPicker();
+    document.querySelector('.topbar-r').appendChild(pop);
+  }
+  syncPicker();
+  pop.hidden=false;
+  tBtn.setAttribute('aria-expanded','true');
+  const cur=pop.querySelector('.tp-item[aria-checked="true"]')||tiles()[0];
+  if(cur)cur.focus();
+}
+function closePicker(refocus){
+  if(!pop||pop.hidden)return;
+  pop.hidden=true;
+  tBtn.setAttribute('aria-expanded','false');
+  if(refocus!==false)tBtn.focus();
+}
+tBtn.setAttribute('aria-haspopup','true');
+tBtn.setAttribute('aria-expanded','false');
+tBtn.onclick=()=>{(pop&&!pop.hidden)?closePicker():openPicker();};
+wBtn.onclick=()=>setWidth(html.getAttribute('data-width')==='full'?'comfort':'full');
+document.addEventListener('pointerdown',e=>{
+  if(!pop||pop.hidden)return;
+  if(pop.contains(e.target)||tBtn.contains(e.target))return;
+  closePicker(false);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePicker(false);});
+/* `false` = do not write these back: the boot script in the entry page already
+   read the stored values and set both attributes before the first paint, so
+   this call only paints the two buttons to match. */
+setTheme(localStorage.getItem(NS+'-theme')||'light',false);
+setWidth(localStorage.getItem(NS+'-width')||'comfort',false);
 /* Toast */
 /* A toast is the only feedback some actions give ("+10 XP", "Saved"), so it is
    a polite status region rather than a silent div. It enters and leaves with a

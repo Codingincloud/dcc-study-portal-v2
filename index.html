@@ -360,14 +360,16 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 
 
 <script>
-/* The theme is decided HERE, before the first style resolution, and not in
-   app.js.
+/* The reading mode AND the layout width are decided HERE, before the first
+   style resolution, and not in app.js.
 
    Two reasons, and the second one is a bug fix rather than a preference:
 
    1. No flash. app.js loads last - after eight chapter files and five modules -
       so a reader whose stored choice is the dark theme used to get a full paint
-      of the light theme first and then watch it flip.
+      of the light theme first and then watch it flip. The width is the same
+      class of bug and worse: a column that starts 720px wide and jumps to
+      1180px has reflowed the whole chapter by the time you have read a line.
 
    2. The flip is not just ugly, it is unreliable. Changing data-theme on <html>
       *after* a stylesheet has already been resolved for an element does not
@@ -379,15 +381,27 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
       getComputedStyle reported the element's own --t1 as the dark one. Setting
       the attribute before the first resolution sidesteps the whole class.
 
-   app.js still owns setTheme() for the toggle; it reads the same value back,
-   so the boot-time call is a no-op rather than a second flip. */
+   The mode is VALIDATED here, and that is not paranoia: a data-theme with no
+   matching block in tokens.css leaves every token in it UNDEFINED - not
+   inherited from the base theme, undefined - so one stale or mistyped stored
+   value is a page with no background, no border and no colour at all. This map
+   also carries the browser-chrome colour per mode, which is --bg.
+
+   app.js owns setTheme()/setWidth() from here on; they read the same values
+   back, so the boot-time call is a no-op rather than a second flip. This list
+   must match THEMES in app.js and the blocks in assets/css/tokens.css;
+   tools/check_themes.py fails when the three drift apart. */
 (function(){
   try{
+    var MODES={light:'#fbfaf8',dark:'#191712',romantic:'#fcf2f5',peacock:'#f4f9ee',
+               sunsetpeach:'#fdf6ea',purpleblend:'#1a0a25',sunsetwine:'#230a11',eveningmix:'#0e0d15'};
     var t=localStorage.getItem('dcc-theme');
-    if(t!=='light'&&t!=='dark')t='light';
+    if(!MODES[t])t='light';
     document.documentElement.setAttribute('data-theme',t);
+    document.documentElement.setAttribute('data-width',
+      localStorage.getItem('dcc-width')==='full'?'full':'comfort');
     var m=document.getElementById('themeColor');
-    if(m)m.setAttribute('content',t==='dark'?'#191712':'#fbfaf8');
+    if(m)m.setAttribute('content',MODES[t]);
   }catch(e){}
 })();
 </script>
@@ -446,8 +460,13 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
         <div class="sr-only" id="searchLive" role="status" aria-live="polite"></div>
       </div>
 
-      <div class="topbar-r" style="display:flex;align-items:center;gap:6px">
-        <button class="icon-btn" id="themeBtn" title="Switch between the paper and lamp themes" aria-label="Switch between the paper and lamp themes" aria-pressed="false"></button>
+      <!-- Two controls, one axis each: how much of the screen the text takes,
+           and which room it is read in. Both glyphs are painted by app.js - the
+           theme button shows a strip of the current mode's five colours, so the
+           top bar already says which mode you are in. -->
+      <div class="topbar-r">
+        <button class="icon-btn" id="widthBtn" type="button"></button>
+        <button class="icon-btn" id="themeBtn" type="button"></button>
       </div>
     </header>
 

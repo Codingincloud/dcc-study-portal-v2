@@ -228,6 +228,27 @@
 }
 
 /* ==========================================================================
+   THE TWO WIDTHS - how much of the window the column is allowed to take.
+
+   This is a second axis, independent of the palette: it is about the size of
+   the screen, not the colour of the paper. Comfort is the phone and the small
+   laptop - the centred 720px column, ~74-character lines. Full is a laptop or
+   desktop run at full screen, where those margins were the complaint: the
+   column widens to 1180px, the line to ~84 characters, and the callouts become
+   full-width bands (see foundation.css).
+
+   Line length is the one thing this axis trades. 84 characters is past the
+   ~75 a reader tracks comfortably, and that is deliberate and asked for: on a
+   1680px screen the alternative is a strip of text with 500px of nothing beside
+   it. Anyone who wants the shorter line back is one click from it.
+   ========================================================================== */
+[data-width="full"] {
+  --measure: 40em;         /* running prose: ~84 characters */
+  --reader-w: 1180px;      /* the Learn column */
+  --wide-w: 1280px;        /* quiz / past / analysis / exam */
+}
+
+/* ==========================================================================
    LIGHT - the default. "Paper."
    ========================================================================== */
 [data-theme="light"] {
@@ -387,6 +408,284 @@
   color-scheme: dark;
 }
 
+/* ==========================================================================
+   THE SIX READING MODES
+
+   Eight modes in all, and every block below declares the WHOLE contract for
+   the same reason the two above do: a token declared in one block and not in
+   another is not inherited from the base theme, it is undefined - a mode that
+   forgot --bg-input would render a transparent input, not a paper one.
+   tools/check_themes.py fails if the blocks stop declaring the same set.
+
+   Two rules hold these together:
+
+   1. THE SEMANTIC FOUR ARE NOT THEMED. Green still means success, ochre still
+      means caution, brick still means danger and plum still means "commonly
+      asked / talked about", in every mode. The notes lean on those readings in
+      every chapter, so a mode that recoloured them to flatter its palette
+      would take the meaning away with the colour. The light modes carry the
+      Paper block's four, the dark modes carry the Lamp block's four.
+
+   2. THE PALETTE DRIVES THE SURFACES, THE INK AND THE BRAND. Each block names
+      the five swatches it came from. The dark end of the palette becomes the
+      surfaces, the far end becomes the ink, and the most saturated swatch
+      becomes --pri. Saturated colour goes into the accents and the tint layer
+      and never into the page: nine chapters of dense notes behind #F5CDD0 is
+      wallpaper, not a surface to read on.
+
+   The brand fill is sometimes a step darker or lighter than the swatch it
+   names - #812D35 under white text is 8.9:1, which is fine, but as the accent
+   rule on a near-black wine page it is 2.1:1 and nearly invisible, so the
+   Sunset Wine brand is the midpoint of that palette instead.
+   ========================================================================== */
+
+/* ---- Romantic Blend (light)   #826E8B #EB6E9B #E69CBA #F4B3C7 #F5CDD0 ---- */
+[data-theme="romantic"] {
+  --bg: #fcf2f5;
+  --bg-card: #ffffff;
+  --bg-side: #f7e8ee;
+  --bg-side-h: #f1dde5;
+  --bg-side-a: #efd3de;
+  --bg-input: #f9edf1;
+  --bg-code: #fbf3f6;
+
+  --pri: #b23a6e;
+  --pri-l: #9c2f5f;
+  --pri-bg: #fbe7f0;
+  --pri-bd: #f0c2d9;
+
+  --sec: #2f6b4a; --sec-l: #27603f; --sec-bg: #edf6f0; --sec-bd: #cbe4d7;
+  --acc: #8a6118; --acc-l: #78530f; --acc-bg: #fbf4e5; --acc-bd: #eddcc0;
+  --dan: #a33230; --dan-l: #8d2a28; --dan-bg: #fbeeed; --dan-bd: #f0d0cf;
+  --vio: #6b4e7a; --vio-l: #5c4269; --vio-bg: #f5f1f8; --vio-bd: #e1d7ea;
+
+  --t1: #3a2b41;
+  --t2: #55425e;
+  --t3: #766379;
+
+  --brd: #ebd3dd;
+  --brd-l: #f3e4ea;
+  --fig-line: #8a6e92;
+
+  --sh: 0 1px 2px rgba(74, 40, 58, 0.05);
+  --sh-md: 0 12px 32px rgba(74, 40, 58, 0.11);
+
+  --th-bg: #f7e8ee;
+  --th-c: #55425e;
+  --stripe: #fdf6f9;
+
+  --grain: 0.022;
+
+  color-scheme: light;
+}
+
+/* ---- Peacock Feather (light)  #4D52B4 #4E9CE8 #70D6C5 #CAE5BC #E1EDD4 ---- */
+[data-theme="peacock"] {
+  --bg: #f4f9ee;
+  --bg-card: #ffffff;
+  --bg-side: #e9f2e4;
+  --bg-side-h: #dfebd9;
+  --bg-side-a: #d5e7e0;
+  --bg-input: #eef5e9;
+  --bg-code: #f6faf1;
+
+  --pri: #4d52b4;
+  --pri-l: #3e4292;
+  --pri-bg: #e7eefb;
+  --pri-bd: #bfd0f0;
+
+  --sec: #2f6b4a; --sec-l: #27603f; --sec-bg: #edf6f0; --sec-bd: #cbe4d7;
+  --acc: #8a6118; --acc-l: #78530f; --acc-bg: #fbf4e5; --acc-bd: #eddcc0;
+  --dan: #a33230; --dan-l: #8d2a28; --dan-bg: #fbeeed; --dan-bd: #f0d0cf;
+  --vio: #6b4e7a; --vio-l: #5c4269; --vio-bg: #f5f1f8; --vio-bd: #e1d7ea;
+
+  --t1: #17203a;
+  --t2: #2e3a55;
+  --t3: #5b6883;
+
+  /* --brd is measured against the SIDEBAR as well as the page, and a pale green
+     hairline on a pale green sidebar was 1.13:1 - invisible. 1.26:1. */
+  --brd: #c9dcc2;
+  --brd-l: #e7f0e2;
+  --fig-line: #6e7a96;
+
+  --sh: 0 1px 2px rgba(23, 32, 58, 0.05);
+  --sh-md: 0 12px 32px rgba(23, 32, 58, 0.11);
+
+  --th-bg: #e9f2e4;
+  --th-c: #2e3a55;
+  --stripe: #f8fbf5;
+
+  --grain: 0.022;
+
+  color-scheme: light;
+}
+
+/* ---- Sunset View, Peach (light)  #C78997 #F5B297 #F5D6A2 #F5E4C4 #8A99B1 ---- */
+[data-theme="sunsetpeach"] {
+  --bg: #fdf6ea;
+  --bg-card: #ffffff;
+  --bg-side: #f8eedd;
+  --bg-side-h: #f2e4ce;
+  --bg-side-a: #efdeca;
+  --bg-input: #faf1e2;
+  --bg-code: #fcf7ee;
+
+  --pri: #b75c2a;
+  --pri-l: #a34f20;
+  --pri-bg: #fcebdd;
+  --pri-bd: #f0cfae;
+
+  --sec: #2f6b4a; --sec-l: #27603f; --sec-bg: #edf6f0; --sec-bd: #cbe4d7;
+  --acc: #8a6118; --acc-l: #78530f; --acc-bg: #fbf4e5; --acc-bd: #eddcc0;
+  --dan: #a33230; --dan-l: #8d2a28; --dan-bg: #fbeeed; --dan-bd: #f0d0cf;
+  --vio: #6b4e7a; --vio-l: #5c4269; --vio-bg: #f5f1f8; --vio-bd: #e1d7ea;
+
+  --t1: #322c26;
+  --t2: #4c443b;
+  /* Same two traps as Peacock, one warm: #7a6e60 was 4.32:1 on the sidebar and
+     4.43:1 in the search field, both under AA for 12-13px metadata. */
+  --t3: #6f6355;
+
+  --brd: #e6d5b8;
+  --brd-l: #f6ebd9;
+  --fig-line: #9a8b76;
+
+  --sh: 0 1px 2px rgba(50, 44, 38, 0.05);
+  --sh-md: 0 12px 32px rgba(50, 44, 38, 0.11);
+
+  --th-bg: #f8eedd;
+  --th-c: #4c443b;
+  --stripe: #fefaf3;
+
+  --grain: 0.022;
+
+  color-scheme: light;
+}
+
+/* ---- Purple Blend (dark)  #2B103C #3D2A5D #572866 #8F529B #AC91C0 ---- */
+[data-theme="purpleblend"] {
+  --bg: #1a0a25;
+  --bg-card: #2b103c;
+  --bg-side: #12061a;
+  --bg-side-h: #331548;
+  --bg-side-a: #3d1a54;
+  --bg-input: #341543;
+  --bg-code: #200c2e;
+
+  --pri: #8f529b;
+  --pri-l: #c6a8dc;
+  --pri-bg: #2e1740;
+  --pri-bd: #573066;
+
+  --sec: #357a55; --sec-l: #8fd0a8; --sec-bg: #1a2a22; --sec-bd: #33664c;
+  --acc: #96691a; --acc-l: #e3b45f; --acc-bg: #2e2513; --acc-bd: #6d5322;
+  --dan: #b3413f; --dan-l: #ec9a97; --dan-bg: #2e1d1c; --dan-bd: #7a3735;
+  --vio: #7e63a8; --vio-l: #c1abe2; --vio-bg: #272034; --vio-bd: #5c4682;
+
+  --t1: #f0e7f6;
+  --t2: #cfc0da;
+  --t3: #a791b8;
+
+  --brd: #4a2c5c;
+  --brd-l: #351b47;
+  --fig-line: #8c7aa0;
+
+  --sh: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --sh-md: 0 14px 36px rgba(0, 0, 0, 0.55);
+
+  --th-bg: #341543;
+  --th-c: #dccfe6;
+  --stripe: rgba(255, 255, 255, 0.022);
+
+  --grain: 0.010;
+
+  color-scheme: dark;
+}
+
+/* ---- Sunset View, Wine (dark)  #812D35 #934372 #B9689F #C388A9 #536CA5 ---- */
+[data-theme="sunsetwine"] {
+  --bg: #230a11;
+  --bg-card: #34131c;
+  --bg-side: #18060b;
+  --bg-side-h: #42191f;
+  --bg-side-a: #4d1e26;
+  --bg-input: #3d1720;
+  --bg-code: #270c13;
+
+  --pri: #a34e83;
+  --pri-l: #e4a9c7;
+  --pri-bg: #43141f;
+  --pri-bd: #7a3049;
+
+  --sec: #357a55; --sec-l: #8fd0a8; --sec-bg: #1a2a22; --sec-bd: #33664c;
+  --acc: #96691a; --acc-l: #e3b45f; --acc-bg: #2e2513; --acc-bd: #6d5322;
+  --dan: #b3413f; --dan-l: #ec9a97; --dan-bg: #2e1d1c; --dan-bd: #7a3735;
+  --vio: #7e63a8; --vio-l: #c1abe2; --vio-bg: #272034; --vio-bd: #5c4682;
+
+  --t1: #f6e7ee;
+  --t2: #dcc2cf;
+  --t3: #b08ea0;
+
+  --brd: #57262f;
+  --brd-l: #3e171f;
+  --fig-line: #9e7a88;
+
+  --sh: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --sh-md: 0 14px 36px rgba(0, 0, 0, 0.55);
+
+  --th-bg: #3d1720;
+  --th-c: #e7d2db;
+  --stripe: rgba(255, 255, 255, 0.022);
+
+  --grain: 0.010;
+
+  color-scheme: dark;
+}
+
+/* ---- Evening Mix (dark)  #0E0D15 #182346 #3D5387 #7C83AD #BFA9BA ---- */
+[data-theme="eveningmix"] {
+  --bg: #0e0d15;
+  --bg-card: #182346;
+  --bg-side: #08070e;
+  --bg-side-h: #1f2b52;
+  --bg-side-a: #26335f;
+  --bg-input: #1d2950;
+  --bg-code: #10131f;
+
+  --pri: #556cb0;
+  --pri-l: #9aa6d0;
+  --pri-bg: #1b2750;
+  --pri-bd: #3a4a82;
+
+  --sec: #357a55; --sec-l: #8fd0a8; --sec-bg: #1a2a22; --sec-bd: #33664c;
+  --acc: #96691a; --acc-l: #e3b45f; --acc-bg: #2e2513; --acc-bd: #6d5322;
+  --dan: #b3413f; --dan-l: #ec9a97; --dan-bg: #2e1d1c; --dan-bd: #7a3735;
+  --vio: #7e63a8; --vio-l: #c1abe2; --vio-bg: #272034; --vio-bd: #5c4682;
+
+  --t1: #ededf6;
+  --t2: #c6c9dc;
+  --t3: #9ba0bc;
+
+  --brd: #2c3358;
+  /* The inner rule sits on the CARD, and #1e2440 on #182346 was 1.01:1 - a
+     table's row separators were not there at all. */
+  --brd-l: #232a4c;
+  --fig-line: #7c83ad;
+
+  /* On a warm dark surface a black shadow is invisible; deepen the cool hue. */
+  --sh: 0 1px 2px rgba(4, 6, 14, 0.45);
+  --sh-md: 0 14px 36px rgba(4, 6, 14, 0.55);
+
+  --th-bg: #1d2950;
+  --th-c: #d3d7e6;
+  --stripe: rgba(255, 255, 255, 0.022);
+
+  --grain: 0.010;
+
+  color-scheme: dark;
+}
+
 /* ../assets/css/foundation.css */
 /* ==========================================================================
    foundation.css - everything that styles CONTENT.
@@ -513,6 +812,14 @@ p, li { text-wrap: pretty; }
    and the content keeps the full width minus the gutter. */
 .tab-panel { max-width: var(--wide-w); margin-inline: auto; }
 #panel-learn { max-width: var(--reader-w); }
+
+/* In the full width the callouts stop being text-width boxes and become bands
+   across the column. The page is mostly prose and callouts, so leaving nine of
+   them at 40em beside a 1180px table is what made the wide layout read as
+   half-empty. Their TEXT still stops at the measure: a tinted band with a
+   column of prose in it is an ordinary editorial aside, and a tinted band with
+   84-character lines running edge to edge is not. */
+[data-width="full"] .learn-content :is(.concept-box, .example-box, .strategy-box) { max-width: var(--exhibit); }
 
 /* ==== 03 prose rhythm ==================================================== */
 .learn-content p { margin: 0 0 1.05em; }
@@ -2065,7 +2372,64 @@ html.xv-locked, html.xv-locked body, html.xv-locked #contentArea { overflow: hid
   .pq-variants { padding-inline: 1em; }
 }
 
-/* ==== 20 print ========================================================== */ */
+/* ==== 21 the reading-mode picker ========================================= */
+/* The one piece of chrome that lives in this sheet rather than in the entry
+   pages' frame block. The frame block is duplicated in index.html and
+   dcc-site/index.html, so anything written there has to be written twice and
+   kept in step by hand - worth it for the sidebar and the topbar, not for a
+   seventy-line popover. This sheet loads after that block, so it still wins.
+
+   `.topbar-r`'s rule moved here from an inline style on the div, which also
+   makes it the popover's containing block (position: relative) so the panel
+   hangs off the buttons rather than off the bar. */
+.topbar-r { display: flex; align-items: center; gap: 6px; position: relative; }
+
+/* The theme button's glyph IS the current mode's five colours, so the control
+   reports the state instead of symbolising it. There is no sun and no moon any
+   more: with eight modes, a two-state symbol would be a lie. */
+.btn-strip { display: flex; width: 26px; height: 18px; border-radius: 4px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--brd); }
+.btn-strip i { flex: 1; }
+
+.theme-pop {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 320;
+  width: min(360px, calc(100vw - 24px));
+  padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--brd);
+  border-radius: var(--radius);
+  box-shadow: var(--sh-md);
+  animation: popIn var(--dur-ui) var(--ease-out);
+}
+.tp-head { display: flex; flex-direction: column; gap: 2px; margin: 0 0 10px; }
+.tp-head b { font-size: var(--fs-sm); font-weight: 600; color: var(--t1); }
+.tp-head span { font-size: var(--fs-micro); color: var(--t3); }
+.tp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tp-item {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px;
+  padding: 8px; text-align: left; cursor: pointer; font-family: inherit;
+  background: var(--bg); border: 1px solid var(--brd); border-radius: var(--radius-sm);
+  transition: border-color var(--dur-ui) var(--ease-out), background var(--dur-ui) var(--ease-out);
+}
+.tp-item:hover { border-color: var(--t3); }
+.tp-item[aria-checked="true"] { border-color: var(--pri); background: var(--pri-bg); }
+.tp-item:focus-visible { box-shadow: var(--focus-ring); }
+/* The five swatches the mode was designed from - the same five as the cards
+   they were chosen off, so the picker reads as a palette book. */
+.tp-strip { display: flex; width: 34px; height: 26px; border-radius: 3px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--brd); }
+.tp-strip i { flex: 1; }
+.tp-txt { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.tp-txt b { font-size: var(--fs-xs); font-weight: 600; color: var(--t1); line-height: 1.3; }
+.tp-txt span { font-size: var(--fs-micro); color: var(--t3); }
+.tp-tick { width: 14px; height: 14px; color: var(--pri-l); opacity: 0; }
+.tp-item[aria-checked="true"] .tp-tick { opacity: 1; }
+
+/* The width control is about the screen, and a phone has only one width: below
+   this the column already fills the window, so the button would do nothing.
+   700px rather than the 640px the rest of the sheet uses, because a phone held
+   sideways is already past 640 and the switch still has nothing to say there. */
+@media (max-width: 700px) { #widthBtn { display: none; } }
+
+/* ==== 20 print ========================================================== */
 /* Chrome off, folded sections and answers open, black on white. */
 @media print {
   @page { margin: 16mm 14mm; }
