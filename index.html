@@ -614,5 +614,35 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 <!-- No modules/exam.js: this course has no mock exam yet, and a module that is
      not loaded is a module that cannot half-work. app.js feature-detects it. -->
 
+<!-- The offline marker. tools/build_deploy.py swaps it for the service-worker
+     registration; keep it on the source page and keep the page worker-free.
+     A worker registered against the source tree would cache the directory that
+     is being edited (17 separate scripts, none of them content-addressed) and
+     then serve yesterday's chapter out of the browser cache. In the bundle
+     there is one script, one sheet, and a cache name derived from their bytes,
+     so a rebuild cannot be served stale. -->
+<script>
+/* Offline support. Generated into the bundle by tools/build_deploy.py, which
+   replaces the marker comment in the entry page - the source page carries the
+   marker and no worker, because there is nothing worth caching before the build:
+   that page loads its content as 17 separate blocking scripts. (The marker's own
+   text is deliberately not repeated here: this snippet is what replaces it, and
+   a copy of it would make "does the bundle still contain the marker?" true
+   forever.)
+
+   Registered relative to the page, so the worker's SCOPE is the bundle
+   directory and nothing outside it can be intercepted; on GitHub Pages, where
+   the bundle lives at /<repo>/, a root-absolute /sw.js would not even exist.
+
+   updateViaCache:'none' is not optional. Pages serves sw.js with its own 10
+   minute cache, and the browser re-validates the worker script through the HTTP
+   cache by default - so a rebuild could sit unseen for ten minutes on a device
+   that has the old worker, which is exactly the device that needs the fix. */
+if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(function(){});
+  });
+}
+</script>
 </body>
 </html>

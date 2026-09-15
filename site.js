@@ -2459,9 +2459,9 @@ window.CHAPTERS[3] = {
 <li>A <strong>synchronized</strong> clock is one whose value must not deviate from real time by more than a certain amount &mdash; and when that additional constraint is added, <strong>physical clocks must be the same</strong>, which is the harder requirement.</li>
 </ul>
 <!-- dcc-fig:ch3/ch-3-sync-and-cordn-s05-040.webp -->
-<figure class="figure-wrap">
+<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
 <img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s05-040.webp" alt="Not all clocks tick precisely at the current rate." width="1600" height="1392" loading="lazy" decoding="async">
-<figcaption><strong>slide 5</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Not all clocks tick precisely at the current rate.</figcaption>
+<figcaption><strong>slide 5</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Not all clocks tick precisely at the current rate. <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
 </figure>
 <!-- /dcc-fig -->
 <div class="concept-box key">
@@ -2474,9 +2474,9 @@ window.CHAPTERS[3] = {
 
 <p>The general statement of the failure: <strong>when each machine has its own clock, an event that occurred after another event may nevertheless be assigned an earlier time</strong>. That is not a performance problem; it is a correctness problem, and the deck's compiler/editor timeline on slides 8 shows exactly one such inversion: the object file created on one machine carries a timestamp that places it <em>before</em> the source edit that caused it.</p>
 <!-- dcc-fig:ch3/ch-3-sync-and-cordn-s08-041.webp -->
-<figure class="figure-wrap">
+<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
 <img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s08-041.webp" alt="Fig: When each machine has its own clock, an event that occurred after another event may nevertheless be assigned an earlier time" width="579" height="168" loading="lazy" decoding="async">
-<figcaption><strong>slide 8</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Fig: When each machine has its own clock, an event that occurred after another event may nevertheless be assigned an earlier time</figcaption>
+<figcaption><strong>slide 8</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Fig: When each machine has its own clock, an event that occurred after another event may nevertheless be assigned an earlier time <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
 </figure>
 <!-- /dcc-fig -->
 <h3>3.0.3 Event ordering and the happened-before relation</h3>
@@ -2788,9 +2788,9 @@ window.CHAPTERS[3] = {
 <h3>3.2.5 Causal ordering of messages using vector clocks</h3>
 <p>Vector clocks pay for themselves here. <strong>Causal ordering of messages</strong> means <strong>maintaining the same causal order of message receive events as of message send events</strong>: if <code>Send(M1) &rarr; Send(M2)</code> and <code>Receive(M1)</code> and <code>Receive(M2)</code> are on the same process, then <code>Receive(M1) &rarr; Receive(M2)</code>. It is useful, for example, for replicated databases.</p>
 <!-- dcc-fig:ch3/ch-3-sync-and-cordn-s48-050.webp -->
-<figure class="figure-wrap">
+<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
 <img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s48-050.webp" alt="Causal Ordering of Message using Vector  Clock" width="648" height="291" loading="lazy" decoding="async">
-<figcaption><strong>slide 48</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Causal Ordering of Message using Vector  Clock</figcaption>
+<figcaption><strong>slide 48</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Causal Ordering of Message using Vector  Clock <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
 </figure>
 <!-- /dcc-fig -->
 <p>Two algorithms are named:</p>
@@ -2969,15 +2969,15 @@ window.CHAPTERS[3] = {
 <li><strong>Election is typically started after a failure occurs.</strong> Detection of failure (for example, the crash of the current coordinator) is <strong>normally based on a time-out</strong>: a process that gets no response for a period of time suspects a failure and initiates an election.</li>
 </ul>
 <!-- dcc-fig:ch3/ch-3-sync-and-cordn-s68-060.webp -->
-<figure class="figure-wrap">
+<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
 <img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s68-060.webp" alt="Election Algorithm: Basic Concepts (1)" width="704" height="329" loading="lazy" decoding="async">
-<figcaption><strong>slide 68</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Election Algorithm: Basic Concepts (1)</figcaption>
+<figcaption><strong>slide 68</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Election Algorithm: Basic Concepts (1) <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
 </figure>
 <!-- /dcc-fig -->
 <!-- dcc-fig:ch3/ch-3-sync-and-cordn-s69-061.webp -->
-<figure class="figure-wrap">
+<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
 <img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s69-061.webp" alt="Election Algorithm: Basic Concepts (2)" width="536" height="437" loading="lazy" decoding="async">
-<figcaption><strong>slide 69</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Election Algorithm: Basic Concepts (2)</figcaption>
+<figcaption><strong>slide 69</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Election Algorithm: Basic Concepts (2) <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
 </figure>
 <!-- /dcc-fig -->
 <p><strong>Every election algorithm has two phases</strong>, and stating them is a reliable way to structure an answer:</p>
@@ -3025,15 +3025,15 @@ window.CHAPTERS[3] = {
 <li><strong>If no message is sent within T&prime;</strong>, assume the process with the higher number has failed, and P<sub>i</sub> should <strong>restart the algorithm</strong>.</li>
 </ul>
 <!-- dcc-fig:ch3/ch-3-sync-and-cordn-s76-062.webp -->
-<figure class="figure-wrap">
+<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
 <img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s76-062.webp" alt="Bully Algorithm: Detailed Algorithm" width="716" height="252" loading="lazy" decoding="async">
-<figcaption><strong>slide 76</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Bully Algorithm: Detailed Algorithm</figcaption>
+<figcaption><strong>slide 76</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Bully Algorithm: Detailed Algorithm <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
 </figure>
 <!-- /dcc-fig -->
 <!-- dcc-fig:ch3/ch-3-sync-and-cordn-s77-063.webp -->
-<figure class="figure-wrap">
+<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
 <img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s77-063.webp" alt="Diagram from Ch_3_Sync_and_Cordn.pptx, slide 77" width="760" height="386" loading="lazy" decoding="async">
-<figcaption><strong>slide 77</strong> &middot; Ch_3_Sync_and_Cordn.pptx</figcaption>
+<figcaption><strong>slide 77</strong> &middot; Ch_3_Sync_and_Cordn.pptx <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
 </figure>
 <!-- /dcc-fig -->
 <p>Two further rules describe what happens to a process that is <em>not</em> the coordinator, and they matter because they are what makes the algorithm converge. At any time during execution, P<sub>i</sub> may receive one of two messages from process P<sub>j</sub>:</p>
@@ -3043,15 +3043,15 @@ window.CHAPTERS[3] = {
 </ul>
 <p>And the rule for a node coming back from failure: <strong>after a failed process recovers, it immediately begins execution of the same algorithm</strong>, and <strong>if there are no active processes with higher numbers, the recovered process forces all processes with lower numbers to let it become the coordinator &mdash; even if there is currently an active coordinator with a lower number</strong>.</p>
 <!-- dcc-fig:ch3/ch-3-sync-and-cordn-s78-064.webp -->
-<figure class="figure-wrap">
+<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
 <img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s78-064.webp" alt="Diagram from Ch_3_Sync_and_Cordn.pptx, slide 78" width="777" height="538" loading="lazy" decoding="async">
-<figcaption><strong>slide 78</strong> &middot; Ch_3_Sync_and_Cordn.pptx</figcaption>
+<figcaption><strong>slide 78</strong> &middot; Ch_3_Sync_and_Cordn.pptx <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
 </figure>
 <!-- /dcc-fig -->
 <!-- dcc-fig:ch3/ch-3-sync-and-cordn-s84-069.webp -->
-<figure class="figure-wrap">
+<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
 <img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s84-069.webp" alt="Diagram from Ch_3_Sync_and_Cordn.pptx, slide 84" width="616" height="426" loading="lazy" decoding="async">
-<figcaption><strong>slide 84</strong> &middot; Ch_3_Sync_and_Cordn.pptx</figcaption>
+<figcaption><strong>slide 84</strong> &middot; Ch_3_Sync_and_Cordn.pptx <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
 </figure>
 <!-- /dcc-fig -->
 <figure class="figure-wide figure-wrap">
@@ -4111,9 +4111,9 @@ window.CHAPTERS[4] = {
 <li><strong>IIOP (Internet Inter-ORB Protocol)</strong> is <strong>a particularisation of GIOP</strong>: it specifies <strong>how GIOP messages have to be exchanged over a TCP/IP network</strong>.</li>
 </ul>
 <!-- dcc-fig:ch4/chapter4-lecture-notes-all-s35-078.webp -->
-<figure class="figure-wrap">
+<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
 <img class="figure wide slide" src="assets/dcc-slides/ch4/chapter4-lecture-notes-all-s35-078.webp" alt="Inter-ORB Architecture" width="386" height="149" loading="lazy" decoding="async">
-<figcaption><strong>slide 35</strong> &middot; Chapter4_lecture_notes_all.pptx &mdash; Inter-ORB Architecture</figcaption>
+<figcaption><strong>slide 35</strong> &middot; Chapter4_lecture_notes_all.pptx &mdash; Inter-ORB Architecture <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
 </figure>
 <!-- /dcc-fig -->
 <p><strong>The Object Request Broker (ORB)</strong> is the core: through its interfaces it <strong>provides mechanisms by which objects transparently interact with each other</strong>. Issuing a request can be <strong>dynamic or static</strong>, performed through the <strong>proxies (client stubs) or the dynamic invocation interface</strong>; <strong>invocation of a specific server method is performed by the server skeleton</strong>, which gets the request forwarded from the object adapter; and <strong>the ORB interface can also be accessed directly by clients and object implementations for certain services</strong> &mdash; directory services, naming services, and manipulation of object references. Some of its interfaces are <strong>identical for all ORB implementations</strong> and some are <strong>implementation dependent</strong>.</p>

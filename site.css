@@ -2153,6 +2153,50 @@ th.row-head, td.row-head { text-align: left; }
   color: var(--t3);
 }
 
+/* The teacher's "i". His decks mark some slides with a circled i - the sign he
+   puts on pages he is not going to examine - and the reader asked to be told
+   where those are. It is shown rather than obeyed: the icon also sits on
+   examinable slides (four of them are the Bully algorithm, an 8-mark Group C
+   question on his own 2025 paper), so the section stays and the mark becomes
+   information about the source instead of a reason to delete it.
+   tools/mark_slides.py paints this from data/off_syllabus_slides.json, and its
+   --check fails when the notes and the deck disagree - so the mark cannot drift
+   away from the slide it describes. */
+.figure-wrap.teacher-i figcaption { border-left-color: var(--acc-bd); }
+.figure-wrap.teacher-i .tmark-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .35em;
+  margin-left: .4em;
+  padding: .1em .55em;
+  border: 1px solid var(--acc-bd);
+  border-radius: 999px;
+  background: var(--acc-bg);
+  color: var(--acc-l);
+  font-family: var(--font-mono);
+  font-size: .78em;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: -.3em;
+}
+.figure-wrap.teacher-i .tmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 1.25em;
+  height: 1.25em;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+  text-transform: lowercase;
+  letter-spacing: 0;
+}
+.figure-wrap.teacher-i .tmark::before { content: "i"; }
+
 /* .wide only lifts the reading-width cap; the size floor is universal.
    A figure is drawn in its own coordinate space, so its labels are only as
    legible as the scale it renders at. enhanceContent() reads each figure's own
