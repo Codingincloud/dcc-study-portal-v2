@@ -230,22 +230,34 @@
 /* ==========================================================================
    THE TWO WIDTHS - how much of the window the column is allowed to take.
 
-   This is a second axis, independent of the palette: it is about the size of
-   the screen, not the colour of the paper. Comfort is the phone and the small
-   laptop - the centred 720px column, ~74-character lines. Full is a laptop or
-   desktop run at full screen, where those margins were the complaint: the
-   column widens to 1180px, the line to ~84 characters, and the callouts become
-   full-width bands (see foundation.css).
+   A second axis, independent of the palette: it is about the size of the
+   screen, not the colour of the paper. Comfort is the phone and the small
+   laptop - the centred 720px column, ~74-character lines.
 
-   Line length is the one thing this axis trades. 84 characters is past the
-   ~75 a reader tracks comfortably, and that is deliberate and asked for: on a
-   1680px screen the alternative is a strip of text with 500px of nothing beside
-   it. Anyone who wants the shorter line back is one click from it.
+   FULL LIFTS EVERY CAP. 1180px was the first attempt and it was wrong: on a
+   1680px screen it still parked 250px of nothing at each edge, and on a 1920px
+   one it parked 370px - the same "gap on the right" at a smaller size. The
+   complaint was never that the column was 1180 instead of 1000; it was that
+   there was a void, and a cap of any size produces a void on a screen wider
+   than the cap. So in full there is no cap at all: --measure, --reader-w and
+   --wide-w all become 100%, and the only thing left between the text and the
+   edge of the screen is the gutter.
+
+   THE GUTTER COMES IN TOO, from 44px to 30px, so the block reads as corner to
+   corner rather than as a centred column pretending hard. It stays a real
+   gutter because 0 would put characters against the window frame and, on the
+   left, against the sidebar.
+
+   Line length is the price, and it is the point of the mode: 100% of a 1920px
+   window is ~240 characters, three times the ~75 a reader tracks. Full is a
+   *scanning* layout - follow a lecture on a big screen, compare two tables -
+   not a reading one. Comfort is one click away and is what to read in.
    ========================================================================== */
 [data-width="full"] {
-  --measure: 40em;         /* running prose: ~84 characters */
-  --reader-w: 1180px;      /* the Learn column */
-  --wide-w: 1280px;        /* quiz / past / analysis / exam */
+  --measure: 100%;         /* running prose: the whole column, uncapped */
+  --reader-w: 100%;        /* the Learn column */
+  --wide-w: 100%;          /* quiz / past / analysis / exam */
+  --content-pad: clamp(14px, 1.5vw, 30px);
 }
 
 /* ==========================================================================
@@ -325,6 +337,74 @@
   --grain: 0.022;
 
   color-scheme: light;
+}
+
+/* --------------------------------------------------------------------------
+   PRINT IS PAPER, AND PAPER IS THE LIGHT THEME
+
+   A dark mode sent to a printer is wrong in two separate ways. Some printers
+   print the background, and nine chapters of #191712 is a solid block of ink
+   that soak the sheets and curl them. Most drop backgrounds, and then what is
+   left is light-grey text - the dark theme's --t1 - on white, which is barely
+   legible and wasted the ink it did use.
+
+   So printing ignores the reader's mode and states the light palette, which is
+   the palette designed for white paper: dark ink, dark accent text, pale tinted
+   surfaces. This is not a partial override - a mode is a whole contract, and a
+   half-swapped one is how you get the dark theme's pale accent text on white.
+
+   THIS BLOCK IS A VERBATIM COPY OF [data-theme="light"] ABOVE. Keep it that
+   way: it is regenerated, not hand-edited, and tools/check_themes.py fails if
+   any token here disagrees with the light theme, so the copy cannot drift.
+   `html[data-theme]` outranks the theme blocks on specificity, and this sheet
+   loads after tokens.css, so it wins in both directions.
+
+   The one change: --bg is pure #ffffff rather than the light theme's #fbfaf8,
+   because a page background on paper should be the paper.
+   -------------------------------------------------------------------------- */
+@media print {
+  html[data-theme] {
+    --bg:         #ffffff;
+    --bg-card:    #ffffff;
+    --bg-side:    #f4f2ed;
+    --bg-side-h:  #eae7e0;
+    --bg-side-a:  #e9e3d6;
+    --bg-input:   #f1efe9;
+    --bg-code:    #f7f5f0;
+    --pri:        #2c4a6e;
+    --pri-l:      #26405f;
+    --pri-bg:     #eef3f9;
+    --pri-bd:     #d2e0ee;
+    --sec:        #2f6b4a;
+    --sec-l:      #27603f;
+    --sec-bg:     #edf6f0;
+    --sec-bd:     #cbe4d7;
+    --acc:        #8a6118;
+    --acc-l:      #78530f;
+    --acc-bg:     #fbf4e5;
+    --acc-bd:     #eddcc0;
+    --dan:        #a33230;
+    --dan-l:      #8d2a28;
+    --dan-bg:     #fbeeed;
+    --dan-bd:     #f0d0cf;
+    --vio:        #6b4e7a;
+    --vio-l:      #5c4269;
+    --vio-bg:     #f5f1f8;
+    --vio-bd:     #e1d7ea;
+    --t1:         #1b1a17;
+    --t2:         #3e3b35;
+    --t3:         #66615a;
+    --brd:        #e5e1d8;
+    --brd-l:      #efece5;
+    --fig-line:   #8a8478;
+    --sh:         0 1px 2px rgba(63, 52, 32, 0.05);
+    --sh-md:      0 12px 32px rgba(63, 52, 32, 0.11);
+    --th-bg:      #f4f2ed;
+    --th-c:       #4a463f;
+    --stripe:     #fbfaf8;
+    --grain:      0.022;
+    color-scheme: light;
+  }
 }
 
 /* ==========================================================================
@@ -686,6 +766,75 @@
   color-scheme: dark;
 }
 
+/* ==========================================================================
+   CUSTOM - the mode the reader tints. "Yours."
+
+   Unlike the eight above, this palette is not written down anywhere: it is
+   DERIVED at runtime by custom-theme.js from two colours the reader picks, and
+   applied as inline custom properties on <html>, which outrank this block.
+
+   So what is this? Two things, and both matter:
+
+     1. THE FALLBACK. A reader who has selected Custom but has never opened the
+        picker - or who has cleared site data mid-session - needs a palette, and
+        without one every token in this mode is UNDEFINED, which is a blank
+        page, not a default. This is the palette they get.
+     2. THE FOURTH LIST. tokens.css, THEMES in app.js and the boot script in
+        each entry page all have to agree about which mode ids exist, and
+        tools/check_themes.py checks that they do. A derived mode still needs an
+        id in all four.
+
+   THIS BLOCK IS GENERATED, NOT EDITORIAL - by tools/gen_custom_palette.py, from
+   what derive(DEFAULT_ACCENT, DEFAULT_SURFACE) actually returns. Do not retouch
+   the values: change DEFAULT_ACCENT or DEFAULT_SURFACE in custom-theme.js and
+   regenerate. tools/test_custom_theme.js fails if the two ever disagree, so the
+   fallback can never become a palette the derivation itself would not produce.
+   ========================================================================== */
+[data-theme="custom"] {
+  --bg:        #f6f5f2;
+  --bg-card:   #ffffff;
+  --bg-side:   #edebe4;
+  --bg-side-h: #e4e1d8;
+  --bg-side-a: #dbd7cb;
+  --bg-input:  #eeece6;
+  --bg-code:   #f0efea;
+  --pri:       #4f5bd5;
+  --pri-l:     #313fce;
+  --pri-bg:    #dedfee;
+  --pri-bd:    #d1d3ea;
+  --sec:       #3f7f5d;
+  --sec-l:     #387153;
+  --sec-bg:    #e1ebe6;
+  --sec-bd:    #d6e4dd;
+  --acc:       #956b23;
+  --acc-l:     #845f1f;
+  --acc-bg:    #efe8dd;
+  --acc-bd:    #eae0d0;
+  --dan:       #9d3a2f;
+  --dan-l:     #aa3f33;
+  --dan-bg:    #ede0df;
+  --dan-bd:    #e8d4d2;
+  --vio:       #784785;
+  --vio-l:     #834e91;
+  --vio-bg:    #e8e2ea;
+  --vio-bd:    #e1d7e3;
+  --t1:        #2b281e;
+  --t2:        #443e2f;
+  --t3:        #665f47;
+  --brd:       #d9d5c8;
+  --brd-l:     #f2f0ec;
+  --fig-line:  #8c897e;
+  --sh:        0 1px 2px rgba(43, 40, 30, 0.06);
+  --sh-md:     0 12px 32px rgba(43, 40, 30, 0.12);
+  --th-bg:     #edebe4;
+  --th-c:      #6b634a;
+  --stripe:    #fafaf8;
+  --grain:     0.022;
+
+  color-scheme: light;
+}
+
+
 /* ../assets/css/foundation.css */
 /* ==========================================================================
    foundation.css - everything that styles CONTENT.
@@ -809,17 +958,20 @@ p, li { text-wrap: pretty; }
    tab changes - the Learn and quiz/past/analysis columns differ by 100px, and a
    centred pair moves 50px at each edge instead of the whole column jumping
    sideways. Below ~820px the caps are wider than the screen, so this is inert
-   and the content keeps the full width minus the gutter. */
+   and the content keeps the full width minus the gutter.
+
+   In full both caps are 100%, so "centred" is doing nothing and the panels take
+   the whole content area - which is the point of the mode: one cap of any fixed
+   size leaves a void on a screen wider than the cap. */
 .tab-panel { max-width: var(--wide-w); margin-inline: auto; }
 #panel-learn { max-width: var(--reader-w); }
 
-/* In the full width the callouts stop being text-width boxes and become bands
-   across the column. The page is mostly prose and callouts, so leaving nine of
-   them at 40em beside a 1180px table is what made the wide layout read as
-   half-empty. Their TEXT still stops at the measure: a tinted band with a
-   column of prose in it is an ordinary editorial aside, and a tinted band with
-   84-character lines running edge to edge is not. */
-[data-width="full"] .learn-content :is(.concept-box, .example-box, .strategy-box) { max-width: var(--exhibit); }
+/* Full needs no override here any more. Callouts take --measure, and full sets
+   --measure to 100%, so a tinted band is already the width of the column with
+   its text running the same distance as the prose around it. An earlier version
+   of this file widened them separately, when the measure was still 40em in full
+   and nine callouts sat as narrow boxes beside a 1180px table. That second
+   constant is gone, and with it the chance of the two drifting apart. */
 
 /* ==== 03 prose rhythm ==================================================== */
 .learn-content p { margin: 0 0 1.05em; }
@@ -2393,6 +2545,12 @@ html.xv-locked, html.xv-locked body, html.xv-locked #contentArea { overflow: hid
 .theme-pop {
   position: absolute; top: calc(100% + 8px); right: 0; z-index: 320;
   width: min(360px, calc(100vw - 24px));
+  /* Nine modes and the wells underneath them is taller than the eight modes
+     this panel was built for, and a phone held sideways is ~380px tall. It
+     scrolls rather than running off the bottom of the window, because a picker
+     whose last row cannot be reached is worse than one that scrolls. */
+  max-height: min(78vh, 620px);
+  overflow-y: auto;
   padding: 12px;
   background: var(--bg-card);
   border: 1px solid var(--brd);
@@ -2400,9 +2558,30 @@ html.xv-locked, html.xv-locked body, html.xv-locked #contentArea { overflow: hid
   box-shadow: var(--sh-md);
   animation: popIn var(--dur-ui) var(--ease-out);
 }
-.tp-head { display: flex; flex-direction: column; gap: 2px; margin: 0 0 10px; }
-.tp-head b { font-size: var(--fs-sm); font-weight: 600; color: var(--t1); }
-.tp-head span { font-size: var(--fs-micro); color: var(--t3); }
+/* A grid rather than a column, because Sync belongs on the head row: the two
+   text lines stay in one column and the button takes the other, so the button
+   tracks the title's height instead of pushing the note out of alignment. */
+.tp-head {
+  display: grid; grid-template-columns: 1fr auto; grid-template-areas: "title sync" "note sync";
+  gap: 2px 8px; align-items: center; margin: 0 0 10px;
+}
+.tp-head b { grid-area: title; font-size: var(--fs-sm); font-weight: 600; color: var(--t1); }
+.tp-head span { grid-area: note; font-size: var(--fs-micro); color: var(--t3); }
+/* Sync copies a link carrying this appearance - the only way a site with no
+   account can move a choice between devices (see custom-theme.js, which owns the
+   format and the reasoning). It lives in the panel's head rather than the top
+   bar because it is about the mode, and the mode is what this panel is for. It
+   keeps the full --tap height: on a phone the panel is a sheet and this is the
+   control a thumb reaches for. */
+.tp-sync {
+  grid-area: sync; align-self: center; min-height: var(--tap); padding: 5px 10px;
+  font-family: inherit; font-size: var(--fs-micro); font-weight: 600;
+  color: var(--pri-l); background: var(--pri-bg);
+  border: 1px solid var(--pri-bd); border-radius: var(--radius-sm); cursor: pointer;
+  transition: border-color var(--dur-ui) var(--ease-out), background var(--dur-ui) var(--ease-out);
+}
+.tp-sync:hover { border-color: var(--pri); }
+.tp-sync:focus-visible { box-shadow: var(--focus-ring); }
 .tp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .tp-item {
   display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px;
@@ -2422,6 +2601,40 @@ html.xv-locked, html.xv-locked body, html.xv-locked #contentArea { overflow: hid
 .tp-txt span { font-size: var(--fs-micro); color: var(--t3); }
 .tp-tick { width: 14px; height: 14px; color: var(--pri-l); opacity: 0; }
 .tp-item[aria-checked="true"] .tp-tick { opacity: 1; }
+
+/* The reader's two colours, shown only while Custom is the chosen mode.
+
+   They live OUTSIDE the radio group: an <input> inside a <button> is invalid
+   markup, and the click that opens a colour well is the click the button
+   underneath would swallow. So they get their own block below the grid, ruled
+   off from it, which also reads correctly - the wells belong to one tile, not to
+   the set. */
+.tp-tune {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--brd);
+}
+.tp-sub { margin: 0 0 8px; font-size: var(--fs-micro); color: var(--t3); }
+.tp-wells { display: flex; gap: 8px; }
+.tp-wells label {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 4px;
+  font-size: var(--fs-micro); color: var(--t3);
+}
+/* A colour well is a native control: it ignores the token layer and arrives as a
+   ~27px pill that lines up with nothing else in the panel. Sized and bevelled by
+   hand, with the vendor swatch pseudo-elements stripped so the whole surface is
+   the colour rather than a chip inside a grey box. */
+.tp-wells input[type="color"] {
+  width: 100%; height: 30px; padding: 2px;
+  border: 1px solid var(--brd); border-radius: var(--radius-sm);
+  background: var(--bg-input); cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+}
+.tp-wells input[type="color"]:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+.tp-wells input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+.tp-wells input[type="color"]::-webkit-color-swatch { border: 0; border-radius: 3px; }
+.tp-wells input[type="color"]::-moz-color-swatch { border: 0; border-radius: 3px; }
 
 /* The width control is about the screen, and a phone has only one width: below
    this the column already fills the window, so the button would do nothing.

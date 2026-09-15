@@ -394,14 +394,72 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 (function(){
   try{
     var MODES={light:'#fbfaf8',dark:'#191712',romantic:'#fcf2f5',peacock:'#f4f9ee',
-               sunsetpeach:'#fdf6ea',purpleblend:'#1a0a25',sunsetwine:'#230a11',eveningmix:'#0e0d15'};
+               sunsetpeach:'#fdf6ea',purpleblend:'#1a0a25',sunsetwine:'#230a11',
+               eveningmix:'#0e0d15',custom:'#f6f5f2'};
+    /* A SHARED LINK (?t=&w=&c=) IS APPLIED HERE rather than in app.js, for the
+       reason this whole script exists: the mode has to be on <html> before the
+       first style resolution, and site.js is deferred. Storing the values as
+       well is what makes the link a one-off courier - the next visit on this
+       device needs no link, and the two devices then agree without staying
+       connected. The parameter names are PARAMS in custom-theme.js; that module
+       is not loadable yet, so this is the small inline copy that
+       tools/test_custom_theme.js keeps in step. */
+    (function(){
+      var q=location.search.replace(/^\?/,'');
+      if(!q)return;
+      var P={};
+      q.split('&').forEach(function(pair){
+        var i=pair.indexOf('=');
+        if(i<0)return;
+        try{ P[decodeURIComponent(pair.slice(0,i))]=decodeURIComponent(pair.slice(i+1)); }catch(e){}
+      });
+      var hex=/^#?([0-9a-f]{6})$/i,c=String(P.c||'').split(','),
+          ca=hex.exec(c[0]||''),cs=hex.exec(c[1]||'');
+      var ok=P.t&&MODES[P.t]?P.t:'';
+      if(ca&&cs){
+        localStorage.setItem('dcc-accent','#'+ca[1].toLowerCase());
+        localStorage.setItem('dcc-surface','#'+cs[1].toLowerCase());
+        /* Two colours and no mode can only mean Custom - the alternative is a
+           palette sitting in storage that nothing was asked to display. */
+        if(!ok)ok='custom';
+      }
+      if(ok)localStorage.setItem('dcc-theme',ok);
+      if(P.w==='full'||P.w==='comfort')localStorage.setItem('dcc-width',P.w);
+    })();
+
     var t=localStorage.getItem('dcc-theme');
     if(!MODES[t])t='light';
     document.documentElement.setAttribute('data-theme',t);
     document.documentElement.setAttribute('data-width',
       localStorage.getItem('dcc-width')==='full'?'full':'comfort');
+
+    /* THE ONE MODE THIS SCRIPT CANNOT COMPUTE ITSELF.
+
+       Every other mode's colours are a stylesheet block, so setting the
+       attribute is the whole job. Custom's are derived by custom-theme.js, which
+       is NOT available here: build_deploy folds every <script src> into one
+       deferred site.js, and this runs during parse. Deriving it here would mean
+       a second copy of the solver in the head of two pages.
+
+       So the derived palette is CACHED when the reader picks it - a flat list of
+       [property, value] pairs - and this paints that. The version and both
+       colours are re-checked before it is trusted, because a stale cache on a
+       changed derivation is worse than no cache at all; anything that does not
+       match falls through to the [data-theme="custom"] block in tokens.css,
+       which tools/test_custom_theme.js proves is a palette the derivation would
+       itself produce. Bump CV with VERSION in custom-theme.js. */
+    var chrome=MODES[t], CV=1;
+    if(t==='custom'){
+      var p=JSON.parse(localStorage.getItem('dcc-custom-palette')||'null');
+      if(p&&p.v===CV&&p.pairs&&p.a===localStorage.getItem('dcc-accent')
+         &&p.s===localStorage.getItem('dcc-surface')){
+        for(var i=0;i<p.pairs.length;i++)
+          document.documentElement.style.setProperty(p.pairs[i][0],p.pairs[i][1]);
+        if(p.bg)chrome=p.bg;
+      }
+    }
     var m=document.getElementById('themeColor');
-    if(m)m.setAttribute('content',MODES[t]);
+    if(m)m.setAttribute('content',chrome);
   }catch(e){}
 })();
 </script>
@@ -543,6 +601,7 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 <!-- course.js first: engine.js and app.js read window.COURSE as they load, so
      the course has to exist before them. -->
 <script defer src="site.js"></script>
+
 
 
 

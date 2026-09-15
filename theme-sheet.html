@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Every reading mode, side by side</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 28px 24px 64px; background: #f2f0ec; color: #22201c;
+       font: 14px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+h1 { font-size: 21px; margin: 0 0 6px; }
+.lede { max-width: 76ch; margin: 0 0 8px; color: #4a463f; }
+.note { max-width: 76ch; margin: 0 0 26px; padding: 10px 12px; background: #fdf6e8;
+        border: 1px solid #e8d9b8; border-radius: 8px; font-size: 13px; color: #5b4a26; }
+.sheet { display: grid; gap: 22px; max-width: 1180px; }
+.row { background: #fff; border: 1px solid #ddd8ce; border-radius: 10px; overflow: hidden; }
+.row > header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
+                padding: 10px 14px; background: #faf8f5; border-bottom: 1px solid #e7e2d8; }
+.row h2 { font-size: 15px; margin: 0; }
+.tag { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; padding: 2px 7px;
+       border-radius: 20px; background: #eee9e0; color: #5c574e; }
+.tag.dark { background: #2b271f; color: #e8e2d5; }
+.strip { display: flex; border-radius: 4px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(0,0,0,.14); }
+.strip i { width: 26px; height: 24px; display: block; }
+.hint { font-size: 12px; color: #6c665c; margin-left: auto; }
+.cells { display: flex; gap: 16px; align-items: flex-start; padding: 14px; overflow-x: auto; }
+.cell { flex: 0 0 auto; border: 1px solid #e2ddd3; border-radius: 8px; overflow: hidden; background: #fff; }
+.cap { font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: #6c665c;
+       padding: 5px 9px; background: #faf8f5; border-bottom: 1px solid #eee9e0; }
+.cell iframe { border: 0; display: block; }
+.laptop { width: 660px; }
+.laptop iframe { width: 1440px; height: 560px; zoom: .45; }
+.phone iframe { width: 390px; height: 560px; }
+</style></head><body>
+<h1>Every reading mode, side by side</h1>
+<p class="lede">One row per mode, each cell the real page: a 1440px laptop viewport scaled to fit beside a 390px phone, at chapter 1. The sample is the site itself, opened through the same <code>?t=&amp;w=&amp;c=</code> link the Sync button builds - so nothing here can drift from what ships.</p>
+<p class="note"><b>Read this once.</b> A cell <em>is</em> the app, so it remembers the mode it shows: after scrolling the sheet, this device keeps the mode of the last cell that loaded. Reset it in the palette, or open the site in a private window. This sheet is a screen for judging palettes - it is not part of the site.</p>
+<div class="sheet">
+<div class="row">
+<header>
+<span class="strip" aria-hidden="true"><i style="background:#fbfaf8"></i><i style="background:#f4f2ed"></i><i style="background:#eef3f9"></i><i style="background:#2c4a6e"></i><i style="background:#1b1a17"></i></span>
+<h2>Paper</h2>
+<span class="tag">light</span>
+<span class="hint">?t=light&amp;w=full</span>
+</header>
+<div class="cells">
+<div class="cell laptop"><div class="cap">Laptop · 1440px · full</div><iframe loading="lazy" title="Paper at laptop width" src="index.html?t=light&amp;w=full#/learn/ch/1"></iframe></div>
+<div class="cell phone"><div class="cap">Phone · 390px · comfort</div><iframe loading="lazy" title="Paper at phone width" src="index.html?t=light&amp;w=comfort#/learn/ch/1"></iframe></div>
+</div></div>
+<div class="row">
+<header>
+<span class="strip" aria-hidden="true"><i style="background:#191712"></i><i style="background:#100f0c"></i><i style="background:#1c2632"></i><i style="background:#3f6e9e"></i><i style="background:#f4f1ea"></i></span>
+<h2>Lamp</h2>
+<span class="tag dark">dark</span>
+<span class="hint">?t=dark&amp;w=full</span>
+</header>
+<div class="cells">
+<div class="cell laptop"><div class="cap">Laptop · 1440px · full</div><iframe loading="lazy" title="Lamp at laptop width" src="index.html?t=dark&amp;w=full#/learn/ch/1"></iframe></div>
+<div class="cell phone"><div class="cap">Phone · 390px · comfort</div><iframe loading="lazy" title="Lamp at phone width" src="index.html?t=dark&amp;w=comfort#/learn/ch/1"></iframe></div>
+</div></div>
+<div class="row">
+<header>
+<span class="strip" aria-hidden="true"><i style="background:#fcf2f5"></i><i style="background:#f7e8ee"></i><i style="background:#fbe7f0"></i><i style="background:#b23a6e"></i><i style="background:#3a2b41"></i></span>
+<h2>Romantic Blend</h2>
+<span class="tag">light</span>
+<span class="hint">?t=romantic&amp;w=full</span>
+</header>
+<div class="cells">
+<div class="cell laptop"><div class="cap">Laptop · 1440px · full</div><iframe loading="lazy" title="Romantic Blend at laptop width" src="index.html?t=romantic&amp;w=full#/learn/ch/1"></iframe></div>
+<div class="cell phone"><div class="cap">Phone · 390px · comfort</div><iframe loading="lazy" title="Romantic Blend at phone width" src="index.html?t=romantic&amp;w=comfort#/learn/ch/1"></iframe></div>
+</div></div>
+<div class="row">
+<header>
+<span class="strip" aria-hidden="true"><i style="background:#f4f9ee"></i><i style="background:#e9f2e4"></i><i style="background:#e7eefb"></i><i style="background:#4d52b4"></i><i style="background:#17203a"></i></span>
+<h2>Peacock Feather</h2>
+<span class="tag">light</span>
+<span class="hint">?t=peacock&amp;w=full</span>
+</header>
+<div class="cells">
+<div class="cell laptop"><div class="cap">Laptop · 1440px · full</div><iframe loading="lazy" title="Peacock Feather at laptop width" src="index.html?t=peacock&amp;w=full#/learn/ch/1"></iframe></div>
+<div class="cell phone"><div class="cap">Phone · 390px · comfort</div><iframe loading="lazy" title="Peacock Feather at phone width" src="index.html?t=peacock&amp;w=comfort#/learn/ch/1"></iframe></div>
+</div></div>
+<div class="row">
+<header>
+<span class="strip" aria-hidden="true"><i style="background:#fdf6ea"></i><i style="background:#f8eedd"></i><i style="background:#fcebdd"></i><i style="background:#b75c2a"></i><i style="background:#322c26"></i></span>
+<h2>Sunset View · Peach</h2>
+<span class="tag">light</span>
+<span class="hint">?t=sunsetpeach&amp;w=full</span>
+</header>
+<div class="cells">
+<div class="cell laptop"><div class="cap">Laptop · 1440px · full</div><iframe loading="lazy" title="Sunset View · Peach at laptop width" src="index.html?t=sunsetpeach&amp;w=full#/learn/ch/1"></iframe></div>
+<div class="cell phone"><div class="cap">Phone · 390px · comfort</div><iframe loading="lazy" title="Sunset View · Peach at phone width" src="index.html?t=sunsetpeach&amp;w=comfort#/learn/ch/1"></iframe></div>
+</div></div>
+<div class="row">
+<header>
+<span class="strip" aria-hidden="true"><i style="background:#1a0a25"></i><i style="background:#12061a"></i><i style="background:#2e1740"></i><i style="background:#8f529b"></i><i style="background:#f0e7f6"></i></span>
+<h2>Purple Blend</h2>
+<span class="tag dark">dark</span>
+<span class="hint">?t=purpleblend&amp;w=full</span>
+</header>
+<div class="cells">
+<div class="cell laptop"><div class="cap">Laptop · 1440px · full</div><iframe loading="lazy" title="Purple Blend at laptop width" src="index.html?t=purpleblend&amp;w=full#/learn/ch/1"></iframe></div>
+<div class="cell phone"><div class="cap">Phone · 390px · comfort</div><iframe loading="lazy" title="Purple Blend at phone width" src="index.html?t=purpleblend&amp;w=comfort#/learn/ch/1"></iframe></div>
+</div></div>
+<div class="row">
+<header>
+<span class="strip" aria-hidden="true"><i style="background:#230a11"></i><i style="background:#18060b"></i><i style="background:#43141f"></i><i style="background:#a34e83"></i><i style="background:#f6e7ee"></i></span>
+<h2>Sunset View · Wine</h2>
+<span class="tag dark">dark</span>
+<span class="hint">?t=sunsetwine&amp;w=full</span>
+</header>
+<div class="cells">
+<div class="cell laptop"><div class="cap">Laptop · 1440px · full</div><iframe loading="lazy" title="Sunset View · Wine at laptop width" src="index.html?t=sunsetwine&amp;w=full#/learn/ch/1"></iframe></div>
+<div class="cell phone"><div class="cap">Phone · 390px · comfort</div><iframe loading="lazy" title="Sunset View · Wine at phone width" src="index.html?t=sunsetwine&amp;w=comfort#/learn/ch/1"></iframe></div>
+</div></div>
+<div class="row">
+<header>
+<span class="strip" aria-hidden="true"><i style="background:#0e0d15"></i><i style="background:#08070e"></i><i style="background:#1b2750"></i><i style="background:#556cb0"></i><i style="background:#ededf6"></i></span>
+<h2>Evening Mix</h2>
+<span class="tag dark">dark</span>
+<span class="hint">?t=eveningmix&amp;w=full</span>
+</header>
+<div class="cells">
+<div class="cell laptop"><div class="cap">Laptop · 1440px · full</div><iframe loading="lazy" title="Evening Mix at laptop width" src="index.html?t=eveningmix&amp;w=full#/learn/ch/1"></iframe></div>
+<div class="cell phone"><div class="cap">Phone · 390px · comfort</div><iframe loading="lazy" title="Evening Mix at phone width" src="index.html?t=eveningmix&amp;w=comfort#/learn/ch/1"></iframe></div>
+</div></div>
+<div class="row">
+<header>
+<span class="strip" aria-hidden="true"><i style="background:#f6f5f2"></i><i style="background:#edebe4"></i><i style="background:#dedfee"></i><i style="background:#4f5bd5"></i><i style="background:#2b281e"></i></span>
+<h2>Yours</h2>
+<span class="tag">light</span>
+<span class="hint">?t=custom&amp;w=full</span>
+</header>
+<div class="cells">
+<div class="cell laptop"><div class="cap">Laptop · 1440px · full</div><iframe loading="lazy" title="Yours at laptop width" src="index.html?t=custom&amp;w=full#/learn/ch/1"></iframe></div>
+<div class="cell phone"><div class="cap">Phone · 390px · comfort</div><iframe loading="lazy" title="Yours at phone width" src="index.html?t=custom&amp;w=comfort#/learn/ch/1"></iframe></div>
+</div></div>
+<div class="row">
+<header>
+<span class="strip" aria-hidden="true"><i style="background:#f4f1ea"></i><i style="background:#ece7db"></i><i style="background:#d5edea"></i><i style="background:#108171"></i><i style="background:#2c2618"></i></span>
+<h2>Yours · derived</h2>
+<span class="tag">light</span>
+<span class="hint">derived · from #0f7b6c + #f4f1ea</span>
+</header>
+<div class="cells">
+<div class="cell laptop"><div class="cap">Laptop · 1440px · full</div><iframe loading="lazy" title="Yours · derived at laptop width" src="index.html?c=0f7b6c,f4f1ea&amp;w=full#/learn/ch/1"></iframe></div>
+<div class="cell phone"><div class="cap">Phone · 390px · comfort</div><iframe loading="lazy" title="Yours · derived at phone width" src="index.html?c=0f7b6c,f4f1ea&amp;w=comfort#/learn/ch/1"></iframe></div>
+</div></div>
+<div class="row">
+<header>
+<span class="strip" aria-hidden="true"><i style="background:#120e15"></i><i style="background:#0b090d"></i><i style="background:#2a141b"></i><i style="background:#da2464"></i><i style="background:#dbd4e2"></i></span>
+<h2>Yours · derived</h2>
+<span class="tag dark">dark</span>
+<span class="hint">derived · from #e0457b + #141018</span>
+</header>
+<div class="cells">
+<div class="cell laptop"><div class="cap">Laptop · 1440px · full</div><iframe loading="lazy" title="Yours · derived at laptop width" src="index.html?c=e0457b,141018&amp;w=full#/learn/ch/1"></iframe></div>
+<div class="cell phone"><div class="cap">Phone · 390px · comfort</div><iframe loading="lazy" title="Yours · derived at phone width" src="index.html?c=e0457b,141018&amp;w=comfort#/learn/ch/1"></iframe></div>
+</div></div>
+</div>
+</body></html>
