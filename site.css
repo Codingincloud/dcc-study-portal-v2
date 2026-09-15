@@ -1721,6 +1721,19 @@ th.row-head, td.row-head { text-align: left; }
 }
 .pq-card:hover { box-shadow: inset 0 0 0 1px var(--t3); }
 .pq-card.open { box-shadow: inset 0 0 0 1px var(--pri-bd); }
+
+/* The chapter's exam-facing summary, below the cards. It used to end the Learn
+   text; tools/move_exam_summary.py moved it here. The rule that matters is the
+   separator: it is a different kind of thing from a card (an answer to "what
+   does this question want", not a question), so it gets a rule above it rather
+   than a card's box. */
+.pq-summary {
+  margin-top: 2.4em;
+  padding-top: 1.4em;
+  border-top: 2px solid var(--brd);
+}
+.pq-summary > h3 { margin-top: 0; }
+.pq-summary-body > :first-child { margin-top: .6em; }
 /* A practice-only card is marked by the amber label on its pending block, not by
    a stripe down its edge: every current card carries a model answer, so this is
    the empty case, and it does not need the loudest treatment on the page. */

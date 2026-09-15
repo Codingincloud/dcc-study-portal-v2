@@ -2170,7 +2170,13 @@ request&ndash;reply interaction (2.1), and the tag is what lets one channel carr
 </figure>
 <!-- /dcc-fig -->
 <p>Read the layers in the order the deck presents them, because they are Unit 1's tiers with the middle one exposed to the network. The <strong>presentation</strong> layer is the client &mdash; a browser, or another program calling the API. The <strong>logic</strong> layer holds the web service and the business logic behind it. The <strong>foundations</strong> layer holds the data source and the server software the example installs, with the stored procedures living in the database rather than in the application. The sentence worth noticing is the smallest one in the slide: <em>installed on one or more servers in your LAN or in the Cloud</em>. Once the application tier can be reached as a web service over an ordinary HTTP connection, whether the machine behind that connection is yours or a provider's is an implementation detail &mdash; and a design that cannot tell the difference is exactly the one that can be moved into a cloud in Unit 5.</p>
-<h2>Exam-facing summary</h2>
+<div class="concept-box tip">
+<h4>The paper-facing part of this unit</h4>
+<p>Everything in this unit that is written to be answered in the exam &mdash; what each question asks for, and the model answer to it &mdash; is collected in <a href="#/ch/2/past">Past Questions</a>. Read this tab for the subject; switch to that one when you sit down to answer a question.</p>
+</div>
+`,
+
+  pastSummary: `<h2>Exam-facing summary</h2>
 <table class="comparison-table">
 <thead>
 <tr><th>If the question says&hellip;</th><th>Give&hellip;</th></tr>
@@ -3154,7 +3160,13 @@ window.CHAPTERS[3] = {
 </tbody>
 </table>
 
-<h2>Exam-facing summary</h2>
+<div class="concept-box tip">
+<h4>The paper-facing part of this unit</h4>
+<p>Everything in this unit that is written to be answered in the exam &mdash; what each question asks for, and the model answer to it &mdash; is collected in <a href="#/ch/3/past">Past Questions</a>. Read this tab for the subject; switch to that one when you sit down to answer a question.</p>
+</div>
+`,
+
+  pastSummary: `<h2>Exam-facing summary</h2>
 <table class="comparison-table">
 <thead>
 <tr><th>If the question says&hellip;</th><th>Give&hellip;</th></tr>
@@ -4274,7 +4286,13 @@ window.CHAPTERS[4] = {
 <p><strong>CORBA</strong> is the object-oriented, language-neutral, IDL-defined family &mdash; remote method invocation between heterogeneous objects through an ORB. <strong>Java RMI</strong> is the same idea inside one language, with the binder playing the role of the naming service. <strong>MQTT and AMQP</strong> are message-oriented, and they differ from both in that the sender and receiver are <em>decoupled</em>: the sender publishes to a broker or an exchange and never names a receiver, which is what makes them suit intermittent connectivity and large numbers of devices. All three exist for the same reason middleware exists at all &mdash; heterogeneity &mdash; and all three sit <strong>above the network and below the application</strong>.</p>
 </div>
 
-<h2>Exam-facing summary</h2>
+<div class="concept-box tip">
+<h4>The paper-facing part of this unit</h4>
+<p>Everything in this unit that is written to be answered in the exam &mdash; what each question asks for, and the model answer to it &mdash; is collected in <a href="#/ch/4/past">Past Questions</a>. Read this tab for the subject; switch to that one when you sit down to answer a question.</p>
+</div>
+`,
+
+  pastSummary: `<h2>Exam-facing summary</h2>
 <table class="comparison-table">
 <thead>
 <tr><th>If the question says&hellip;</th><th>Give&hellip;</th></tr>
@@ -5093,7 +5111,13 @@ window.CHAPTERS[5] = {
 <figcaption><strong>slide 18</strong> &middot; Ch_5_Int_to_CloudComputing.ppt</figcaption>
 </figure>
 <!-- /dcc-fig -->
-<h2>Exam-facing summary</h2>
+<div class="concept-box tip">
+<h4>The paper-facing part of this unit</h4>
+<p>Everything in this unit that is written to be answered in the exam &mdash; what each question asks for, and the model answer to it &mdash; is collected in <a href="#/ch/5/past">Past Questions</a>. Read this tab for the subject; switch to that one when you sit down to answer a question.</p>
+</div>
+`,
+
+  pastSummary: `<h2>Exam-facing summary</h2>
 <table class="comparison-table">
 <thead>
 <tr><th>If the question says&hellip;</th><th>Give&hellip;</th></tr>
@@ -6125,7 +6149,13 @@ window.CHAPTERS[6] = {
 </figure>
 <!-- /dcc-fig -->
 <p>Two of those items are more examinable than they look. <strong>CRM being the first successful SaaS</strong> is the historical claim to reproduce if a question asks how the delivery models arrived: the software model that pays per user per month was proved on a business application before it reached consumers. <strong>Collocation</strong> &mdash; several cloud providers working together to support one supply chain &mdash; is the earliest form of what Unit 9 calls multi-cloud, and it is the honest limit of the single-provider picture this unit has drawn: once a business depends on three clouds, the problem stops being virtualization and becomes coordination between providers that do not share an oracle of time or a common control plane (the inter-cloud resource management topic the deck's own slide names).</p>
-<h2>Exam-facing summary</h2>
+<div class="concept-box tip">
+<h4>The paper-facing part of this unit</h4>
+<p>Everything in this unit that is written to be answered in the exam &mdash; what each question asks for, and the model answer to it &mdash; is collected in <a href="#/ch/6/past">Past Questions</a>. Read this tab for the subject; switch to that one when you sit down to answer a question.</p>
+</div>
+`,
+
+  pastSummary: `<h2>Exam-facing summary</h2>
 <table class="comparison-table">
 <thead>
 <tr><th>If the question says&hellip;</th><th>Give&hellip;</th></tr>
@@ -6819,7 +6849,13 @@ window.CHAPTERS[7] = {
 <p>Unit 7 supplies the <em>concrete names</em> that make other units' answers read as though they were studied rather than memorised. Unit 5 (IaaS versus PaaS): IaaS is EC2, PaaS is Google App Engine or Windows Azure. Unit 6 (hypervisor types): Xen is the Type I hypervisor behind EC2 and IBM Blue Cloud. Unit 6 (provisioning): EC2 auto-scaling is the demand-driven method with its 30&ndash;70% CPU rule. Unit 9 (cloud-native): GKE, EKS and AKS are the managed Kubernetes services, and Lambda is the serverless example. Unit 8 (security): the security group is where IAM is enforced on an instance. Naming one platform per concept costs a few words and shows the syllabus was understood as a whole.</p>
 </div>
 
-<h2>Exam-facing summary</h2>
+<div class="concept-box tip">
+<h4>The paper-facing part of this unit</h4>
+<p>Everything in this unit that is written to be answered in the exam &mdash; what each question asks for, and the model answer to it &mdash; is collected in <a href="#/ch/7/past">Past Questions</a>. Read this tab for the subject; switch to that one when you sit down to answer a question.</p>
+</div>
+`,
+
+  pastSummary: `<h2>Exam-facing summary</h2>
 <table class="comparison-table">
 <thead>
 <tr><th>If the question says&hellip;</th><th>Give&hellip;</th></tr>
@@ -7588,7 +7624,13 @@ If a question says "explain the SLA life cycle", give the first; if it says "exp
 </table>
 <p>Those two are also the deck's own top-of-list challenges from Unit 5.2.4 &mdash; <strong>data confidentiality and auditability, described as a serious problem</strong>, and <strong>security and confidentiality as a major concern for sensitive applications such as healthcare</strong> &mdash; so they are safe choices. <strong>Account hijacking</strong> and <strong>misconfiguration</strong> are equally acceptable if answered with the same structure: name the mechanism, say why the cloud makes it worse, and give the control.</p>
 
-<h2>Exam-facing summary</h2>
+<div class="concept-box tip">
+<h4>The paper-facing part of this unit</h4>
+<p>Everything in this unit that is written to be answered in the exam &mdash; what each question asks for, and the model answer to it &mdash; is collected in <a href="#/ch/8/past">Past Questions</a>. Read this tab for the subject; switch to that one when you sit down to answer a question.</p>
+</div>
+`,
+
+  pastSummary: `<h2>Exam-facing summary</h2>
 <table class="comparison-table">
 <thead>
 <tr><th>If the question says&hellip;</th><th>Give&hellip;</th></tr>
@@ -8357,7 +8399,13 @@ window.CHAPTERS[9] = {
 </ul></li>
 </ol>
 
-<h2>Exam-facing summary</h2>
+<div class="concept-box tip">
+<h4>The paper-facing part of this unit</h4>
+<p>Everything in this unit that is written to be answered in the exam &mdash; what each question asks for, and the model answer to it &mdash; is collected in <a href="#/ch/9/past">Past Questions</a>. Read this tab for the subject; switch to that one when you sit down to answer a question.</p>
+</div>
+`,
+
+  pastSummary: `<h2>Exam-facing summary</h2>
 <table class="comparison-table">
 <thead>
 <tr><th>If the question says&hellip;</th><th>Give&hellip;</th></tr>
@@ -9004,6 +9052,14 @@ function buildIndex(chapters,titles){
     });
     (c.quiz||[]).forEach(q=>idx.push({ch:n,type:'quiz',title:q.q,
       snip:stripTags(q.explanation).slice(0,150),key:q.q.slice(0,45)}));
+    // The chapter's exam-facing summary lives in `pastSummary` (moved out of
+    // Learn by tools/move_exam_summary.py). Indexed as a past entry, so a search
+    // hit routes to the Past tab - the panel this text is actually rendered in.
+    String(c.pastSummary||'').split(/(?=<h[234]>)/).forEach(p=>{
+      const h=p.match(/<h[234]>([^<]*)<\/h[234]>/);
+      const body=stripTags(p);if(body.length<40)return;
+      idx.push({ch:n,type:'past',title:h?h[1]:title,snip:body.slice(0,170),key:(h?h[1]:'Exam-facing summary')});
+    });
     (c.past||[]).forEach(q=>idx.push({ch:n,type:'past',title:q.q,
       snip:(q.year||'')+' · '+(q.marks||'')+' marks'+(q.answer?' · model answer':' · practice question')
         +((q.occ||[]).length>1?' · also asked in '+(q.occ||[]).map(o=>o.year).join(', '):''),
@@ -9382,7 +9438,12 @@ function pastVariants(q){
   });
   return out;
 }
-function render(questions){
+/* `summary` is the chapter's exam-facing block - the "if the question says X,
+   give Y" table, or the run of model answers - which used to sit at the end of
+   the Learn text. It is paper-facing material, so it belongs on this tab, and
+   tools/move_exam_summary.py is what moved it there. It renders below the cards
+   and is NOT filtered: the pills select questions, and this is not a question. */
+function render(questions,summary){
   const panel=document.getElementById('panel-past');
   if(!questions.length){panel.innerHTML='<p style="color:var(--t3)">No past questions available.</p>';return;}
   const rows=questions.map((q,i)=>({q,i}));
@@ -9406,7 +9467,10 @@ function render(questions){
       '<button class="an-btn" onclick="APP.pastAllVariants()">'+ic('layers')+' Show every wording</button></div>';
   }
   h+='<h3>Exam questions <span class="pq-count">'+rows.length+' distinct questions · '+answered+' with a model answer · '+(rows.length-answered)+' practice</span></h3>';
-  if(!list.length){h+='<p style="color:var(--t3)">No questions in this filter.</p>';panel.innerHTML=h;return;}
+  if(!list.length){
+    panel.innerHTML=h+'<p style="color:var(--t3)">No questions in this filter.</p>'+summaryHtml(summary);
+    return;
+  }
   list.forEach(r=>{
     const q=r.q,i=r.i,rep=q.repeats||1;
     const variants=pastVariants(q);
@@ -9430,7 +9494,13 @@ function render(questions){
       '<div class="pq-text">'+App.Shell.esc(q.q)+((papers.length>1)?'<div class="pq-papers">'+papers.map(y=>'<span class="pq-paper">'+App.Shell.esc(y)+'</span>').join('')+'</div>':'')+'</div><div class="pq-toggle">'+ic('chevron')+'</div></div>'+
       '<div class="pq-answer">'+body+more+'</div></div>';
   });
-  panel.innerHTML=h;
+  panel.innerHTML=h+summaryHtml(summary);
+}
+function summaryHtml(summary){
+  if(!summary)return '';
+  return '<section class="pq-summary">'+
+    '<h3>How to answer them <span class="pq-count">the questions this unit has been asked with</span></h3>'+
+    '<div class="pq-summary-body">'+summary+'</div></section>';
 }
 /* The pages of the class notes this answer's numbers were read off. The chip
    only names the page; app.js owns what a click does, so a citation is data. */
@@ -9444,7 +9514,7 @@ function pageChips(q){
   }).join('')+'</div>';
 }
 function pill(key,label){return '<button class="pq-pill'+(pastFilter===key?' on':'')+'" onclick="APP.pastFilter(\''+key+'\')">'+label+'</button>'}
-function setFilter(f){pastFilter=f;const c=App.Shell.chapters()[App.Shell.cur()];if(c)render(c.past||[])}
+function setFilter(f){pastFilter=f;const c=App.Shell.chapters()[App.Shell.cur()];if(c)render(c.past||[],c.pastSummary||'')}
 function toggle(i){
   const c=document.getElementById('pq-'+i);if(!c)return;
   c.classList.toggle('open');
@@ -10677,7 +10747,7 @@ function load(n,opts){
   document.getElementById('panel-learn').innerHTML=tools+'<div class="learn-content">'+ch.learn+doneHtml+'</div>';
   buildSections();
   Quiz.render(n,ch.quiz||[]);
-  Past.render(ch.past||[]);
+  Past.render(ch.past||[],ch.pastSummary||'');
   enhanceContent(document.getElementById('panel-learn'));
   enhanceContent(document.getElementById('panel-past'));
   updateTabBadges();
