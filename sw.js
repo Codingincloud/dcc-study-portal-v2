@@ -2,7 +2,7 @@
    Offline support for a built bundle. The cache name is a hash of the bytes in
    SHELL, so any change to the app produces a new cache and the old one is
    deleted on activate; nothing here needs bumping by hand. */
-var VERSION = 'offline-fa432574e351';
+var VERSION = 'offline-82398d5cbead';
 var SHELL = [
 "index.html",
 "site.css",

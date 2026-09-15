@@ -2166,34 +2166,26 @@ th.row-head, td.row-head { text-align: left; }
   color: var(--t3);
 }
 
-/* The teacher's "i". His decks mark some slides with a circled i - the sign he
-   puts on pages he is not going to examine - and the reader asked to be told
-   where those are. It is shown rather than obeyed: the icon also sits on
-   examinable slides (four of them are the Bully algorithm, an 8-mark Group C
-   question on his own 2025 paper), so the section stays and the mark becomes
-   information about the source instead of a reason to delete it.
-   tools/mark_slides.py paints this from data/off_syllabus_slides.json, and its
-   --check fails when the notes and the deck disagree - so the mark cannot drift
-   away from the slide it describes. */
-.figure-wrap.teacher-i figcaption { border-left-color: var(--acc-bd); }
-.figure-wrap.teacher-i .tmark-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: .35em;
-  margin-left: .4em;
-  padding: .1em .55em;
-  border: 1px solid var(--acc-bd);
-  border-radius: 999px;
-  background: var(--acc-bg);
-  color: var(--acc-l);
-  font-family: var(--font-mono);
-  font-size: .78em;
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  white-space: nowrap;
-  vertical-align: -.3em;
+/* The teacher's "i", on the Reference tab.
+
+   His decks mark some slides with a circled i, and the reader read that sign the
+   way the teacher means it: this is material kept for reference rather than for
+   the paper. So those pictures now live on their own tab - tools/make_reference.py
+   moves them out of the notes and --check fails if a marked figure is still in
+   them - and the notes teach only what the syllabus names.
+
+   The glyph is drawn ONCE, in the tab's intro, so the reader can see the mark the
+   sentence is describing. It is inline in that paragraph.
+   .ref-meta is the line naming the deck and slide under each heading: same border
+   as a caption so it reads as source information, muted so it does not compete
+   with the figure it introduces. */
+.ref-intro {
+  max-width: 640px;
+  color: var(--t2);
+  line-height: 1.7;
 }
-.figure-wrap.teacher-i .tmark {
+.ref-intro .tmark { vertical-align: -.28em; }
+.tmark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2202,13 +2194,26 @@ th.row-head, td.row-head { text-align: left; }
   height: 1.25em;
   border: 1.5px solid currentColor;
   border-radius: 50%;
+  color: var(--acc-l);
   font-weight: 700;
   font-style: italic;
   line-height: 1;
   text-transform: lowercase;
   letter-spacing: 0;
 }
-.figure-wrap.teacher-i .tmark::before { content: "i"; }
+.tmark::before { content: "i"; }
+.ref-meta {
+  max-width: 560px;
+  margin: 0 0 14px;
+  padding-left: 11px;
+  border-left: 2px solid var(--brd);
+  font-size: var(--fs-xs);
+  line-height: 1.62;
+  color: var(--t3);
+}
+/* The tab is a list of figures lifted out of the notes, so its panels get the same
+   reading measure as the Learn section rather than the full content width. */
+#panel-reference h3 { margin-top: 26px; }
 
 /* .wide only lifts the reading-width cap; the size floor is universal.
    A figure is drawn in its own coordinate space, so its labels are only as

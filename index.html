@@ -226,6 +226,9 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 }
 .tab-btn:hover{color:var(--t1)}
 .tab-btn.active{color:var(--t1);font-weight:600}
+/* `display:inline-flex` above beats the user agent's `[hidden]{display:none}`, so a
+   tab a chapter has no content for has to be hidden explicitly. */
+.tab-btn[hidden]{display:none}
 /* The underline is a scaled pseudo-element rather than a width animation, so
    switching tabs does not relayout the strip. */
 .tab-btn::after{
@@ -541,6 +544,10 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
         <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.6 3.5H7.5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V8.4Z"/><path d="M13.6 3.5v4.9h4.9"/><path d="M9 13.2h6"/><path d="M9 16.6h4"/></svg>
         Past Questions<span class="tab-badge accent" data-badge="past" hidden></span>
       </button>
+      <button class="tab-btn" id="tab-reference" role="tab" data-tab="reference" aria-controls="panel-reference" aria-selected="false">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.2"/><path d="M12 10.6v5.6"/><path d="M12 8.1v.1"/></svg>
+        Reference<span class="tab-badge" data-badge="reference" hidden></span>
+      </button>
       <button class="tab-btn" id="tab-analysis" role="tab" data-tab="analysis" aria-controls="panel-analysis" aria-selected="false">
         <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"/><path d="M7.2 20v-5.4"/><path d="M12 20V9.6"/><path d="M16.8 20V6"/></svg>
         Analysis
@@ -551,6 +558,7 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
       <div class="tab-panel active" id="panel-learn" role="tabpanel" aria-labelledby="tab-learn"><p style="color:var(--t3)">Loading…</p></div>
       <div class="tab-panel" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz"></div>
       <div class="tab-panel" id="panel-past" role="tabpanel" aria-labelledby="tab-past"></div>
+      <div class="tab-panel" id="panel-reference" role="tabpanel" aria-labelledby="tab-reference"></div>
       <div class="tab-panel" id="panel-analysis" role="tabpanel" aria-labelledby="tab-analysis"></div>
     </main>
 
@@ -601,6 +609,7 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 <!-- course.js first: engine.js and app.js read window.COURSE as they load, so
      the course has to exist before them. -->
 <script defer src="site.js"></script>
+
 
 
 

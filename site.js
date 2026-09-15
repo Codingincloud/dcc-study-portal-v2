@@ -589,7 +589,10 @@ window.COURSE = {
      and the breakdown cannot drift apart. */
   examWeights: [6, 10, 6, 6, 6, 8, 6, 8, 4],
   chapterCount: 9,
-  tabs: ['learn', 'quiz', 'past', 'analysis'],
+  /* `reference` is the teacher's circled-i slides - his sign for material that is
+     for reference rather than for the paper. They are kept out of the notes and
+     collected on this tab (tools/make_reference.py). */
+  tabs: ['learn', 'quiz', 'past', 'reference', 'analysis'],
 
   /* `t` is what the sidebar and the breadcrumb show, so it is kept short
      enough to sit on one line in a 240px rail. `m` is the marks badge. */
@@ -637,18 +640,6 @@ window.CHAPTERS[1] = {
 
 <h2>Unit 1 &mdash; Introduction to Distributed Systems</h2>
 <p class="unit-meta">Syllabus: 4 hours &middot; 6 marks &middot; sub-topics 1.1&ndash;1.4</p>
-
-<div class="concept-box asked">
-<h4>What this unit is worth in the exam</h4>
-<ul>
-<li><strong>2 marks</strong> &mdash; &ldquo;Define a distributed system.&rdquo; This was <em>question 1</em> of Group A in the Model Question 2025, so it is the first thing on the paper.</li>
-<li><strong>4 marks</strong> &mdash; &ldquo;Explain the goals of distributed systems.&rdquo; (Group B, Model 2025)</li>
-<li><strong>4 marks</strong> &mdash; &ldquo;Differentiate between client-server and peer-to-peer architectures with examples.&rdquo; (Group B, Model 2025)</li>
-</ul>
-<p>Three of the paper's sixteen questions come from this unit, and it is only four teaching hours long &mdash; the best marks-per-hour in the course. The six-mark weight in the syllabus table is confirmed by the paper itself.</p>
-</div>
-
-<p>Read the unit in the order the deck teaches it, because each section feeds the one after: 1.1 gives the definition the paper opens with, 1.2 the goals, 1.3 the examples and 1.4 the models the rest of the course is built on. The deck's closing material sits inside those four sections rather than beside them: advantages and disadvantages are 1.1.3, the four problems are 1.2.1, resource sharing is 1.2.2, the Web is 1.3.1, and the types of system are 1.4.5. That folded material is where the second half of a multi-part question usually comes from.</p>
 
 <h2>1.1 Definition and Characteristics</h2>
 
@@ -1313,19 +1304,8 @@ window.CHAPTERS[2] = {
 <h2>Unit 2 &mdash; Communication in Distributed Systems</h2>
 <p class="unit-meta">Syllabus: 7 hours &middot; 10 marks &middot; sub-topics 2.1&ndash;2.4</p>
 
-<div class="concept-box asked">
-<h4>What this unit is worth in the exam</h4>
-<ul>
-<li><strong>10 marks</strong> &mdash; this is the largest single unit in the syllabus marks-distribution table, and it is not a unit you can skip.</li>
-<li><strong>4 marks</strong> &mdash; &ldquo;Describe Remote Procedure Call (RPC) with its working mechanism.&rdquo; (Group B, question 7 of the <em>Model Question 2025</em>)</li>
-</ul>
-<p>The rest of the unit has no question in the one model paper available, which is worth knowing rather than guessing about: the paper is one sample, and its Group B carries seven of eight questions while Group C carries three of four. A 10-mark unit with one 4-mark question in the sample is exactly the sort of unit a second paper picks up elsewhere, so <strong>learn 2.1 and 2.2 cold, and know 2.3 and 2.4 well enough to write a short answer</strong> &mdash; the four reference notes supplied for this unit are all on 2.3 and 2.4, which is a strong hint about where the teaching time went.</p>
-</div>
-
 <h2>Where this unit sits</h2>
 <p>Unit 1 established that the components of a distributed system communicate <em>only by passing messages</em>. That is a negative statement about what they cannot do &mdash; they cannot share memory or read each other's clocks. This unit is about what we build on top of it: the programming abstractions that make message passing look like an ordinary call, and the mechanisms underneath them.</p>
-
-<p>Read the unit in two passes. Sections 2.1 and 2.2 are the <em>abstractions above</em> &mdash; RPC and RMI, which hide the message behind a call, and whose whole subject is what has to be agreed for that illusion to survive failure, marshalling and concurrency. Section 2.3 is the <em>mechanism below</em>, message passing taken on its own terms, where nothing is hidden and the programmer does the work. Section 2.4 is the same idea one generation later, where the abstraction is HTTP and a resource rather than a stub and an object. A question on this unit is usually answered from one of the two passes, so knowing which one it is asking about is half the answer.</p>
 
 <div class="concept-box key">
 <h4>The one-sentence map of the unit</h4>
@@ -2428,16 +2408,6 @@ window.CHAPTERS[3] = {
 <h2>Unit 3 &mdash; Synchronization and Coordination</h2>
 <p class="unit-meta">Syllabus: 5 hours &middot; 6 marks &middot; sub-topics 3.1&ndash;3.4</p>
 
-<div class="concept-box asked">
-<h4>What this unit is worth in the exam</h4>
-<ul>
-<li><strong>2 marks</strong> &mdash; &ldquo;List any two clock synchronization algorithms used in distributed systems.&rdquo; (<em>Group A, question 3</em> of the Model Question 2025 &mdash; the easiest two marks on that paper.)</li>
-<li><strong>4 marks</strong> &mdash; &ldquo;Explain Lamport's logical clock with a suitable example.&rdquo; (Group B, question 8)</li>
-<li><strong>8 marks</strong> &mdash; &ldquo;Describe in detail the working and applications of the Bully election algorithm.&rdquo; (<em>Group C, question 14</em> &mdash; a full long question.)</li>
-</ul>
-<p>That is <strong>14 marks of paper on a unit the syllabus weights at 6</strong>. No other unit in this course is as well represented relative to its size, and all three questions are answerable from 3.1&ndash;3.4 directly. If only one unit gets full attention, this is a strong candidate.</p>
-</div>
-
 <p>The unit has a shape worth knowing before you start, because the four sub-topics are stages of one argument rather than four separate topics. <strong>3.1 Clock synchronization</strong> asks whether two machines can agree on the time, and answers with Cristian's algorithm and NTP. It cannot succeed completely, which is the point: clocks drift, and no amount of synchronisation removes the drift. <strong>3.2 Logical clocks</strong> is the response to that failure &mdash; stop measuring time and start ordering events, with Lamport's counter and vector clocks. <strong>3.3 Mutual exclusion</strong> applies that ordering to the classic problem of one resource and many claimants, and compares the permission-based and token-based algorithm families. <strong>3.4 Election algorithms</strong> asks who decides when the process that was deciding has failed. So the study order is the same as the reading order: agreement on time, then ordering without time, then using the ordering, then choosing a leader.</p>
 
 <p>Two study notes for this unit specifically. Every algorithm here is assessed against the <strong>four requirements</strong> in 3.3.2 &mdash; safety, liveness, fairness and (for mutual exclusion) the number of messages &mdash; so learn that checklist first and run each algorithm through it; it converts a list of algorithms into a comparison, which is what the paper rewards. And this unit rewards <em>worked examples</em> more than any other: the Lamport timestamp question, the Bully election question and the Ricart&ndash;Agrawala example all ask you to apply a rule to specific messages or processes, so practise the arithmetic rather than memorising the description.</p>
@@ -2461,12 +2431,6 @@ window.CHAPTERS[3] = {
 <li><strong>Drift rate</strong> is the rate at which the clock ticks. Different clocks have different drift rates, and hence need to be synchronized; the drift rate is also how you determine <em>how often</em> they should be synchronized.</li>
 <li>A <strong>synchronized</strong> clock is one whose value must not deviate from real time by more than a certain amount &mdash; and when that additional constraint is added, <strong>physical clocks must be the same</strong>, which is the harder requirement.</li>
 </ul>
-<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s05-040.webp -->
-<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
-<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s05-040.webp" alt="Not all clocks tick precisely at the current rate." width="1600" height="1392" loading="lazy" decoding="async">
-<figcaption><strong>slide 5</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Not all clocks tick precisely at the current rate. <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
-</figure>
-<!-- /dcc-fig -->
 <div class="concept-box key">
 <h4>Why time is on this syllabus at all</h4>
 <p>The deck lists six reasons, and they are a ready-made answer to "why do distributed systems need time?": <strong>precise performance measurements</strong>, <strong>guaranteeing up-to-date or recent data</strong>, <strong>temporal ordering of events produced by concurrent processes</strong>, <strong>synchronization between senders and receivers of messages</strong>, <strong>coordination of joint activities</strong>, and <strong>serialization of concurrent accesses to shared objects</strong>. Note how the last three point straight at 3.3 and 3.4 of this unit.</p>
@@ -2476,12 +2440,6 @@ window.CHAPTERS[3] = {
 <p>The classic failure, and the one to quote when a question asks for a consequence of clock skew: in Unix, the <strong><code>make</code></strong> command is used to compile new or modified code without recompiling unchanged code. <strong><code>make</code> uses the clock of the machine it runs on to determine which source files need to be recompiled.</strong> If the sources reside on a separate file server and the two machines have unsynchronized clocks, <strong>the <code>make</code> program might not produce the correct results</strong> &mdash; it may decide an output is newer than the source that produced it and skip a rebuild that was needed.</p>
 
 <p>The general statement of the failure: <strong>when each machine has its own clock, an event that occurred after another event may nevertheless be assigned an earlier time</strong>. That is not a performance problem; it is a correctness problem, and the deck's compiler/editor timeline on slides 8 shows exactly one such inversion: the object file created on one machine carries a timestamp that places it <em>before</em> the source edit that caused it.</p>
-<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s08-041.webp -->
-<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
-<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s08-041.webp" alt="Fig: When each machine has its own clock, an event that occurred after another event may nevertheless be assigned an earlier time" width="579" height="168" loading="lazy" decoding="async">
-<figcaption><strong>slide 8</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Fig: When each machine has its own clock, an event that occurred after another event may nevertheless be assigned an earlier time <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
-</figure>
-<!-- /dcc-fig -->
 <h3>3.0.3 Event ordering and the happened-before relation</h3>
 <p>Since there is no common memory and no common clock, it is <strong>sometimes impossible to say which of two events occurred first</strong>. The answer is not to measure time better but to define order without it. The <strong>happened-before relation</strong> (<code>&rarr;</code>) is a <strong>partial ordering of events</strong> defined by three rules:</p>
 <ol>
@@ -2790,12 +2748,6 @@ window.CHAPTERS[3] = {
 <!-- /dcc-fig -->
 <h3>3.2.5 Causal ordering of messages using vector clocks</h3>
 <p>Vector clocks pay for themselves here. <strong>Causal ordering of messages</strong> means <strong>maintaining the same causal order of message receive events as of message send events</strong>: if <code>Send(M1) &rarr; Send(M2)</code> and <code>Receive(M1)</code> and <code>Receive(M2)</code> are on the same process, then <code>Receive(M1) &rarr; Receive(M2)</code>. It is useful, for example, for replicated databases.</p>
-<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s48-050.webp -->
-<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
-<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s48-050.webp" alt="Causal Ordering of Message using Vector  Clock" width="648" height="291" loading="lazy" decoding="async">
-<figcaption><strong>slide 48</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Causal Ordering of Message using Vector  Clock <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
-</figure>
-<!-- /dcc-fig -->
 <p>Two algorithms are named:</p>
 <ul>
 <li><strong>Birman&ndash;Schiper&ndash;Stephenson (BSS)</strong> causal ordering of <em>broadcasts</em>.</li>
@@ -2971,18 +2923,6 @@ window.CHAPTERS[3] = {
 <li><strong>It does not matter which process is elected; what is important is that one and only one process is chosen and that all processes agree on this decision.</strong></li>
 <li><strong>Election is typically started after a failure occurs.</strong> Detection of failure (for example, the crash of the current coordinator) is <strong>normally based on a time-out</strong>: a process that gets no response for a period of time suspects a failure and initiates an election.</li>
 </ul>
-<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s68-060.webp -->
-<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
-<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s68-060.webp" alt="Election Algorithm: Basic Concepts (1)" width="704" height="329" loading="lazy" decoding="async">
-<figcaption><strong>slide 68</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Election Algorithm: Basic Concepts (1) <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
-</figure>
-<!-- /dcc-fig -->
-<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s69-061.webp -->
-<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
-<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s69-061.webp" alt="Election Algorithm: Basic Concepts (2)" width="536" height="437" loading="lazy" decoding="async">
-<figcaption><strong>slide 69</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Election Algorithm: Basic Concepts (2) <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
-</figure>
-<!-- /dcc-fig -->
 <p><strong>Every election algorithm has two phases</strong>, and stating them is a reliable way to structure an answer:</p>
 <ol>
 <li><strong>Select a leader with the highest priority.</strong></li>
@@ -3027,36 +2967,12 @@ window.CHAPTERS[3] = {
 <li><strong>If an answer is received</strong>, P<sub>i</sub> begins time interval <strong>T&prime;</strong>, waiting to receive a message that a process with a higher priority number has been elected.</li>
 <li><strong>If no message is sent within T&prime;</strong>, assume the process with the higher number has failed, and P<sub>i</sub> should <strong>restart the algorithm</strong>.</li>
 </ul>
-<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s76-062.webp -->
-<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
-<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s76-062.webp" alt="Bully Algorithm: Detailed Algorithm" width="716" height="252" loading="lazy" decoding="async">
-<figcaption><strong>slide 76</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Bully Algorithm: Detailed Algorithm <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
-</figure>
-<!-- /dcc-fig -->
-<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s77-063.webp -->
-<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
-<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s77-063.webp" alt="Diagram from Ch_3_Sync_and_Cordn.pptx, slide 77" width="760" height="386" loading="lazy" decoding="async">
-<figcaption><strong>slide 77</strong> &middot; Ch_3_Sync_and_Cordn.pptx <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
-</figure>
-<!-- /dcc-fig -->
 <p>Two further rules describe what happens to a process that is <em>not</em> the coordinator, and they matter because they are what makes the algorithm converge. At any time during execution, P<sub>i</sub> may receive one of two messages from process P<sub>j</sub>:</p>
 <ul>
 <li><strong>P<sub>j</sub> is the new coordinator (j &gt; i)</strong> &mdash; P<sub>i</sub> records this information.</li>
 <li><strong>P<sub>j</sub> started an election (j &gt; i)</strong> &mdash; P<sub>i</sub> sends a response to P<sub>j</sub> and begins its own election algorithm, provided it has not already initiated one.</li>
 </ul>
 <p>And the rule for a node coming back from failure: <strong>after a failed process recovers, it immediately begins execution of the same algorithm</strong>, and <strong>if there are no active processes with higher numbers, the recovered process forces all processes with lower numbers to let it become the coordinator &mdash; even if there is currently an active coordinator with a lower number</strong>.</p>
-<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s78-064.webp -->
-<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
-<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s78-064.webp" alt="Diagram from Ch_3_Sync_and_Cordn.pptx, slide 78" width="777" height="538" loading="lazy" decoding="async">
-<figcaption><strong>slide 78</strong> &middot; Ch_3_Sync_and_Cordn.pptx <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
-</figure>
-<!-- /dcc-fig -->
-<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s84-069.webp -->
-<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
-<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s84-069.webp" alt="Diagram from Ch_3_Sync_and_Cordn.pptx, slide 84" width="616" height="426" loading="lazy" decoding="async">
-<figcaption><strong>slide 84</strong> &middot; Ch_3_Sync_and_Cordn.pptx <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
-</figure>
-<!-- /dcc-fig -->
 <figure class="figure-wide figure-wrap">
 <svg class="figure wide" viewBox="0 0 800 320" role="img" aria-label="Bully election with six processes P0 to P5: P2 starts an election to higher-numbered processes, P3 and P4 answer and start their own elections, P4 gets no answer from P5 and announces itself coordinator to everyone">
 <defs><marker id="f3c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="flow-arrow-head"/></marker></defs>
@@ -3185,6 +3101,93 @@ window.CHAPTERS[3] = {
 
 `,
 
+  reference: `
+<h2>Reference material</h2>
+<p class="ref-intro">The teacher puts a circled <span class="tmark" aria-hidden="true"></span> on the slides he keeps for reference rather than for the paper. His decks carry the sign on 28 slides in all; 9 of them are pictures these notes had used, so they are collected here and the notes themselves teach only what the syllabus names. Each entry below says which section of the notes it came out of.</p>
+
+<h3>3.0.1 How a computer timer actually works</h3>
+
+<p class="ref-meta">From <em>Ch_3_Sync_and_Cordn.pptx</em>, slide 5 &mdash; the teacher marks these slides, so the pictures are kept here and the notes keep the section itself, because the syllabus names it.</p>
+
+<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s05-040.webp -->
+<figure class="figure-wrap">
+<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s05-040.webp" alt="Not all clocks tick precisely at the current rate." width="1600" height="1392" loading="lazy" decoding="async">
+<figcaption><strong>slide 5</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Not all clocks tick precisely at the current rate.</figcaption>
+</figure>
+<!-- /dcc-fig -->
+
+<h3>3.0.2 What unsynchronized clocks break &mdash; the make example</h3>
+
+<p class="ref-meta">From <em>Ch_3_Sync_and_Cordn.pptx</em>, slide 8 &mdash; the teacher marks these slides, so the pictures are kept here and the notes keep the section itself, because the syllabus names it.</p>
+
+<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s08-041.webp -->
+<figure class="figure-wrap">
+<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s08-041.webp" alt="Fig: When each machine has its own clock, an event that occurred after another event may nevertheless be assigned an earlier time" width="579" height="168" loading="lazy" decoding="async">
+<figcaption><strong>slide 8</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Fig: When each machine has its own clock, an event that occurred after another event may nevertheless be assigned an earlier time</figcaption>
+</figure>
+<!-- /dcc-fig -->
+
+<h3>3.2.5 Causal ordering of messages using vector clocks</h3>
+
+<p class="ref-meta">From <em>Ch_3_Sync_and_Cordn.pptx</em>, slide 48 &mdash; the teacher marks these slides, so the pictures are kept here and the notes keep the section itself, because the syllabus names it.</p>
+
+<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s48-050.webp -->
+<figure class="figure-wrap">
+<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s48-050.webp" alt="Causal Ordering of Message using Vector  Clock" width="648" height="291" loading="lazy" decoding="async">
+<figcaption><strong>slide 48</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Causal Ordering of Message using Vector  Clock</figcaption>
+</figure>
+<!-- /dcc-fig -->
+
+<h3>3.4.1 Basic concepts</h3>
+
+<p class="ref-meta">From <em>Ch_3_Sync_and_Cordn.pptx</em>, slides 68&ndash;69 &mdash; the teacher marks these slides, so the pictures are kept here and the notes keep the section itself, because the syllabus names it.</p>
+
+<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s68-060.webp -->
+<figure class="figure-wrap">
+<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s68-060.webp" alt="Election Algorithm: Basic Concepts (1)" width="704" height="329" loading="lazy" decoding="async">
+<figcaption><strong>slide 68</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Election Algorithm: Basic Concepts (1)</figcaption>
+</figure>
+<!-- /dcc-fig -->
+
+<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s69-061.webp -->
+<figure class="figure-wrap">
+<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s69-061.webp" alt="Election Algorithm: Basic Concepts (2)" width="536" height="437" loading="lazy" decoding="async">
+<figcaption><strong>slide 69</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Election Algorithm: Basic Concepts (2)</figcaption>
+</figure>
+<!-- /dcc-fig -->
+
+<h3>3.4.2 The Bully algorithm</h3>
+
+<p class="ref-meta">From <em>Ch_3_Sync_and_Cordn.pptx</em>, slides 76&ndash;78 and 84 &mdash; the teacher marks these slides, so the pictures are kept here and the notes keep the section itself, because the syllabus names it.</p>
+
+<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s76-062.webp -->
+<figure class="figure-wrap">
+<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s76-062.webp" alt="Bully Algorithm: Detailed Algorithm" width="716" height="252" loading="lazy" decoding="async">
+<figcaption><strong>slide 76</strong> &middot; Ch_3_Sync_and_Cordn.pptx &mdash; Bully Algorithm: Detailed Algorithm</figcaption>
+</figure>
+<!-- /dcc-fig -->
+
+<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s77-063.webp -->
+<figure class="figure-wrap">
+<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s77-063.webp" alt="Diagram from Ch_3_Sync_and_Cordn.pptx, slide 77" width="760" height="386" loading="lazy" decoding="async">
+<figcaption><strong>slide 77</strong> &middot; Ch_3_Sync_and_Cordn.pptx</figcaption>
+</figure>
+<!-- /dcc-fig -->
+
+<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s78-064.webp -->
+<figure class="figure-wrap">
+<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s78-064.webp" alt="Diagram from Ch_3_Sync_and_Cordn.pptx, slide 78" width="777" height="538" loading="lazy" decoding="async">
+<figcaption><strong>slide 78</strong> &middot; Ch_3_Sync_and_Cordn.pptx</figcaption>
+</figure>
+<!-- /dcc-fig -->
+
+<!-- dcc-fig:ch3/ch-3-sync-and-cordn-s84-069.webp -->
+<figure class="figure-wrap">
+<img class="figure wide slide" src="assets/dcc-slides/ch3/ch-3-sync-and-cordn-s84-069.webp" alt="Diagram from Ch_3_Sync_and_Cordn.pptx, slide 84" width="616" height="426" loading="lazy" decoding="async">
+<figcaption><strong>slide 84</strong> &middot; Ch_3_Sync_and_Cordn.pptx</figcaption>
+</figure>
+<!-- /dcc-fig -->
+`,
   quiz: [
     {
       q: 'In Cristian\'s algorithm, what does the client set its clock to?',
@@ -3548,17 +3551,6 @@ window.CHAPTERS[4] = {
 
 <h2>Unit 4 &mdash; Distributed File Systems and Middleware</h2>
 <p class="unit-meta">Syllabus: 5 hours &middot; 6 marks &middot; sub-topics 4.1&ndash;4.3</p>
-
-<p>Read the unit as one question answered at three levels. <strong>4.1</strong> defines what a distributed file system is and what consistency costs. <strong>4.2</strong> puts two real systems beside that definition &mdash; NFS, which chose simplicity and statelessness, and HDFS and GFS, which chose replication behind a single metadata server. <strong>4.3</strong> steps back to the layer all of them stand on, middleware, and names the families the syllabus expects you to recognise. The two exam questions in the box below sit at the two ends of it.</p>
-
-<div class="concept-box asked">
-<h4>What this unit is worth in the exam</h4>
-<ul>
-<li><strong>4 marks</strong> &mdash; &ldquo;Describe the concept of consistency in Distributed File Systems (DFS).&rdquo; (Group B, question 9 of the <em>Model Question 2025</em>)</li>
-<li><strong>8 marks</strong> &mdash; &ldquo;Explain the architecture of HDFS. Discuss how it ensures fault tolerance and scalability. [4+4]&rdquo; (<em>Group C, question 16</em>)</li>
-</ul>
-<p>Twelve marks from a 6-mark unit. The Group C question is unusually specific about its two halves &mdash; <strong>architecture</strong> in 4 marks, then <strong>fault tolerance and scalability</strong> in 4 marks &mdash; and both halves are answered directly by 4.2 below, including the exact mechanisms (replication, the secondary namenode, federation, high availability). The consistency question is the one people lose marks on, because "consistency" sounds like it explains itself; 4.1.6 gives the definition, the reason it is hard, and the four things to name.</p>
-</div>
 
 <h2>4.1 Distributed File System concepts</h2>
 
@@ -4119,12 +4111,6 @@ window.CHAPTERS[4] = {
 <li><strong>GIOP (General Inter-ORB Protocol)</strong> is defined in CORBA 2.0 and <strong>specifies a set of message formats and common data representations for interactions between ORBs</strong>, intended <strong>to operate over any connection-oriented transport protocol</strong>.</li>
 <li><strong>IIOP (Internet Inter-ORB Protocol)</strong> is <strong>a particularisation of GIOP</strong>: it specifies <strong>how GIOP messages have to be exchanged over a TCP/IP network</strong>.</li>
 </ul>
-<!-- dcc-fig:ch4/chapter4-lecture-notes-all-s35-078.webp -->
-<figure class="figure-wrap teacher-i" title="The teacher's deck marks this slide with a circled i &mdash; the sign he puts on pages he is not going to examine. The section is kept because the syllabus still names what it teaches.">
-<img class="figure wide slide" src="assets/dcc-slides/ch4/chapter4-lecture-notes-all-s35-078.webp" alt="Inter-ORB Architecture" width="386" height="149" loading="lazy" decoding="async">
-<figcaption><strong>slide 35</strong> &middot; Chapter4_lecture_notes_all.pptx &mdash; Inter-ORB Architecture <span class="tmark-chip"><span class="tmark" aria-hidden="true"></span><span class="tmark-text">teacher marks this slide</span></span></figcaption>
-</figure>
-<!-- /dcc-fig -->
 <p><strong>The Object Request Broker (ORB)</strong> is the core: through its interfaces it <strong>provides mechanisms by which objects transparently interact with each other</strong>. Issuing a request can be <strong>dynamic or static</strong>, performed through the <strong>proxies (client stubs) or the dynamic invocation interface</strong>; <strong>invocation of a specific server method is performed by the server skeleton</strong>, which gets the request forwarded from the object adapter; and <strong>the ORB interface can also be accessed directly by clients and object implementations for certain services</strong> &mdash; directory services, naming services, and manipulation of object references. Some of its interfaces are <strong>identical for all ORB implementations</strong> and some are <strong>implementation dependent</strong>.</p>
 <!-- dcc-fig:ch4/chapter4-lecture-notes-all-s33-077.webp -->
 <figure class="figure-wrap">
@@ -4349,6 +4335,21 @@ window.CHAPTERS[4] = {
 
 `,
 
+  reference: `
+<h2>Reference material</h2>
+<p class="ref-intro">The teacher puts a circled <span class="tmark" aria-hidden="true"></span> on the slides he keeps for reference rather than for the paper. His decks carry the sign on 28 slides in all; 1 of them are pictures these notes had used, so they are collected here and the notes themselves teach only what the syllabus names. Each entry below says which section of the notes it came out of.</p>
+
+<h3>4.3.2 CORBA</h3>
+
+<p class="ref-meta">From <em>Chapter4_lecture_notes_all.pptx</em>, slide 35 &mdash; the teacher marks these slides, so the pictures are kept here and the notes keep the section itself, because the syllabus names it.</p>
+
+<!-- dcc-fig:ch4/chapter4-lecture-notes-all-s35-078.webp -->
+<figure class="figure-wrap">
+<img class="figure wide slide" src="assets/dcc-slides/ch4/chapter4-lecture-notes-all-s35-078.webp" alt="Inter-ORB Architecture" width="386" height="149" loading="lazy" decoding="async">
+<figcaption><strong>slide 35</strong> &middot; Chapter4_lecture_notes_all.pptx &mdash; Inter-ORB Architecture</figcaption>
+</figure>
+<!-- /dcc-fig -->
+`,
   quiz: [
     {
       q: 'In the file service architecture, what is a UFID used for?',
@@ -4737,18 +4738,6 @@ window.CHAPTERS[5] = {
 
 <h2>Unit 5 &mdash; Introduction to Cloud Computing</h2>
 <p class="unit-meta">Syllabus: 4 hours &middot; 6 marks &middot; sub-topics 5.1&ndash;5.4</p>
-
-<p>Read the unit in the order the deck builds it: <strong>5.1</strong> says where cloud computing came from and what it is made of, <strong>5.2</strong> says what makes it cloud rather than hosting, and <strong>5.3</strong> and <strong>5.4</strong> are the two classifications every question draws on &mdash; what the provider supplies (delivery models) and who controls it (deployment models). The vocabulary of this unit is what Units 6 to 9 are written in, so a term you do not fix here will reappear unexplained later.</p>
-
-<div class="concept-box asked">
-<h4>What this unit is worth in the exam</h4>
-<ul>
-<li><strong>2 marks</strong> &mdash; &ldquo;What is the difference between IaaS and PaaS?&rdquo; (<em>Group A, question 2</em>)</li>
-<li><strong>4 marks</strong> &mdash; &ldquo;What are the key features and benefits of cloud computing?&rdquo; (Group B, question 10)</li>
-<li><strong>8 marks</strong> &mdash; &ldquo;Compare and contrast the public, private, hybrid, and community cloud deployment models with suitable use cases.&rdquo; (<em>Group C, question 13</em>)</li>
-</ul>
-<p><strong>14 marks &mdash; the largest single-unit total on the paper.</strong> Note that the Group C question says <em>compare and contrast</em> and <em>with suitable use cases</em>: a table alone loses marks, so 5.4.3 gives the table and 5.4.4 gives the use cases, and the answer needs both halves. Unit 6's hypervisor question and Unit 8's security question both build on vocabulary introduced here.</p>
-</div>
 
 <h2>5.1 History and evolution of cloud computing</h2>
 
@@ -5568,16 +5557,6 @@ window.CHAPTERS[6] = {
 
 <h2>Unit 6 &mdash; Virtualization and Cloud Architecture</h2>
 <p class="unit-meta">Syllabus: 6 hours &middot; 8 marks &middot; sub-topics 6.1&ndash;6.4</p>
-
-<p>Read the unit in two halves. <strong>6.1 and 6.2</strong> are the mechanism: what a hypervisor is, the two types, how it virtualizes CPU, memory and I/O, and why a virtual machine is not the same thing as a container. <strong>6.3 and 6.4</strong> are the architecture built on it: the reference model the deck draws from the NIST picture, and the work of running the result &mdash; provisiong, scheduling, migration and the management stack. Almost every sentence in the first half is the answer to the exam question in the box, and almost every sentence in the second half is a Unit 7 or Unit 9 idea arriving early.</p>
-
-<div class="concept-box asked">
-<h4>What this unit is worth in the exam</h4>
-<ul>
-<li><strong>4 marks</strong> &mdash; &ldquo;Explain the difference between a hypervisor Type I and Type II.&rdquo; (Group B, question 11 of the <em>Model Question 2025</em>)</li>
-</ul>
-<p>One question in the model paper, but the unit is weighted at 8 marks &mdash; the joint highest with Unit 8 &mdash; and it is the unit that explains <em>how</em> the cloud works, so its vocabulary is used by the Unit 9 question on cloud-native architectures and by Unit 8's security question (a hypervisor is an attack surface, and this unit even names the attack). Read it for the mechanism, not just the marks.</p>
-</div>
 
 <h2>6.1 Basics of virtualization</h2>
 
@@ -6544,11 +6523,6 @@ window.CHAPTERS[7] = {
 <p>Unlike every other unit in this portal, <strong>there is no Chapter 7 lecture deck in the folder that was shared</strong>. This page is written from the course's own Chapter 5 and 6 decks, from the 114-slide cloud-computing reference deck, and from Kai Hwang's <em>Distributed and Cloud Computing</em> (the syllabus's first reference book) &mdash; all of which are already in the portal's source set. Platform details that none of those cover are given as the vendors' own documented behaviour rather than as class material. <strong>If a Chapter 7 deck exists, upload it and this page can be rewritten from it.</strong></p>
 </div>
 
-<div class="concept-box asked">
-<h4>What this unit is worth in the exam</h4>
-<p>The Model Question 2025 has <strong>no question from this unit</strong>, and it is the only unit of which that is true. That does not make it optional: the syllabus weights it at <strong>6 marks</strong>, and its vocabulary is used inside the answers to other units' questions &mdash; Unit 5's IaaS question is easier to answer with EC2 named as the instance, and Unit 9's cloud-native question assumes containers and Kubernetes, which are compute services on these platforms. Learn it as the concrete half of Unit 5: <em>Unit 5 said what the models are; Unit 7 names who sells them and what they are called.</em></p>
-</div>
-
 <h2>7.1 Overview of AWS, Microsoft Azure and Google Cloud</h2>
 
 <h3>7.1.1 What a cloud platform is</h3>
@@ -7216,14 +7190,6 @@ window.CHAPTERS[8] = {
 
 <h2>Unit 8 &mdash; Security and Challenges in Cloud</h2>
 <p class="unit-meta">Syllabus: 6 hours &middot; 8 marks &middot; sub-topics 8.1&ndash;8.4</p>
-
-<div class="concept-box asked">
-<h4>What this unit is worth in the exam</h4>
-<ul>
-<li><strong>4 marks</strong> &mdash; &ldquo;Briefly describe two challenges in ensuring security in cloud environments.&rdquo; (Group B, question 12 of the <em>Model Question 2025</em>)</li>
-</ul>
-<p>Eight syllabus marks, so this unit is weighted as heavily as Unit 6. Two things make it easy to answer well: <strong>the question says "briefly describe two"</strong>, so depth on two named challenges beats a list of eight; and the unit has a <strong>structured vocabulary</strong> &mdash; the four data-security aspects, the five IAM functions, the five SLA criteria and the eight vulnerabilities &mdash; that turns a vague answer into a specific one. Every other unit's material appears here at the point where it becomes a risk: the hypervisor of Unit 6 as an attack surface, vendor lock-in from Unit 5, and shared responsibility as the boundary between them.</p>
-</div>
 
 <p>The unit's four sub-topics answer four different questions about the same thing, and keeping them apart is most of the work. <strong>8.1 Data security, privacy and compliance</strong> asks <em>what must be protected, and under what obligation</em> &mdash; the three states of data, provenance, remanence, privacy and the data life cycle. <strong>8.2 Identity and Access Management</strong> asks <em>who may do it</em>, which in the cloud means identity rather than a location inside the network. <strong>8.3 Service Level Agreements</strong> asks <em>what was promised</em>, in measurable criteria, and what happens when the promise is missed. <strong>8.4 Cloud vulnerabilities and risk mitigation</strong> asks <em>what actually goes wrong</em>, and who is responsible for each part of preventing it. The shared responsibility model in 8.4.3 is where all four meet, so it is worth reading twice.</p>
 
@@ -8081,14 +8047,6 @@ window.CHAPTERS[9] = {
 <h2>Unit 9 &mdash; Emerging Trends in Distributed and Cloud Computing</h2>
 <p class="unit-meta">Syllabus: 4 hours &middot; 4 marks &middot; sub-topics 9.1&ndash;9.4</p>
 
-<div class="concept-box asked">
-<h4>What this unit is worth in the exam</h4>
-<ul>
-<li><strong>8 marks</strong> &mdash; &ldquo;Discuss cloud-native architecture. How do microservices, containers, and orchestration tools like Kubernetes support it? <strong>[4+4]</strong>&rdquo; (<em>Group C, question 15</em> of the Model Question 2025)</li>
-</ul>
-<p>A 4-mark syllabus unit carrying an 8-mark Group C question, because the question is really about two of its four sub-topics: <strong>9.4 cloud-native and microservices</strong> for the first 4 marks, and <strong>9.3 containers and orchestration</strong> for the second 4. Note the wording of the second half &mdash; <em>how do microservices, containers, and orchestration tools support it</em> &mdash; which asks for one answer per tool, not three descriptions. The 4.4 in 9.4.6 gives exactly that structure.</p>
-</div>
-
 <div class="concept-box warn">
 <h4>About this unit's sources</h4>
 <p><strong>There is no Chapter 9 lecture deck among the shared files.</strong> This page is written from the Chapter 6 deck's container material (which is what 9.3 and 9.4 build on), from Tanenbaum and Van Steen's discussion of edge and fog computing, from the Chapter 7 material on Lambda and managed Kubernetes, and from the syllabus list itself. Definitions of industry terms are given as such. <strong>If a Chapter 9 deck exists, upload it and this page can be rewritten from class material.</strong></p>
@@ -8936,6 +8894,28 @@ function marksOf(s){
 function stripTags(s){
   return String(s||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();
 }
+/* The index carries text, not markup: a heading written `3.4.4 Bully versus Ring
+   &mdash; ...` is read off the page as text and a search hit is drawn as text, so
+   the entity has to become the character it stands for. Without this the result
+   list reads `&mdash;` and `&ndash;` - a typo the reader has to decode. The
+   renderer escapes what it draws, so decoding `&lt;` here is safe; the map is a
+   table rather than the DOM because this file also runs under node in
+   tools/test_engine.js, where there is no document to ask. */
+const ENTITIES={amp:'&',lt:'<',gt:'>',quot:'"',apos:"'",nbsp:' ',mdash:'\u2014',
+  ndash:'\u2013',middot:'\u00b7',hellip:'\u2026',rarr:'\u2192',larr:'\u2190',
+  minus:'\u2212',times:'\u00d7',prime:'\u2032',Prime:'\u2033',deg:'\u00b0',
+  ldquo:'\u201c',rdquo:'\u201d',lsquo:'\u2018',rsquo:'\u2019',copy:'\u00a9',
+  le:'\u2264',ge:'\u2265',ne:'\u2260',equiv:'\u2261',infin:'\u221e'};
+function decodeEntities(s){
+  return String(s||'').replace(/&(#x?[0-9a-fA-F]+|[a-zA-Z]+);/g,(m,name)=>{
+    if(name[0]==='#'){
+      const cp=name[1]==='x'||name[1]==='X'?parseInt(name.slice(2),16):parseInt(name.slice(1),10);
+      return Number.isFinite(cp)&&cp>0?String.fromCodePoint(cp):m;
+    }
+    const v=ENTITIES[name];
+    return v==null?m:v;
+  });
+}
 
 /* Every subset of a chapter's answered questions that stays under cap, so the
    allocator can choose between several mark totals for each chapter. */
@@ -9057,12 +9037,23 @@ function buildIndex(chapters,titles){
       const body=stripTags(p);if(body.length<40)return;
       idx.push({ch:n,type:'past',title:h?h[1]:title,snip:body.slice(0,170),key:(h?h[1]:'Exam-facing summary')});
     });
+    // The reference-only slides (the teacher's circled i) have their own tab, and
+    // a hit has to land on the panel the text is actually drawn in - which is why
+    // the entry carries its own type rather than being folded into one of these.
+    String(c.reference||'').split(/(?=<h[23]>)/).forEach(p=>{
+      const h=p.match(/<h[23]>([^<]*)<\/h[23]>/);
+      const body=stripTags(p);if(body.length<40)return;
+      idx.push({ch:n,type:'reference',title:h?h[1]:title,snip:body.slice(0,170),key:(h?h[1]:'Reference material')});
+    });
     (c.past||[]).forEach(q=>idx.push({ch:n,type:'past',title:q.q,
       snip:(q.year||'')+' · '+(q.marks||'')+' marks'+(q.answer?' · model answer':' · practice question')
         +((q.occ||[]).length>1?' · also asked in '+(q.occ||[]).map(o=>o.year).join(', '):''),
       key:q.q.slice(0,45)}));
   }
-  return idx;
+  /* One pass at the end, so every entry is covered whichever field it came from.
+     `key` is left alone: it is compared against the heading text in the page, so
+     it has to stay exactly what the markup says. */
+  return idx.map(e=>({...e,title:decodeEntities(e.title),snip:decodeEntities(e.snip)}));
 }
 
 /* Rank the index against a term. A hit in the title outranks a hit in the
@@ -9278,7 +9269,8 @@ function wire(){
       announce('No results for '+inp.value.trim());
       return;
     }
-    res.innerHTML=SEARCH_HITS.map((e,i)=>'<div class="sr-item'+(i===sel?' sel':'')+'" id="'+optId(i)+'" role="option" aria-selected="'+(i===sel?'true':'false')+'" data-i="'+i+'"><span class="sr-tag">'+(e.type==='note'?'Notes':e.type==='quiz'?'Quiz':'Past Q')+'</span>'+App.Shell.esc(e.title)+'<div class="sr-meta">Ch '+e.ch+' · '+App.Shell.esc(e.snip)+'</div></div>').join('');
+    const tagName={note:'Notes',quiz:'Quiz',past:'Past Q',reference:'Reference'};
+    res.innerHTML=SEARCH_HITS.map((e,i)=>'<div class="sr-item'+(i===sel?' sel':'')+'" id="'+optId(i)+'" role="option" aria-selected="'+(i===sel?'true':'false')+'" data-i="'+i+'"><span class="sr-tag">'+(tagName[e.type]||'Past Q')+'</span>'+App.Shell.esc(e.title)+'<div class="sr-meta">Ch '+e.ch+' · '+App.Shell.esc(e.snip)+'</div></div>').join('');
     res.classList.add('show');
     inp.setAttribute('aria-expanded','true');
     syncActive();
@@ -9310,8 +9302,13 @@ function gotoResult(i){
   res.classList.remove('show');
   if(inp){inp.setAttribute('aria-expanded','false');inp.removeAttribute('aria-activedescendant')}
   setTimeout(()=>{
-    const panel=document.getElementById(e.type==='note'?'panel-learn':(e.type==='quiz'?'panel-quiz':'panel-past'));
-    const sel=e.type==='note'?'h2,h3':(e.type==='quiz'?'.quiz-card':'.pq-card');
+    // Each hit is drawn in its own panel, so the jump has to look in that one. A
+    // reference hit goes to the Reference tab, where its heading is an h2/h3 like
+    // a note's - the selector follows the panel, not the text.
+    const panels={note:'panel-learn',quiz:'panel-quiz',past:'panel-past',reference:'panel-reference'};
+    const sels={note:'h2,h3',quiz:'.quiz-card',past:'.pq-card',reference:'h2,h3'};
+    const panel=document.getElementById(panels[e.type]||'panel-past');
+    const sel=sels[e.type]||'.pq-card';
     const key=e.key.replace(/\s+/g,' ').trim().slice(0,40).toLowerCase();
     const nodes=[...panel.querySelectorAll(sel)];
     const hit=nodes.find(n=>n.textContent.replace(/\s+/g,' ').trim().toLowerCase().includes(key));
@@ -9584,6 +9581,32 @@ App.Past={render,setFilter,toggle,toggleVariants,toggleVariantAnswer,all,allVari
 })();
 
 ;
+/* ../modules/reference.js */
+/* Owns the Reference tab: the slides the teacher marks with his circled i, his
+   sign for material that is for reference rather than for the paper.
+
+   They used to sit inside the notes with a chip on each figure; the reader asked
+   for them out of the teaching text and collected here instead. The chapter
+   carries them as its `reference` field (tools/make_reference.py moves them, and
+   `--check` keeps the notes and the marks data in step), so this module only
+   draws what is there - including the heading, which is part of the content so
+   that the reason a slide is here can be written next to it.
+
+   Registers `window.SMApp.Reference`. */
+(function(){
+'use strict';
+const App=window.SMApp=window.SMApp||{};
+
+function render(html){
+  const panel=document.getElementById('panel-reference');
+  if(!panel)return;
+  panel.innerHTML=html||('<h2>Reference material</h2><p class="ref-intro">This chapter has no '
+    +'reference-only slides: everything in its notes comes from a slide the teacher does not mark.</p>');
+}
+App.Reference={render};
+})();
+
+;
 /* ../app.js */
 /* The shell: it owns the shared data (the chapters, the chapter metadata, the
    chapter on screen), the design helpers, the navigation, the Analysis tab and
@@ -9617,6 +9640,9 @@ const App=window.SMApp=window.SMApp||{},SM=window.SM;
 const COURSE=window.COURSE||{};
 const NS=COURSE.id||'sm';
 const Progress=App.Progress,Quiz=App.Quiz,Past=App.Past,Search=App.Search,Exam=App.Exam;
+// Only a course that lists a `reference` tab loads this module; the rest leave it
+// undefined, which is how a tab a course does not have stays unreachable.
+const Reference=App.Reference;
 const CH=window.CHAPTERS||{};
 let cur=1;
 /* Chapter metadata. No emoji: the chapter number is the identifier a reader
@@ -10745,8 +10771,27 @@ function load(n,opts){
   buildSections();
   Quiz.render(n,ch.quiz||[]);
   Past.render(ch.past||[],ch.pastSummary||'');
+  if(Reference)Reference.render(ch.reference||'');
+  /* Only two of nine chapters have material behind the Reference tab - the figures
+     the teacher's decks mark with his circled i - and a tab that opens on "this
+     chapter has no reference-only slides" is one more thing to read for nothing.
+     So it exists only where there is something behind it, and a chapter with none
+     can be reached by a link to it without dropping the reader on an empty panel. */
+  const refTab=document.getElementById('tab-reference');
+  if(refTab){
+    const hasRef=!!String(ch.reference||'').trim();
+    refTab.hidden=!hasRef;
+    if(!hasRef&&activeTab()==='reference'){
+      switchTab('learn',{silent:true});
+      opts.tab='learn';
+      // Replace, not push: the reference view was never addressable for this
+      // chapter, so it should not become a Back step.
+      writeRoute({tab:'learn',ch:n},true);
+    }
+  }
   enhanceContent(document.getElementById('panel-learn'));
   enhanceContent(document.getElementById('panel-past'));
+  if(Reference)enhanceContent(document.getElementById('panel-reference'));
   updateTabBadges();
   setDrawer(false);
   const area=document.getElementById('contentArea');
@@ -11003,7 +11048,9 @@ const startCh=(opening&&opening.ch)||1,startTab=(opening&&opening.tab)||'learn';
 load(startCh,{tab:startTab,silent:true});
 if(opening&&opening.q!=null)openPastQuestion(opening.q);
 // Replace, not push: the entry that was never addressable should not be a Back step.
-writeRoute({tab:startTab,ch:startCh,q:opening?opening.q:null},true);
+// activeTab(), not the requested one: a chapter with no Reference tab redirects the
+// request to the notes, and the address has to say where the reader actually is.
+writeRoute({tab:activeTab(),ch:startCh,q:opening?opening.q:null},true);
 window.addEventListener('hashchange',onHash);
 setRail(localStorage.getItem(NS+'-rail')==='1',false);
 ready=true;
