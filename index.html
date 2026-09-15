@@ -153,6 +153,21 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
   position:relative;z-index:60;
 }
 .topbar-l{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+/* How far through the chapter you are: a hairline on the header's own bottom
+   edge, so it costs no row of the reading area and is always in view while you
+   scroll. It is drawn on the header rather than in the text because the text is
+   what you are reading. Written by app.js (syncReadProg). */
+.read-prog{position:absolute;left:0;right:0;bottom:0;height:2px;overflow:hidden;pointer-events:none;opacity:0;transition:opacity var(--dur-ui) var(--ease-out)}
+.read-prog.show{opacity:1}
+.read-prog i{display:block;height:100%;width:0;background:var(--pri);transition:width 120ms linear}
+/* Which syllabus topic of how many. It rides with the floating buttons, because
+   that is where the eye already is when the question "how much is left?" comes up. */
+.read-count{
+  align-self:flex-end;padding:3px 7px;border-radius:999px;
+  background:var(--bg-card);border:1px solid var(--brd);color:var(--t3);
+  font-family:var(--font-mono);font-size:var(--fs-micro);line-height:1.2;
+  font-variant-numeric:tabular-nums;
+}
 /* Every control in this bar is at least --tap tall/wide. The menu button and the
    theme toggle are the two things a phone user reaches for constantly, and at
    34px they were the smallest targets in the app. The icon itself is still
@@ -529,6 +544,8 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
         <button class="icon-btn" id="widthBtn" type="button"></button>
         <button class="icon-btn" id="themeBtn" type="button"></button>
       </div>
+
+      <div class="read-prog" id="readProg" role="progressbar" aria-label="How far through this chapter you are" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
     </header>
 
     <div class="tabs" role="tablist" aria-label="Study views">
@@ -563,6 +580,7 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
     </main>
 
     <div class="fab-wrap">
+      <div class="read-count" id="readCount" hidden></div>
       <button class="fab" id="fabNext" title="Next chapter" aria-label="Go to the next chapter"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
       <button class="fab" id="fabTop" title="Back to top" aria-label="Back to top"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></button>
     </div>

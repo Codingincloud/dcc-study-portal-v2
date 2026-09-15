@@ -2236,6 +2236,21 @@ th.row-head, td.row-head { text-align: left; }
    because a bitmap has no viewBox to read a designed size from. */
 .figure.slide { padding: 0; }
 
+/* A slide screenshot is white paper, and the reader may have chosen a near-black
+   page. Chapter 2 shows 56 of them, so at full brightness a dark mode is a lamp
+   pointed at the reader's face - the one thing that made dark mode read as worse
+   than light mode on a figure-heavy unit.
+
+   `--fig-dim` is measured by app.js (syncFigureDim) from the mode's own `--bg`,
+   not from a list of "the dark modes": the ninth mode is the reader's colours, and
+   it is answered by the colour they picked. 1 in every light mode, 0.86 in a dark
+   one - a slide's white goes from 255 to about 219, still white paper.
+
+   It is a filter on the bitmap only. A redrawn SVG figure is built from the
+   theme's own tokens and already matches the page it is drawn on, and dimming it
+   would dim ink that was chosen for this background. */
+img.figure.slide { filter: brightness(var(--fig-dim, 1)); }
+
 /* .flow-* is the first figure's class set, written before the .fig-* alphabet
    existed. Both are kept - Fig 1.1 and the Ch 8 loop chart are long and their
    markup is not worth rewriting - but they resolve to the *same* colours,

@@ -545,6 +545,10 @@ function link(o){
 }
 
 window.CustomTheme={derive:derive,apply:apply,clear:clear,stored:stored,cached:cached,
+  /* Exported for app.js: how bright the page the reader chose is, so a decision
+     that depends on it (dimming slide screenshots) can be measured off the mode
+     instead of kept as a second hand-maintained list of "the dark ones". */
+  lum:lum,
   current:current,remember:remember,pack:pack,ns:ns,keyOf:keyOf,TOKENS:TOKENS,VERSION:VERSION,
   PARAMS:PARAMS,readLink:readLink,link:link,
   /* The tie-break rule, exported so the test asserts the real numbers rather
@@ -9813,9 +9817,26 @@ function setTheme(id,save){
   // follows the mode the reader chose, not the one the OS guessed.
   const meta=document.getElementById('themeColor');
   if(meta)meta.setAttribute('content',t.meta);
+  syncFigureDim();
   paintThemeBtn();
   syncPicker();
   if(save!==false)localStorage.setItem(NS+'-theme',t.id);
+}
+/* A slide is a screenshot of white paper, and the reader may have chosen a
+   near-black page to read it on. Chapter 2 alone shows 56 of them, so at full
+   brightness the mode is a lamp pointed at the reader.
+
+   The amount is measured off the mode's OWN `--bg` rather than taken from a list
+   of "the dark modes": the ninth mode is the reader's own colours, and it is
+   answered by the colour they actually picked, the same way the eight declared
+   ones are. 0.86 takes a slide's white from 255 to about 219 - still white paper,
+   without the glare. It lands on the full-screen viewer too, because that is
+   where the reader sits closest to the page. */
+function syncFigureDim(){
+  const bg=String(getComputedStyle(html).getPropertyValue('--bg')||'').trim();
+  const l=window.CustomTheme&&CustomTheme.lum?CustomTheme.lum(bg):null;
+  if(l==null){html.style.removeProperty('--fig-dim');return}
+  html.style.setProperty('--fig-dim',l<0.2?'0.86':'1');
 }
 /* A colour input fires `input` continuously while the picker is open. Each one
    re-derives the whole palette, applies it, and rewrites the cached copy the
@@ -9832,6 +9853,7 @@ function tuneCustom(which,value){
   CustomTheme.remember(now.accent,now.surface,now.palette);
   CustomTheme.apply(now.palette,html);
   html.setAttribute('data-theme','custom');
+  syncFigureDim();
   const meta=document.getElementById('themeColor');
   if(meta)meta.setAttribute('content',now.palette.meta);
   paintThemeBtn();
@@ -10765,7 +10787,9 @@ function load(n,opts){
   const tools='<div class="learn-tools">'+
       '<button class="an-btn" onclick="APP.sections(true)">'+icon('chevron')+' Expand all</button>'+
       '<button class="an-btn" onclick="APP.sections(false)">'+icon('chevronUp')+' Collapse all</button>'+
-      '<span class="meta">'+(ch.quiz||[]).length+' quiz questions · '+(ch.past||[]).length+' past questions · '+m.h+' hrs of lectures</span>'+
+      // Topics first: it is the size of the reading job, and it is the number a
+      // reader decides "can I finish this tonight?" with.
+      '<span class="meta">'+((ch.learn||'').match(/<h3>/g)||[]).length+' topics · '+(ch.quiz||[]).length+' quiz questions · '+(ch.past||[]).length+' past questions · '+m.h+' hrs of lectures</span>'+
     '</div>';
   document.getElementById('panel-learn').innerHTML=tools+'<div class="learn-content">'+ch.learn+doneHtml+'</div>';
   buildSections();
@@ -10792,6 +10816,8 @@ function load(n,opts){
   enhanceContent(document.getElementById('panel-learn'));
   enhanceContent(document.getElementById('panel-past'));
   if(Reference)enhanceContent(document.getElementById('panel-reference'));
+  measureTopics();
+  syncReadProg();
   updateTabBadges();
   setDrawer(false);
   const area=document.getElementById('contentArea');
@@ -10841,6 +10867,7 @@ function switchTab(t,opts){
      are only measurable once it is the visible one - and the Analysis tables
      only exist after renderAnalysis() has drawn them. */
   syncScrollers(document.getElementById('panel-'+t));
+  syncReadProg();
   if(!(opts&&opts.silent))writeRoute({tab:t,ch:cur});
 }
 function activeTab(){
@@ -10988,7 +11015,56 @@ function syncFabWrap(){
   const on=document.getElementById('contentArea').scrollTop>220;
   fabWrap.classList.toggle('show',on);
 }
-document.getElementById('contentArea').addEventListener('scroll',syncFabWrap,{passive:true});
+/* Where you are in a chapter. A unit is 4 600-8 600 words and 10-25 topics, which
+   at reading speed is 30-60 screens with nothing but a scrollbar to say how much
+   is left of it - the answer to "how long is this?" should not be scrolling to the
+   bottom to look.
+
+   Two instruments, because they answer two questions: the line in the header says
+   how far through the page you are, and the counter in the floating controls says
+   which syllabus topic you are reading of how many. `h3` is the topic level - a
+   heading like 3.4.2 - and `h2` is the unit's parts, which the section folding in
+   buildSections() moves around, so counting them would drift when a reader folds
+   one away. */
+const readProg=document.getElementById('readProg');
+const readFill=readProg&&readProg.firstElementChild;
+const readCount=document.getElementById('readCount');
+let readTopics=[];
+function measureTopics(){
+  const panel=document.getElementById('panel-learn');
+  readTopics=panel?[...panel.querySelectorAll('.learn-content h3')]:[];
+}
+function syncReadProg(){
+  const area=document.getElementById('contentArea');
+  const max=area.scrollHeight-area.clientHeight;
+  const pct=max>8?Math.min(100,Math.round(area.scrollTop/max*100)):0;
+  if(readProg){
+    if(readFill)readFill.style.width=pct+'%';
+    const text=pct+'% through chapter '+cur;
+    readProg.setAttribute('aria-valuenow',pct);
+    readProg.setAttribute('aria-valuetext',text);
+    readProg.title=text;
+    readProg.classList.toggle('show',area.scrollTop>4);
+  }
+  if(readCount){
+    const at=activeTab()==='learn'&&readTopics.length>1;
+    readCount.hidden=!at;
+    if(at){
+      const top=area.getBoundingClientRect().top;
+      let i=0;
+      // The last topic whose heading has passed the top of the reading area is the
+      // one being read. A topic's own h3 sits below its sub-headings, so this is
+      // the deepest heading level a reader navigates by.
+      readTopics.forEach((h,k)=>{
+        if(h.offsetParent===null)return;      // folded away: it is not where you are
+        if(h.getBoundingClientRect().top-top<=2)i=k;
+      });
+      readCount.textContent=(i+1)+'/'+readTopics.length;
+      readCount.title='Topic '+(i+1)+' of '+readTopics.length+' in this unit';
+    }
+  }
+}
+document.getElementById('contentArea').addEventListener('scroll',()=>{syncFabWrap();syncReadProg()},{passive:true});
 /* Keyboard access: the past-question headers and the quiz options are divs with
    click handlers, so give them Enter/Space support to match the buttons. (The
    chapter list no longer needs this - it is made of real links.) */
