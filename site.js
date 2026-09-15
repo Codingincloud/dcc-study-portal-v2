@@ -648,7 +648,7 @@ window.CHAPTERS[1] = {
 <p>Three of the paper's sixteen questions come from this unit, and it is only four teaching hours long &mdash; the best marks-per-hour in the course. The six-mark weight in the syllabus table is confirmed by the paper itself.</p>
 </div>
 
-<p>Read the unit in the order the deck teaches it, because each section feeds the one after: 1.1 gives the definition the paper opens with, 1.2 the goals, 1.3 the examples and 1.4 the models the rest of the course is built on. Sections 1.5 to 1.8 are the deck's closing material &mdash; advantages, problems, types and resource sharing &mdash; and that is where the second half of a multi-part question usually comes from.</p>
+<p>Read the unit in the order the deck teaches it, because each section feeds the one after: 1.1 gives the definition the paper opens with, 1.2 the goals, 1.3 the examples and 1.4 the models the rest of the course is built on. The deck's closing material sits inside those four sections rather than beside them: advantages and disadvantages are 1.1.3, the four problems are 1.2.1, resource sharing is 1.2.2, the Web is 1.3.1, and the types of system are 1.4.5. That folded material is where the second half of a multi-part question usually comes from.</p>
 
 <h2>1.1 Definition and Characteristics</h2>
 
@@ -674,7 +674,7 @@ window.CHAPTERS[1] = {
 <figcaption><strong>slide 2</strong> &middot; Chapter1_Int to Distbd_Sys.pptx &mdash; The deck&#x27;s opening slide: the technologies the course&#x27;s field rests on - virtualized infrastructure, global data consistency, multi-master and CAP-theorem solutions with fault tolerance, active-active replication, cloud computing and hyperscale, on-demand resource pooling, real-time streaming - under the deck&#x27;s own line, that distributed systems are the backbone of our connected present.</figcaption>
 </figure>
 <!-- /dcc-fig -->
-<h3>The three characteristics the definition implies</h3>
+<h3>1.1.1 The three characteristics the definition implies</h3>
 <p>The class deck singles these three out as the ones the definition itself forces, and every later unit is a consequence of one of them.</p>
 
 <table class="comparison-table">
@@ -704,7 +704,7 @@ window.CHAPTERS[1] = {
 <p>Give the Tanenbaum definition in one sentence, then the three characteristics as three words &mdash; <em>concurrency, no global clock, independent failures</em>. Two marks is two things: the definition and the fact that you know what follows from it. A single line with no characteristics usually scores one.</p>
 </div>
 
-<h3>Further characteristics</h3>
+<h3>1.1.2 Further characteristics</h3>
 <p>Beyond the three the definition forces, the course material lists the properties a distributed system is expected to have. They are the vocabulary the rest of the paper is written in, so they are worth naming:</p>
 
 <table class="comparison-table">
@@ -720,6 +720,25 @@ window.CHAPTERS[1] = {
 <tr><td><strong>Fault tolerance</strong></td><td>Failures are masked and the system recovers from errors.</td><td>One search replica dies; search still answers.</td></tr>
 </tbody>
 </table>
+<h3>1.1.3 Advantages and disadvantages</h3>
+<p>The deck gives these as two columns, and the two columns are the same properties seen from opposite sides: sharing is the advantage and the security exposure is its price; scalability is the advantage and administration and fault-finding across many nodes its price. Reading them in pairs is also what makes them answerable under time pressure.</p>
+
+<table class="comparison-table">
+<thead>
+<tr><th>Advantages</th><th>Disadvantages</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Economics</strong> &mdash; a collection of microprocessors gives better price/performance than a single large machine.</td><td><strong>Security</strong> is the main concern &mdash; every connection and every node has to be secured, and there are more of them.</td></tr>
+<tr><td><strong>Scalable</strong> &mdash; capacity can be added a machine at a time.</td><td><strong>Loss of data</strong> is possible while data moves across nodes.</td></tr>
+<tr><td><strong>Data and resource sharing</strong> &mdash; hardware and software both.</td><td><strong>Complexity</strong> of developing software for a distributed system is much higher than for one machine.</td></tr>
+<tr><td><strong>Flexibility</strong> &mdash; the workload can be spread over the connected machines.</td><td><strong>Distribution of control</strong> &mdash; administration becomes difficult, and faults are harder to detect because no one node sees the whole system.</td></tr>
+<tr><td><strong>Communication</strong> &mdash; fast, reliable, and inherently distributed among users.</td><td></td></tr>
+<tr><td><strong>Availability</strong> &mdash; and <strong>incremental growth</strong>: computing power can be added in small increments rather than in one large step.</td><td></td></tr>
+</tbody>
+</table>
+
+<p>Two of the items are worth naming in any answer because the rest of the course uses them again. <strong>Economics</strong> &mdash; a collection of microprocessors gives better price/performance than one large machine &mdash; is the commercial argument the whole course rests on, and it is the argument cloud computing renews in Unit 5. <strong>Distribution of control</strong> is the disadvantage that returns as the hardest kind of scalability, because it is a problem of organisations and people rather than of hardware. When a question asks for advantages and disadvantages, two of each with a sentence of explanation read better than all ten items listed.</p>
+
 <h2>1.2 Goals of Distributed Systems</h2>
 
 <p>The class deck puts <strong>four</strong> design goals that must be met for a system to work in a distributed environment. This is exactly what Group B question 5 asks, and four is the number to quote.</p>
@@ -786,6 +805,49 @@ window.CHAPTERS[1] = {
 <p>Resource sharing, Openness, Transparency, Scalability. Write them as four headings and put two sentences under each &mdash; that structure alone is worth most of a 4-mark answer, and it is what the marker is looking for.</p>
 </div>
 
+<h3>1.2.1 Main problems and challenges</h3>
+<p>The deck names four problems, and they map onto the four goals of 1.2 &mdash; each goal exists because its corresponding problem does. That mapping is the strongest way to write this answer.</p>
+
+<h4>Heterogeneity</h4>
+<p>Heterogeneous components must be able to interoperate, and that applies to all networks, hardware architectures, operating systems, programming languages and written programs. Three things are used to mask it:</p>
+
+<p>What makes heterogeneity a <em>problem</em> rather than a fact is that the differences are not only about hardware: a program that runs correctly on one node cannot simply be moved to another, and two nodes may disagree about representation, protocol and meaning. The three answers above are not interchangeable, and the examinable difference between them is their <strong>reach</strong>. <em>Middleware</em> masks the differences inside one organisation's systems and gives an application a programming abstraction it can use directly &mdash; Unit 4.3 treats this properly, with CORBA, Java RMI, MQTT and AMQP as its families. <em>Internet protocols</em> mask the differences across the whole world, at the price of the lowest common denominator that everyone agrees to speak. <em>Mobile code</em> removes the assumption that a program stays where it was written, sending it to run where the data already is.</p>
+<ul>
+<li><strong>Middleware</strong> &mdash; a software layer that provides a programming abstraction and hides the heterogeneity of the underlying networks, hardware, operating systems and languages. Examples: <em>CORBA</em> (Common Object Request Broker Architecture), <em>ODBC</em>, <em>JDBC</em>, <em>RMI</em>. It supplies services so applications can exchange data in a standard way.</li>
+<li><strong>Internet protocols</strong> &mdash; the common set every node already speaks.</li>
+<li><strong>Mobile code</strong> &mdash; code that travels to the data instead of the data travelling to the code.</li>
+</ul>
+<!-- dcc-fig:ch1/chapter1-int-to-distbd-sys-s14-005.webp -->
+<figure class="figure-wrap">
+<img class="figure wide slide" src="assets/dcc-slides/ch1/chapter1-int-to-distbd-sys-s14-005.webp" alt="Middleware: Applies to a software layer, provides a programming abstraction, and masks the heterogeneity of the underlying networks, hardware, operating systems and programming lan" width="463" height="265" loading="lazy" decoding="async">
+<figcaption><strong>slide 14</strong> &middot; Chapter1_Int to Distbd_Sys.pptx &mdash; Middleware: Applies to a software layer, provides a programming abstraction, and masks the heterogeneity of the underlying networks, hardware, operating systems and programming lan</figcaption>
+</figure>
+<!-- /dcc-fig -->
+<h4>Reliability</h4>
+<ul>
+<li><strong>Availability</strong> &mdash; the fraction of time the system is usable, improved by <strong>redundancy</strong>.</li>
+<li><strong>Consistency and security</strong> must be maintained alongside it.</li>
+<li><strong>Fault tolerance</strong> &mdash; failures must be masked and the system must recover from errors.</li>
+</ul>
+
+<p>Two of those words need separating, and the textbook gives the distinction with an example worth keeping: <strong>availability</strong> is the fraction of time a system is usable, while <strong>reliability</strong> is the property of running continuously without interruption. A system that goes down for one millisecond every hour has an availability above 99.9999% and is still unreliable; a system that never crashes but is shut down for two fixed weeks every August is highly reliable and only about 96% available. <strong>Redundancy</strong> is what raises availability &mdash; a spare node, a second copy, a second route &mdash; and it is why replication becomes a topic of its own later (4.1.7). In the wider sense reliability is one of the four requirements Tanenbaum groups under <strong>dependability</strong>: availability, reliability, safety and maintainability. Naming the group is a cheap way to make a 4-mark answer look complete.</p>
+
+<h4>Security</h4>
+<p>Security has to fulfil three components &mdash; <strong>Confidentiality, Integrity and Availability</strong> (the CIA triad). <strong>Confidentiality</strong> is that information is disclosed only to those entitled to see it; <strong>integrity</strong> is that it is not altered, by accident or by an attacker; <strong>availability</strong> is that the service can be used when it is needed. The mechanisms adopted are <strong>encryption</strong> (a message an eavesdropper captures is unreadable), <strong>authentication</strong> (the parties are who they claim to be) and <strong>authorisation</strong> (an authenticated party may do only what it is permitted to do). The deck names two challenges that remain open, and both return later in the course: <strong>denial-of-service</strong> attacks, where the aim is not to read or change anything but to make the service unavailable &mdash; an attack on the third component directly &mdash; and the security of <strong>mobile code</strong>, where a program arriving from elsewhere runs on your machine and the question is what it may touch. Unit 8 develops both in the cloud setting, where a provider and a tenant trust each other only as far as the contract says.</p>
+
+<h4>Scalability</h4>
+<p>Scalability is not one problem but three, and the textbook names them. <strong>Size scalability</strong> &mdash; more users or resources must be supported, which centralised services cannot do because of their own limits. <strong>Geographical scalability</strong> &mdash; users and resources are far apart, so communication delays are unavoidable and designs that assume quick responses stop working. <strong>Administrative scalability</strong> &mdash; several independent organisations must share one system without giving up control of their own resources; Tanenbaum is blunt that this is the hardest of the three, because its obstacles are political and human rather than technical. The four things the deck asks you to control are the symptoms: the cost of physical resources (which should rise linearly with size, not faster), the loss of performance, software resources running out, and performance bottlenecks. The three techniques are the treatment: <strong>decentralised algorithms</strong>, so that no node holds all the state and none becomes the bottleneck; and <strong>caching</strong> and <strong>replication</strong>, so that work is done near where it is needed &mdash; which is exactly how the Web itself scales (1.3.1).</p>
+
+<h3>1.2.2 Resource sharing, and what a service is</h3>
+<p>Resource sharing is goal 1 of 1.2; this section is the deck's concrete account of it, and it introduces the word <em>service</em> that Unit 2 builds on.</p>
+
+<p>The distinction worth holding is <strong>resource against service</strong>. A resource is the thing itself &mdash; a printer, a file, a search index; a service is the interface that manages a collection of related resources and decides who may use them and how. That is why the deck's example is a <em>file service</em> offering read, write and delete rather than the files themselves: what makes sharing possible is the interface. It is the same shift of vocabulary that Unit 2 formalises when it turns services into <em>web services</em> with a description and a protocol (2.4), and it is why the paper can ask about sharing in Unit 1 and about services in Unit 2 without repeating itself.</p>
+<ul>
+<li>Users of a system tend to share resources: <strong>hardware</strong> (a printer), <strong>data</strong> (files) and <strong>specific functionality</strong> (a search engine).</li>
+<li>A <strong>service</strong> manages a collection of related resources and provides functionality to users. File sharing, for example, is initiated by a <em>file service</em> providing read, write and delete operations on files.</li>
+<li>Services on other computers can only be invoked <strong>by communication</strong> &mdash; which is the sentence Unit 2 begins from.</li>
+</ul>
+
 <h2>1.3 Examples of Distributed Systems</h2>
 
 <p>Sub-topic 1.3 names three systems by name, so the exam can ask you to identify or place them. The deck also lists the application areas that motivate the whole field.</p>
@@ -814,6 +876,14 @@ window.CHAPTERS[1] = {
 </table>
 
 <p>Applications the deck lists as the reason distributed systems exist: web search, finance and commerce, creative industries and entertainment, healthcare, education, transport and logistics, massive online multiplayer games, and financial trading. The last two are the demanding ones &mdash; both need low, predictable latency across the world.</p>
+
+<h3>1.3.1 The Web as a distributed system</h3>
+<p>The deck also lists the Web's own challenges, useful as a concrete example of distribution problems in the wild:</p>
+<ul>
+<li><strong>Dangling links</strong> &mdash; a resource is deleted but links to it remain.</li>
+<li><strong>Slow response</strong> to web users.</li>
+<li><strong>Lack of a proper user interface.</strong></li>
+</ul>
 
 <h2>1.4 Models of Distributed Systems</h2>
 
@@ -940,62 +1010,7 @@ window.CHAPTERS[1] = {
 </tbody>
 </table>
 
-<h2>1.5 Advantages and Disadvantages</h2>
-
-<p>The deck gives these as two columns, and the two columns are the same properties seen from opposite sides: sharing is the advantage and the security exposure is its price; scalability is the advantage and administration and fault-finding across many nodes its price. Reading them in pairs is also what makes them answerable under time pressure.</p>
-
-<table class="comparison-table">
-<thead>
-<tr><th>Advantages</th><th>Disadvantages</th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Economics</strong> &mdash; a collection of microprocessors gives better price/performance than a single large machine.</td><td><strong>Security</strong> is the main concern &mdash; every connection and every node has to be secured, and there are more of them.</td></tr>
-<tr><td><strong>Scalable</strong> &mdash; capacity can be added a machine at a time.</td><td><strong>Loss of data</strong> is possible while data moves across nodes.</td></tr>
-<tr><td><strong>Data and resource sharing</strong> &mdash; hardware and software both.</td><td><strong>Complexity</strong> of developing software for a distributed system is much higher than for one machine.</td></tr>
-<tr><td><strong>Flexibility</strong> &mdash; the workload can be spread over the connected machines.</td><td><strong>Distribution of control</strong> &mdash; administration becomes difficult, and faults are harder to detect because no one node sees the whole system.</td></tr>
-<tr><td><strong>Communication</strong> &mdash; fast, reliable, and inherently distributed among users.</td><td></td></tr>
-<tr><td><strong>Availability</strong> &mdash; and <strong>incremental growth</strong>: computing power can be added in small increments rather than in one large step.</td><td></td></tr>
-</tbody>
-</table>
-
-<p>Two of the items are worth naming in any answer because the rest of the course uses them again. <strong>Economics</strong> &mdash; a collection of microprocessors gives better price/performance than one large machine &mdash; is the commercial argument the whole course rests on, and it is the argument cloud computing renews in Unit 5. <strong>Distribution of control</strong> is the disadvantage that returns as the hardest kind of scalability, because it is a problem of organisations and people rather than of hardware. When a question asks for advantages and disadvantages, two of each with a sentence of explanation read better than all ten items listed.</p>
-
-<h2>1.6 Main Problems and Challenges</h2>
-
-<p>The deck names four problems, and they map onto the four goals of 1.2 &mdash; each goal exists because its corresponding problem does. That mapping is the strongest way to write this answer.</p>
-
-<h3>Heterogeneity</h3>
-<p>Heterogeneous components must be able to interoperate, and that applies to all networks, hardware architectures, operating systems, programming languages and written programs. Three things are used to mask it:</p>
-
-<p>What makes heterogeneity a <em>problem</em> rather than a fact is that the differences are not only about hardware: a program that runs correctly on one node cannot simply be moved to another, and two nodes may disagree about representation, protocol and meaning. The three answers above are not interchangeable, and the examinable difference between them is their <strong>reach</strong>. <em>Middleware</em> masks the differences inside one organisation's systems and gives an application a programming abstraction it can use directly &mdash; Unit 4.3 treats this properly, with CORBA, Java RMI, MQTT and AMQP as its families. <em>Internet protocols</em> mask the differences across the whole world, at the price of the lowest common denominator that everyone agrees to speak. <em>Mobile code</em> removes the assumption that a program stays where it was written, sending it to run where the data already is.</p>
-<ul>
-<li><strong>Middleware</strong> &mdash; a software layer that provides a programming abstraction and hides the heterogeneity of the underlying networks, hardware, operating systems and languages. Examples: <em>CORBA</em> (Common Object Request Broker Architecture), <em>ODBC</em>, <em>JDBC</em>, <em>RMI</em>. It supplies services so applications can exchange data in a standard way.</li>
-<li><strong>Internet protocols</strong> &mdash; the common set every node already speaks.</li>
-<li><strong>Mobile code</strong> &mdash; code that travels to the data instead of the data travelling to the code.</li>
-</ul>
-<!-- dcc-fig:ch1/chapter1-int-to-distbd-sys-s14-005.webp -->
-<figure class="figure-wrap">
-<img class="figure wide slide" src="assets/dcc-slides/ch1/chapter1-int-to-distbd-sys-s14-005.webp" alt="Middleware: Applies to a software layer, provides a programming abstraction, and masks the heterogeneity of the underlying networks, hardware, operating systems and programming lan" width="463" height="265" loading="lazy" decoding="async">
-<figcaption><strong>slide 14</strong> &middot; Chapter1_Int to Distbd_Sys.pptx &mdash; Middleware: Applies to a software layer, provides a programming abstraction, and masks the heterogeneity of the underlying networks, hardware, operating systems and programming lan</figcaption>
-</figure>
-<!-- /dcc-fig -->
-<h3>Reliability</h3>
-<ul>
-<li><strong>Availability</strong> &mdash; the fraction of time the system is usable, improved by <strong>redundancy</strong>.</li>
-<li><strong>Consistency and security</strong> must be maintained alongside it.</li>
-<li><strong>Fault tolerance</strong> &mdash; failures must be masked and the system must recover from errors.</li>
-</ul>
-
-<p>Two of those words need separating, and the textbook gives the distinction with an example worth keeping: <strong>availability</strong> is the fraction of time a system is usable, while <strong>reliability</strong> is the property of running continuously without interruption. A system that goes down for one millisecond every hour has an availability above 99.9999% and is still unreliable; a system that never crashes but is shut down for two fixed weeks every August is highly reliable and only about 96% available. <strong>Redundancy</strong> is what raises availability &mdash; a spare node, a second copy, a second route &mdash; and it is why replication becomes a topic of its own later (4.1.7). In the wider sense reliability is one of the four requirements Tanenbaum groups under <strong>dependability</strong>: availability, reliability, safety and maintainability. Naming the group is a cheap way to make a 4-mark answer look complete.</p>
-
-<h3>Security</h3>
-<p>Security has to fulfil three components &mdash; <strong>Confidentiality, Integrity and Availability</strong> (the CIA triad). <strong>Confidentiality</strong> is that information is disclosed only to those entitled to see it; <strong>integrity</strong> is that it is not altered, by accident or by an attacker; <strong>availability</strong> is that the service can be used when it is needed. The mechanisms adopted are <strong>encryption</strong> (a message an eavesdropper captures is unreadable), <strong>authentication</strong> (the parties are who they claim to be) and <strong>authorisation</strong> (an authenticated party may do only what it is permitted to do). The deck names two challenges that remain open, and both return later in the course: <strong>denial-of-service</strong> attacks, where the aim is not to read or change anything but to make the service unavailable &mdash; an attack on the third component directly &mdash; and the security of <strong>mobile code</strong>, where a program arriving from elsewhere runs on your machine and the question is what it may touch. Unit 8 develops both in the cloud setting, where a provider and a tenant trust each other only as far as the contract says.</p>
-
-<h3>Scalability</h3>
-<p>Scalability is not one problem but three, and the textbook names them. <strong>Size scalability</strong> &mdash; more users or resources must be supported, which centralised services cannot do because of their own limits. <strong>Geographical scalability</strong> &mdash; users and resources are far apart, so communication delays are unavoidable and designs that assume quick responses stop working. <strong>Administrative scalability</strong> &mdash; several independent organisations must share one system without giving up control of their own resources; Tanenbaum is blunt that this is the hardest of the three, because its obstacles are political and human rather than technical. The four things the deck asks you to control are the symptoms: the cost of physical resources (which should rise linearly with size, not faster), the loss of performance, software resources running out, and performance bottlenecks. The three techniques are the treatment: <strong>decentralised algorithms</strong>, so that no node holds all the state and none becomes the bottleneck; and <strong>caching</strong> and <strong>replication</strong>, so that work is done near where it is needed &mdash; which is exactly how the Web itself scales (1.8).</p>
-
-<h2>1.7 Types of Distributed Systems</h2>
-
+<h3>1.4.5 Types: cluster, grid and cloud</h3>
 <p>The deck closes the unit by grouping distributed systems into three types. This is also the bridge into Unit 5, since the third of them is the subject of the rest of the course.</p>
 
 <table class="comparison-table">
@@ -1021,7 +1036,7 @@ window.CHAPTERS[1] = {
 </tbody>
 </table>
 
-<h3>The five layers of a grid</h3>
+<h4>The five layers of a grid</h4>
 <ol>
 <li><strong>Fabric</strong> &mdash; provides the interface to local resources at a specific site, which can then be shared within a virtual organisation.</li>
 <li><strong>Connectivity</strong> &mdash; the communication protocols that support grid transactions, including the delegation of rights from authenticated users to programs running on their behalf.</li>
@@ -1040,24 +1055,6 @@ window.CHAPTERS[1] = {
 <h4>Cluster vs grid vs cloud</h4>
 <p>One line answers the comparison and is worth quoting: <em>a cluster is homogeneous and local, a grid is heterogeneous and geographically distributed, and a cloud adds on-demand, metered access to a shared pool on top of a grid-like infrastructure.</em> Homogeneity and geography are the two words that carry it.</p>
 </div>
-<h2>1.8 Resource Sharing and the Web</h2>
-
-<p>Resource sharing is goal 1 of 1.2; this section is the deck's concrete account of it, and it introduces the word <em>service</em> that Unit 2 builds on.</p>
-
-<p>The distinction worth holding is <strong>resource against service</strong>. A resource is the thing itself &mdash; a printer, a file, a search index; a service is the interface that manages a collection of related resources and decides who may use them and how. That is why the deck's example is a <em>file service</em> offering read, write and delete rather than the files themselves: what makes sharing possible is the interface. It is the same shift of vocabulary that Unit 2 formalises when it turns services into <em>web services</em> with a description and a protocol (2.4), and it is why the paper can ask about sharing in Unit 1 and about services in Unit 2 without repeating itself.</p>
-<ul>
-<li>Users of a system tend to share resources: <strong>hardware</strong> (a printer), <strong>data</strong> (files) and <strong>specific functionality</strong> (a search engine).</li>
-<li>A <strong>service</strong> manages a collection of related resources and provides functionality to users. File sharing, for example, is initiated by a <em>file service</em> providing read, write and delete operations on files.</li>
-<li>Services on other computers can only be invoked <strong>by communication</strong> &mdash; which is the sentence Unit 2 begins from.</li>
-</ul>
-
-<p>The deck also lists the Web's own challenges, useful as a concrete example of distribution problems in the wild:</p>
-<ul>
-<li><strong>Dangling links</strong> &mdash; a resource is deleted but links to it remain.</li>
-<li><strong>Slow response</strong> to web users.</li>
-<li><strong>Lack of a proper user interface.</strong></li>
-</ul>
-
 
 `,
   quiz: [
