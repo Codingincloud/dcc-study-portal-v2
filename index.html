@@ -6,7 +6,7 @@
 <title>Distributed &amp; Cloud Computing — Study Portal | BCE7024</title>
 <meta name="description" content="Study portal for Distributed &amp; Cloud Computing BCE7024 — Purbanchal University. Chapter notes built from the class lecture notes and the syllabus, quizzes, and past questions with model answers.">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" id="themeColor" content="#fbfaf8">
+<meta name="theme-color" id="themeColor" content="#f0f4f8">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231b1a17'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='13' font-weight='600' fill='%23fbfaf8' text-anchor='middle'%3EDCC%3C/text%3E%3C/svg%3E">
 <style>
 /* ==========================================================================
@@ -79,11 +79,11 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
   width:38px;height:38px;flex:0 0 auto;border-radius:var(--radius-sm);
   background:var(--t1);color:var(--bg);
   display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-serif);font-size:17px;font-weight:600;letter-spacing:-0.01em;
-  padding-bottom:2px; /* optical: the serif sits high in its box */
+  font-family:var(--font-head);font-size:17px;font-weight:600;letter-spacing:-0.01em;
+  padding-bottom:2px; /* optical: the text sits high in its line box */
 }
 .brand-t{min-width:0}
-.brand-t strong{display:block;font-family:var(--font-serif);font-size:15.5px;font-weight:600;color:var(--t1);letter-spacing:-0.005em;line-height:1.25}
+.brand-t strong{display:block;font-family:var(--font-head);font-size:15.5px;font-weight:600;color:var(--t1);letter-spacing:-0.005em;line-height:1.25}
 .brand-t span{display:block;font-size:var(--fs-micro);color:var(--t3);letter-spacing:.04em;text-transform:uppercase;font-weight:500;margin-top:2px}
 
 .s-progress{padding:14px 18px;border-bottom:1px solid var(--brd-l)}
@@ -182,7 +182,7 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 .icon-btn:active{transform:scale(.94)}
 .crumb{display:flex;align-items:center;gap:9px;min-width:0}
 .crumb-n{font-family:var(--font-mono);font-size:var(--fs-micro);font-weight:600;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
-.ch-ti{font-family:var(--font-serif);font-size:19px;font-weight:600;color:var(--t1);letter-spacing:-0.012em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-ti{font-family:var(--font-head);font-size:19px;font-weight:600;color:var(--t1);letter-spacing:-0.012em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ch-badge{
   flex:0 0 auto;font-family:var(--font-mono);font-size:11px;font-weight:600;
   color:var(--t3);background:var(--bg-input);border-radius:3px;padding:3px 7px;
@@ -368,8 +368,9 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 </style>
 <!-- Design layer, loaded AFTER the frame styles above so it wins wherever the
      two disagree (equal specificity, later wins).
-     Fonts are bundled locally (Newsreader + Inter + JetBrains Mono, latin /
-     latin-ext / greek subsets) so the portal works offline from file:// -->
+     Fonts are bundled locally (Inter + JetBrains Mono, latin / latin-ext /
+     greek subsets) so the portal works offline from file://. Newsreader is
+     still declared in fonts.css but no rule asks for it, so it never loads. -->
 <!-- The design layer is shared with the Simulation portal and lives at the
      project root, one level up. Loading it from there rather than keeping a
      second copy is the whole point: the accessibility, responsive and print
@@ -411,7 +412,7 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
    tools/check_themes.py fails when the three drift apart. */
 (function(){
   try{
-    var MODES={light:'#fbfaf8',dark:'#191712',romantic:'#fcf2f5',peacock:'#f4f9ee',
+    var MODES={light:'#f0f4f8',dark:'#0f172a',romantic:'#fcf2f5',peacock:'#f4f9ee',
                sunsetpeach:'#fdf6ea',purpleblend:'#1a0a25',sunsetwine:'#230a11',
                eveningmix:'#0e0d15',custom:'#f6f5f2'};
     /* A SHARED LINK (?t=&w=&c=) IS APPLIED HERE rather than in app.js, for the

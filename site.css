@@ -87,7 +87,14 @@
    edits. Only the values changed.
 
    ---------------------------------------------------------------------------
-   THE WORLD: an editorial study desk.
+   THE WORLD: the reader's own reference page, adopted.
+
+   The reader linked an earlier DCC portal - white cards on a cool #f0f4f8 desk,
+   a #2563eb accent, emerald for the right answer, flat surfaces, Inter - and
+   said "style is so good cant we adopt like this way". So the two default blocks
+   now carry that palette. What did NOT come with it: the reading measure, the
+   type scale and the semantic roles, which are the site's own and hold the
+   notes together.
 
    The old palette was a Linear-style dark SaaS dashboard - blue-black surfaces,
    one indigo accent, indigo-to-green gradients on every bar. It read like a
@@ -106,9 +113,10 @@
       that recurs in the course material - a definition, a worked example, an
       exam tip, a caution, a common mistake. Nothing is tinted to look pretty.
 
-   3. TWO TYPEFACES, THREE ROLES. Newsreader (a serif) carries the editorial
-      voice at display sizes only; Inter carries all UI chrome and body prose;
-      JetBrains Mono carries any number that has to line up in a column.
+   3. ONE FACE FOR TEXT, ONE FOR FIGURES. Inter carries headings, body prose
+      and UI; JetBrains Mono carries any number that has to line up in a
+      column. Ranking comes from size, weight and colour, not from a change of
+      typeface.
    ========================================================================== */
 
 :root {
@@ -116,8 +124,8 @@
   --sidebar-w: 272px;      /* the expanded sidebar */
   --sidebar-rail: 64px;    /* the collapsed sidebar: chapter numbers only */
   --header-h: 56px;
-  --radius: 8px;
-  --radius-sm: 5px;
+  --radius: 12px;
+  --radius-sm: 8px;
 
   /* ---- reading measure ------------------------------------------------- */
   /* The single most important number in this file.
@@ -182,17 +190,24 @@
 
   /* ---- type ------------------------------------------------------------
 
-     Three roles, three faces. The character of the page lives in Newsreader -
-     a screen serif with a real optical-size axis - and it carries the brand, the
-     chapter title, every heading and the pull-quotes, which is what a reader
-     actually notices. Inter stays for body and UI because this is a dense
-     reference read at 11-16.5px, where the metric that matters is how well
-     numerals and small text survive, not how novel the face is; JetBrains Mono
-     handles the marks, formulas and tabular figures.
+     Two roles, two faces. Inter carries everything a reader reads - headings,
+     body prose and UI - because the look this page adopts is a working
+     dashboard rather than a printed book: one face at 400/600 with size and
+     colour doing the ranking. It is also the face this content survives in at
+     the bottom of the scale, where 11px metadata and the numerals in tables
+     and formulas have to stay legible and line up. JetBrains Mono handles the
+     marks, formulas and tabular figures.
 
-     A design linter will flag Inter as an over-used primary face. That flag is
-     about pages whose *only* voice is Inter - here it is deliberately the
-     supporting face, and the personality is one font-family away. */
+     --font-head exists as its own token even though it currently resolves to
+     the same stack as --font-sans: headings are the one role worth being able
+     to change on its own, so the next type decision is one line here rather
+     than a sweep of the sheets.
+
+     --font-serif is no longer used by any rule. It is kept, and Newsreader's
+     @font-face rules with it, so that reverting the heading face is a one-line
+     change; an unmatched @font-face downloads nothing. */
+  --font-head: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   --font-serif: "Newsreader", Iowan Old Style, Palatino, "Palatino Linotype",
     "Book Antiqua", Georgia, serif;
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
@@ -218,7 +233,7 @@
   --lh-tight: 1.22;
   --lh-ui: 1.45;
 
-  --tracking-display: -0.021em;  /* large serif: tighten */
+  --tracking-display: -0.021em;  /* display type: tighten */
   --tracking-caps: 0.075em;      /* small caps label: open up */
 
   /* ---- focus ----------------------------------------------------------- */
@@ -264,77 +279,83 @@
    LIGHT - the default. "Paper."
    ========================================================================== */
 [data-theme="light"] {
-  /* surfaces */
-  --bg: #fbfaf8;            /* warm paper */
-  --bg-card: #ffffff;       /* a sheet laid on the desk */
-  --bg-side: #f4f2ed;       /* warm stone */
-  --bg-side-h: #eae7e0;     /* hover fill */
-  --bg-side-a: #e9e3d6;     /* active nav fill, under the accent rule */
-  --bg-input: #f1efe9;      /* inputs, chips, bars */
-  --bg-code: #f7f5f0;       /* formula / code blocks */
+  /* surfaces - a cool desk, not a warm one. The reader's own reference page is
+     the source: white cards floating on #f0f4f8, a slate rule between them, and
+     nothing tinted that is not semantic. */
+  --bg: #f0f4f8;
+  --bg-card: #ffffff;
+  --bg-side: #f8fafc;
+  --bg-side-h: #eef2f7;
+  --bg-side-a: #eff6ff;
+  --bg-input: #f1f5f9;
+  --bg-code: #f8fafc;
 
-  /* Accent roles. The base value is a FILL: it carries white text. The -l
-     value is the same accent made legible as TEXT on a light surface, so it is
-     DARKER here (the reverse of the dark theme) - which is why every rule can
-     use one token name in both themes.
+  /* Accent roles. The base value is a FILL: it carries white text, so it is the
+     600 step (#2563eb, #047857, #b45309) and not the 500 the reference uses for
+     text. The -l value is the same accent made legible as TEXT on this surface:
+     #1d4ed8 is 6.7:1 on white where #2563eb is 5.2:1, and it is the darker one
+     that has to survive at 11-13px.
        fill + white text    -> --pri, --sec, --acc, --dan, --vio
        text / icon on paper -> --pri-l, --sec-l, --acc-l, --dan-l, --vio-l  */
-  --pri: #2c4a6e;           /* printed ink blue */
-  --pri-l: #26405f;
-  --pri-bg: #eef3f9;
-  --pri-bd: #d2e0ee;
+  --pri: #2563eb;
+  --pri-l: #1d4ed8;
+  --pri-bg: #eff6ff;
+  --pri-bd: #bfdbfe;
 
-  /* success - printed green */
-  --sec: #2f6b4a;
-  --sec-l: #27603f;
-  --sec-bg: #edf6f0;
-  --sec-bd: #cbe4d7;
+  /* emerald - the reference's "this is the answer" green */
+  --sec: #047857;
+  --sec-l: #036c4f;
+  --sec-bg: #ecfdf5;
+  --sec-bd: #a7f3d0;
 
-  /* caution - ochre */
-  --acc: #8a6118;
-  --acc-l: #78530f;
-  --acc-bg: #fbf4e5;
-  --acc-bd: #eddcc0;
+  /* amber - caution, one step down from the reference's #d97706 so it carries
+     white text at 4.9:1 (the reference's is 3.4:1, which its own page wears) */
+  --acc: #b45309;
+  --acc-l: #92400e;
+  --acc-bg: #fffbeb;
+  --acc-bd: #fde68a;
 
-  /* danger / mistake - brick */
-  --dan: #a33230;
-  --dan-l: #8d2a28;
-  --dan-bg: #fbeeed;
-  --dan-bd: #f0d0cf;
+  /* red - a mistake */
+  --dan: #dc2626;
+  --dan-l: #b91c1c;
+  --dan-bg: #fef2f2;
+  --dan-bd: #fecaca;
 
-  /* the "talked about / commonly asked" callout kind - plum */
-  --vio: #6b4e7a;
-  --vio-l: #5c4269;
-  --vio-bg: #f5f1f8;
-  --vio-bd: #e1d7ea;
+  /* violet - "talked about / commonly asked", the one role the reference page
+     has no colour for */
+  --vio: #6d28d9;
+  --vio-l: #6d28d9;
+  --vio-bg: #f5f3ff;
+  --vio-bd: #ddd6fe;
 
-  /* text */
-  --t1: #1b1a17;   /* headings, strong, question text */
-  --t2: #3e3b35;   /* body prose */
-  --t3: #66615a;   /* metadata: years, marks, time estimates */
+  /* text. --t3 is the smallest type on the site (11-13px) and has to clear AA on
+     the PAGE as well as on a card, which is why it is #5b6a80 and not the
+     reference's #94a3b8 (2.6:1). */
+  --t1: #1e293b;
+  --t2: #475569;
+  --t3: #5b6a80;
 
-  /* lines */
-  --brd: #e5e1d8;
-  --brd-l: #efece5;
+  /* lines. A hairline is measured against all three surfaces; at #e2e8f0 the
+     rule against the page was 1.10:1 and effectively invisible. */
+  --brd: #d8e0ea;
+  --brd-l: #eef2f7;
 
-  /* Figure strokes. --brd is a hairline for cards and table rows, which is
-     right for a border and wrong for a diagram, because in a figure the
-     outline *is* the content. WCAG 1.4.11 asks 3:1 for a graphical object.
-     This one is 3.47:1 on a white sheet and 3.33:1 on paper. Never use it for
-     a border that is meant to be unobtrusive. */
-  --fig-line: #8a8478;
+  /* Figure strokes - the outline IS the content, so WCAG 1.4.11 asks 3:1.
+     #64748b is 4.0:1 on the page and 4.8:1 on a card. */
+  --fig-line: #64748b;
 
-  /* elevation - tinted with the paper's own hue, never flat black */
-  --sh: 0 1px 2px rgba(63, 52, 32, 0.05);
-  --sh-md: 0 12px 32px rgba(63, 52, 32, 0.11);
+  /* elevation - cool and shallow, the reference's flat card lift */
+  --sh: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --sh-md: 0 12px 32px rgba(15, 23, 42, 0.12);
 
   /* tables */
-  --th-bg: #f4f2ed;
-  --th-c: #4a463f;
-  --stripe: #fbfaf8;
+  --th-bg: #f1f5f9;
+  --th-c: #334155;
+  --stripe: #f8fafc;
 
-  /* the paper grain - see foundation.css. 0 disables it entirely. */
-  --grain: 0.022;
+  /* No paper grain in this world: the reference is a flat dashboard, and grain
+     over a cool blue-grey reads as dust. */
+  --grain: 0;
 
   color-scheme: light;
 }
@@ -366,43 +387,43 @@
   html[data-theme] {
     --bg:         #ffffff;
     --bg-card:    #ffffff;
-    --bg-side:    #f4f2ed;
-    --bg-side-h:  #eae7e0;
-    --bg-side-a:  #e9e3d6;
-    --bg-input:   #f1efe9;
-    --bg-code:    #f7f5f0;
-    --pri:        #2c4a6e;
-    --pri-l:      #26405f;
-    --pri-bg:     #eef3f9;
-    --pri-bd:     #d2e0ee;
-    --sec:        #2f6b4a;
-    --sec-l:      #27603f;
-    --sec-bg:     #edf6f0;
-    --sec-bd:     #cbe4d7;
-    --acc:        #8a6118;
-    --acc-l:      #78530f;
-    --acc-bg:     #fbf4e5;
-    --acc-bd:     #eddcc0;
-    --dan:        #a33230;
-    --dan-l:      #8d2a28;
-    --dan-bg:     #fbeeed;
-    --dan-bd:     #f0d0cf;
-    --vio:        #6b4e7a;
-    --vio-l:      #5c4269;
-    --vio-bg:     #f5f1f8;
-    --vio-bd:     #e1d7ea;
-    --t1:         #1b1a17;
-    --t2:         #3e3b35;
-    --t3:         #66615a;
-    --brd:        #e5e1d8;
-    --brd-l:      #efece5;
-    --fig-line:   #8a8478;
-    --sh:         0 1px 2px rgba(63, 52, 32, 0.05);
-    --sh-md:      0 12px 32px rgba(63, 52, 32, 0.11);
-    --th-bg:      #f4f2ed;
-    --th-c:       #4a463f;
-    --stripe:     #fbfaf8;
-    --grain:      0.022;
+    --bg-side:    #f8fafc;
+    --bg-side-h:  #eef2f7;
+    --bg-side-a:  #eff6ff;
+    --bg-input:   #f1f5f9;
+    --bg-code:    #f8fafc;
+    --pri:        #2563eb;
+    --pri-l:      #1d4ed8;
+    --pri-bg:     #eff6ff;
+    --pri-bd:     #bfdbfe;
+    --sec:        #047857;
+    --sec-l:      #036c4f;
+    --sec-bg:     #ecfdf5;
+    --sec-bd:     #a7f3d0;
+    --acc:        #b45309;
+    --acc-l:      #92400e;
+    --acc-bg:     #fffbeb;
+    --acc-bd:     #fde68a;
+    --dan:        #dc2626;
+    --dan-l:      #b91c1c;
+    --dan-bg:     #fef2f2;
+    --dan-bd:     #fecaca;
+    --vio:        #6d28d9;
+    --vio-l:      #6d28d9;
+    --vio-bg:     #f5f3ff;
+    --vio-bd:     #ddd6fe;
+    --t1:         #1e293b;
+    --t2:         #475569;
+    --t3:         #5b6a80;
+    --brd:        #d8e0ea;
+    --brd-l:      #eef2f7;
+    --fig-line:   #64748b;
+    --sh:         0 1px 2px rgba(15, 23, 42, 0.06);
+    --sh-md:      0 12px 32px rgba(15, 23, 42, 0.12);
+    --th-bg:      #f1f5f9;
+    --th-c:       #334155;
+    --stripe:     #f8fafc;
+    --grain:      0;
     color-scheme: light;
   }
 }
@@ -411,79 +432,61 @@
    DARK - "lamp". Warm, not blue-black.
    ========================================================================== */
 [data-theme="dark"] {
-  /* Surfaces are a LADDER, not one black: page, the sheet laid on it, and the
-     sidebar behind both. The old values sat 3-6/255 apart, so on a large dark
-     screen they read as a single flat muddy field with nothing in front of
-     anything. Each step is now ~10/255 and stays warm (~40 deg), which is
-     enough separation to order the surfaces without any panel shouting. */
-  --bg: #191712;
-  --bg-card: #232019;
-  --bg-side: #100f0c;
-  --bg-side-h: #272319;
-  --bg-side-a: #312b1c;
-  --bg-input: #2b2719;
-  --bg-code: #1e1c15;
+  /* surfaces - the reference's #0f172a slate, with the ladder kept: page, the
+     sheet on it, the sidebar behind both. The reference has no --bg-code, so
+     that one is a step below the page, which is where a formula block wants to
+     sit on a dark screen. */
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --bg-side: #172033;
+  --bg-side-h: #273449;
+  --bg-side-a: #1e3a5f;
+  --bg-input: #26334a;
+  --bg-code: #0b1220;
 
-  /* Callout fills used to be rgba(accent, 0.14) - a translucent wash over
-     near-black, which is why the tinted boxes came out muddy rather than
-     tinted. They are opaque surfaces now, tinted toward their own accent, so a
-     definition panel reads as a panel. Every -l value below is measured against
-     its own -bg and clears 7:1. */
-  --pri: #3f6e9e;
-  --pri-l: #9dc0e0;
-  --pri-bg: #1c2632;
-  --pri-bd: #37526f;
+  /* Callout fills stay OPAQUE tints rather than the reference's rgba washes: a
+     translucent accent over near-black is what made these panels muddy before. */
+  --pri: #2563eb;
+  --pri-l: #60a5fa;
+  --pri-bg: #16233f;
+  --pri-bd: #2d4a7c;
 
-  /* --sec and --acc are FILLS that carry white text (quiz option letters, the
-     completed marker, the tab badge). Under white, #3e8a62 was 4.18:1 and
-     #b8862f was 3.24:1 - both below AA for their small type. #357a55 is 5.16:1
-     and #96691a is 4.84:1, and neither loses its identity as green / ochre. */
-  --sec: #357a55;
-  --sec-l: #8fd0a8;
-  --sec-bg: #1a2a22;
-  --sec-bd: #33664c;
+  --sec: #047857;
+  --sec-l: #34d399;
+  --sec-bg: #112a24;
+  --sec-bd: #1f5b48;
 
-  --acc: #96691a;
-  --acc-l: #e3b45f;
-  --acc-bg: #2e2513;
-  --acc-bd: #6d5322;
+  --acc: #b45309;
+  --acc-l: #fbbf24;
+  --acc-bg: #2b2113;
+  --acc-bd: #6b4a15;
 
-  --dan: #b3413f;
-  --dan-l: #ec9a97;
-  --dan-bg: #2e1d1c;
-  --dan-bd: #7a3735;
+  --dan: #dc2626;
+  --dan-l: #f87171;
+  --dan-bg: #2b1618;
+  --dan-bd: #7f2b2b;
 
-  --vio: #7e63a8;
-  --vio-l: #c1abe2;
-  --vio-bg: #272034;
-  --vio-bd: #5c4682;
+  --vio: #6d28d9;
+  --vio-l: #c4b5fd;
+  --vio-bg: #201a33;
+  --vio-bd: #4c3a8a;
 
-  /* --t3 is the smallest type on the site (11-13px metadata). On the page
-     surface it moves from 5.8:1 to 6.9:1, and --t2 to 10.9:1. */
-  --t1: #f4f1ea;
-  --t2: #cfc9bd;
-  --t3: #a7a094;
+  --t1: #f1f5f9;
+  --t2: #cbd5e1;
+  --t3: #94a3b8;
 
-  /* A hairline is often the ONLY thing separating two dark surfaces. At 1.32:1
-     nothing was separated; 1.73:1 reads as a rule without turning into a box,
-     and the inner rule (table rows, card dividers) came up with it. */
-  --brd: #453f31;
-  --brd-l: #342e22;
+  --brd: #34506e;
+  --brd-l: #26334a;
+  --fig-line: #94a3b8;
 
-  /* 4.0:1 on --bg-card, 4.8:1 on --bg-side */
-  --fig-line: #857e72;
+  --sh: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --sh-md: 0 14px 36px rgba(0, 0, 0, 0.5);
 
-  /* On a warm dark surface a black shadow is invisible; deepen the warm hue. */
-  --sh: 0 1px 2px rgba(0, 0, 0, 0.45);
-  --sh-md: 0 14px 36px rgba(0, 0, 0, 0.55);
+  --th-bg: #26334a;
+  --th-c: #cbd5e1;
+  --stripe: rgba(255, 255, 255, 0.02);
 
-  --th-bg: #2b2719;
-  --th-c: #d5d0c4;
-  --stripe: rgba(255, 255, 255, 0.022);
-
-  /* The grain is a fixed light-noise layer. On paper it is texture; spread over
-     a large dark field it is haze, which is half of what "muddy" was. */
-  --grain: 0.010;
+  --grain: 0;
 
   color-scheme: dark;
 }
@@ -504,7 +507,7 @@
       asked / talked about", in every mode. The notes lean on those readings in
       every chapter, so a mode that recoloured them to flatter its palette
       would take the meaning away with the colour. The light modes carry the
-      Paper block's four, the dark modes carry the Lamp block's four.
+      Daylight block's four, the dark modes carry the Midnight block's four.
 
    2. THE PALETTE DRIVES THE SURFACES, THE INK AND THE BRAND. Each block names
       the five swatches it came from. The dark end of the palette becomes the
@@ -874,10 +877,10 @@
    ========================================================================== */
 
 /* ==== 01 base typography ================================================= */
-/* Newsreader carries the editorial voice, but only at display sizes. Below
-   ~19px a serif's shapes need room the screen does not have, and Windows
-   renders small serif text badly - so headings that are still "body sized"
-   stay in Inter and only genuinely large type changes face. */
+/* One face for every role a reader reads. Headings, prose and UI are all Inter,
+   so what separates a section head from the paragraph under it is size, weight,
+   colour and the rule above it - never a change of typeface. The heading face
+   is a token (--font-head) so that decision can be revisited on its own. */
 
 h1, h2, h3, h4, h5 { font-weight: 600; color: var(--t1); }
 
@@ -979,11 +982,12 @@ p, li { text-wrap: pretty; }
 
 /* ---- h2: the section head ----------------------------------------------- */
 /* A numbered section in a printed book: a rule that spans the full measure, a
-   serif title, and generous space above to mark the break. The rule extends to
-   the exhibit width so the page keeps one left edge and one right edge. */
+   title in the heading face, and generous space above to mark the break. The
+   rule extends to the exhibit width so the page keeps one left edge and one
+   right edge. */
 .learn-content h2 {
   max-width: none;
-  font-family: var(--font-serif);
+  font-family: var(--font-head);
   font-size: var(--fs-h2);
   font-weight: 600;
   letter-spacing: var(--tracking-display);
@@ -999,7 +1003,10 @@ p, li { text-wrap: pretty; }
   font-size: var(--fs-h3);
   font-weight: 600;
   letter-spacing: -0.008em;
-  color: var(--t1);
+  /* The accent, not the ink: in the palette the reader asked for, a sub-heading
+     is the one place colour separates a section's parts without a rule. It is
+     --pri-l (the text-safe accent) rather than --pri, which is a fill. */
+  color: var(--pri-l);
   margin: 2em 0 0.6em;
 }
 .learn-content h3 + p { margin-top: 0; }
@@ -1012,7 +1019,9 @@ p, li { text-wrap: pretty; }
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: var(--tracking-caps);
-  color: var(--t3);
+  /* The second accent: a block label is a different kind of thing from a
+     heading, and the green says "this is the answer" in every callout kind. */
+  color: var(--sec-l);
   margin: 1.9em 0 0.65em;
 }
 
@@ -1029,11 +1038,14 @@ p, li { text-wrap: pretty; }
 .learn-content code {
   font-family: var(--font-mono);
   font-size: 0.88em;
-  background: var(--bg-code);
-  color: var(--t1);
+  /* A tinted chip rather than a grey box: `RPC` and `MPI` are names the reader
+     is meant to pick out of the sentence, which is what the accent tint does
+     and a hairline over --bg-code does not. */
+  background: var(--pri-bg);
+  color: var(--pri-l);
   padding: 0.12em 0.4em;
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 1px var(--brd);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px var(--pri-bd);
 }
 
 .learn-content hr { border: 0; border-top: 1px solid var(--brd); margin: 2.4em 0; max-width: var(--measure); }
@@ -1277,7 +1289,7 @@ th.row-head, td.row-head { text-align: left; }
 }
 .worked-head h4, .worked-head strong {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-head);
   font-size: 15.5px;
   font-weight: 600;
   letter-spacing: -0.006em;
@@ -1457,6 +1469,71 @@ th.row-head, td.row-head { text-align: left; }
 .ch-complete-bar .label { font-size: var(--fs-ui); color: var(--t3); }
 .ch-complete-bar .label em { font-style: normal; color: var(--t2); }
 
+/* What follows this unit. It sits inside the notes at the end of the last section,
+   so it reads as the end of the reading rather than as another toolbar, and it
+   carries the next unit's marks and hours because that is how a reader decides
+   whether to start it now. */
+.ch-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  max-width: var(--exhibit);
+  margin-top: 1.6em;
+}
+.ch-next .cn-lead {
+  font-size: var(--fs-ui);
+  color: var(--t3);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.ch-next .cn-note { font-size: var(--fs-ui); color: var(--t2); line-height: 1.7; }
+
+/* The two small lines a rewritten unit carries at its foot: where the figures came
+   from, and where the answered questions are. Both are routing, not teaching, so
+   they read as small print - present when looked for, quiet when not. Kept out of
+   the prose measure's leading so the last section does not appear to continue. */
+.fig-src-note,
+.past-pointer {
+  max-width: var(--exhibit);
+  margin: 1.1em 0 0;
+  font-size: var(--fs-xs);
+  line-height: 1.65;
+  color: var(--t3);
+}
+.past-pointer { margin-top: 1.6em; }
+.past-pointer a { color: var(--acc-l); text-decoration-color: var(--brd); }
+.past-pointer a:hover { text-decoration-color: currentColor; }
+@media print {
+  .fig-src-note, .past-pointer { font-size: 8.5pt; }
+}
+/* The button takes the whole row on a phone and hugs its text on a wide screen,
+   so the unit title never wraps under a neighbouring element. */
+.cn-btn {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap);
+  padding: 10px 15px;
+  font-family: inherit;
+  font-size: var(--fs-ui);
+  font-weight: 500;
+  color: var(--t1);
+  background: var(--bg-card);
+  border: 1px solid var(--brd);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--dur-ui) var(--ease-out),
+              border-color var(--dur-ui) var(--ease-out),
+              transform var(--dur-press) var(--ease-out);
+}
+.cn-btn:hover { border-color: var(--acc); color: var(--acc-l); }
+.cn-btn:active { transform: scale(0.985); }
+.cn-btn .cn-m { font-size: var(--fs-xs); color: var(--t3); font-variant-numeric: tabular-nums; }
+.cn-btn svg { flex: 0 0 auto; }
+
 /* ==== 10 buttons ======================================================== */
 /* Every pressable element gets the same three beats: a colour change on hover,
    a 0.97 scale on press so the interface confirms it heard the click, and a
@@ -1520,7 +1597,7 @@ th.row-head, td.row-head { text-align: left; }
 }
 .quiz-header h3 {
   flex: 1 1 auto;
-  font-family: var(--font-serif);
+  font-family: var(--font-head);
   font-size: 22px;
   font-weight: 600;
   letter-spacing: var(--tracking-display);
@@ -1655,7 +1732,7 @@ th.row-head, td.row-head { text-align: left; }
    emoji, no party. It states the score and gets out of the way. */
 .quiz-result .big-emoji { display: none; }
 .quiz-result .result-msg {
-  font-family: var(--font-serif);
+  font-family: var(--font-head);
   font-size: 30px;
   font-weight: 600;
   letter-spacing: var(--tracking-display);
@@ -1699,7 +1776,7 @@ th.row-head, td.row-head { text-align: left; }
 .pq-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.2em; }
 
 #panel-past > h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-head);
   font-size: 22px;
   font-weight: 600;
   letter-spacing: var(--tracking-display);
@@ -1922,7 +1999,7 @@ th.row-head, td.row-head { text-align: left; }
 /* The figure in a stat card is display type: serif, large, tabular. */
 .an-card .v {
   margin-top: 6px;
-  font-family: var(--font-serif);
+  font-family: var(--font-head);
   font-size: 30px;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -1945,7 +2022,7 @@ th.row-head, td.row-head { text-align: left; }
   flex-wrap: wrap;
   align-items: baseline;
   gap: 8px;
-  font-family: var(--font-serif);
+  font-family: var(--font-head);
   font-size: 19px;
   font-weight: 600;
   letter-spacing: -0.012em;
@@ -2002,7 +2079,7 @@ th.row-head, td.row-head { text-align: left; }
   padding: 18px 20px 20px;
 }
 .strategy-box h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-head);
   font-size: 19px;
   font-weight: 600;
   letter-spacing: -0.012em;
@@ -2032,7 +2109,7 @@ th.row-head, td.row-head { text-align: left; }
   margin-bottom: 1.2em;
 }
 .exam-head > div > div:first-child {
-  font-family: var(--font-serif);
+  font-family: var(--font-head);
   font-size: 21px;
   font-weight: 600;
   letter-spacing: -0.014em;
@@ -2090,7 +2167,7 @@ th.row-head, td.row-head { text-align: left; }
   border-radius: var(--radius);
 }
 .exam-result .big {
-  font-family: var(--font-serif);
+  font-family: var(--font-head);
   font-size: var(--fs-score);
   font-weight: 600;
   letter-spacing: -0.028em;
@@ -2210,6 +2287,34 @@ th.row-head, td.row-head { text-align: left; }
   font-size: var(--fs-xs);
   line-height: 1.62;
   color: var(--t3);
+}
+
+/* The heading of a group is the note section its pictures came out of, so it is a
+   link back into the notes: the tab is a way in rather than a place to scroll.
+   Styled to stay a heading - the colour change on hover is the only affordance,
+   because a link-looking line above a picture competes with the picture. */
+#panel-reference h3 a.ref-jump {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--brd);
+}
+#panel-reference h3 a.ref-jump:hover {
+  color: var(--acc-l);
+  border-bottom-color: var(--acc-l);
+}
+
+/* The line written under a picture, saying what to notice in it
+   (tools/ref_slide_notes.py). Indented past the figure and muted, so it reads as
+   an annotation on the picture above rather than as the next paragraph of prose -
+   the failure mode this whole tab was rebuilt to escape. */
+.ref-why {
+  max-width: 560px;
+  margin: -8px 0 22px;
+  padding-left: 11px;
+  border-left: 2px solid var(--acc-l);
+  font-size: var(--fs-sm);
+  line-height: 1.66;
+  color: var(--t2);
 }
 /* The tab is a list of figures lifted out of the notes, so its panels get the same
    reading measure as the Learn section rather than the full content width. */
@@ -2719,6 +2824,56 @@ html.xv-locked, html.xv-locked body, html.xv-locked #contentArea { overflow: hid
    sideways is already past 640 and the switch still has nothing to say there. */
 @media (max-width: 700px) { #widthBtn { display: none; } }
 
+/* ==== 22 the revise layer =============================================== */
+/* The short answer block above each note section: what the section says, in the
+   form a student reads the night before. tools/revise_blocks.py writes them and
+   refuses one whose terms are not in the section it sits in; engine.js injects it
+   after the heading, in front of the prose.
+
+   The problem it answers is density, not length. A Simulation-site section is
+   about 60 words - a definition, a key formula, then bullets, so the answer is the
+   first thing met. A DCC section is about 240 words of continuous prose, so the
+   answer has to be found. The prose stays, because depth is what the long
+   questions are answered from; the block is a second way in, on top of it.
+
+   It is NOT a callout, and it carries no label. The first version was a card with
+   a small-caps "Revise this section" rule across the top, and it read as a second
+   object beside the section - an example, somebody else's summary - rather than as
+   the teaching itself. What the reader wants under a heading is the answer, then
+   the reasoning; so the block is simply the section's opening prose, in the sheet's
+   own body type, and the detail follows it.
+
+   Nothing but spacing is set here, deliberately. A box, a rule or a tint would put
+   the label back in a different shape. The only structural requirement is that it
+   stays a block element: revise mode hides `.learn-sec > p`, so the lead has to be
+   a div to survive the mode that exists for reading leads. */
+.revise-lead { margin: 0.3em 0 1.2em; }
+.revise-lead > :last-child { margin-bottom: 0; }
+
+/* The switch. It sits in the notes bar beside Expand all, because that is where
+   the reading happens, and it reports its state rather than symbolising it. */
+body.revise-mode .revise-switch {
+  color: var(--pri-l);
+  background: var(--pri-bg);
+  border-color: var(--pri-bd);
+}
+.revise-hint { display: none; font-size: var(--fs-micro); color: var(--t3); }
+body.revise-mode .revise-hint { display: inline; }
+
+/* Revise mode. A section's explanatory paragraphs step back and its block, lists,
+   tables, callouts and figures stay.
+
+   Only the section's OWN <p> children go. A paragraph inside a callout, a figure,
+   a worked numerical or a block is part of that exhibit, and the exhibits are
+   exactly what this mode is for. Nothing leaves the page - one class hides them,
+   so a print, a copy or a search still has every line, and the switch puts the
+   reader back where they were. */
+body.revise-mode .learn-content .learn-sec > p { display: none; }
+@media print {
+  /* A printed chapter is read away from the switch, so it prints complete. */
+  body.revise-mode .learn-content .learn-sec > p { display: block; }
+}
+
 /* ==== 20 print ========================================================== */
 /* Chrome off, folded sections and answers open, black on white. */
 @media print {
@@ -2728,7 +2883,8 @@ html.xv-locked, html.xv-locked body, html.xv-locked #contentArea { overflow: hid
   body::before { display: none; }
   .sidebar, .topbar, .tabs, .fab-wrap, .overlay, .toast,
   .skip-link, .learn-tools, .pq-filter, .pq-tools, .quiz-reset,
-  .pq-more-btn, .pq-var-btn, .an-btns, .mark-done-btn { display: none !important; }
+  .pq-more-btn, .pq-var-btn, .an-btns, .mark-done-btn,
+  .ch-next { display: none !important; }
   /* "Scrolls sideways" is advice about a screen, and paper does not scroll. */
   /* The full-screen viewer is a screen affordance - on paper there is nothing to
      tap, and the drawing is already printed whole. */
